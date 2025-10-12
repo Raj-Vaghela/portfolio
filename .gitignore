@@ -24,6 +24,16 @@
 .DS_Store
 *.pem
 
+# personal files - images
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.svg
+*.webp
+*.ico
+
 # debug
 npm-debug.log*
 yarn-debug.log*
