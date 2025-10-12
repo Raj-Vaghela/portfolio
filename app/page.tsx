@@ -1,12 +1,14 @@
 "use client"
 
 import { GradientBackground } from "@/components/gradient-background"
-import { Mail, Github, Linkedin, FileText } from "lucide-react"
+import { Mail, Github, Linkedin, FileText, ExternalLink } from "lucide-react"
 import { ContactModal } from "@/components/contact-modal"
+import { ProjectsModal } from "@/components/projects-modal"
 import { useEffect, useRef, useState } from "react"
 
 export default function Page() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
+  const [isProjectsModalOpen, setIsProjectsModalOpen] = useState(false)
   const [activeSection, setActiveSection] = useState("me")
   const [isScrolling, setIsScrolling] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
@@ -153,9 +155,9 @@ export default function Page() {
 
         {/* Available for work badge - top right */}
         <div className="absolute top-6 right-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite]" />
-            <span className="text-white text-xs font-medium">Available for work</span>
+          <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite]" />
+            <span className="text-white text-[10px] font-medium">Available for work</span>
           </div>
         </div>
 
@@ -236,7 +238,7 @@ export default function Page() {
         </nav>
 
         {/* Skills vertical marquee between card and content - inside glass */}
-        <div className="absolute z-20 top-0 bottom-0 left-[calc(2rem+280px)] overflow-hidden group px-4">
+        <div className="absolute z-20 top-0 bottom-0 left-[calc(4rem+280px-3px)] overflow-hidden group px-4">
         <div className="skills-marquee-wrapper">
           <div className="skills-marquee-content">
             {/* Add spacing before first word */}
@@ -272,46 +274,285 @@ export default function Page() {
         {/* Scrollable Content Area - Right side inside glass */}
         <div
           ref={scrollContainerRef}
-          className="absolute z-5 top-0 bottom-0 right-0 left-[calc(2rem+280px+4rem)] overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-hide"
+          className="absolute z-5 top-0 bottom-0 right-0 left-[calc(8rem+280px)] overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-hide"
       >
         {/* Me Section */}
         <section id="me" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-          <div className="max-w-2xl">
-            <h2 className="text-5xl font-bold text-white mb-6">About Me</h2>
-            <p className="text-white/80 text-lg leading-relaxed">
-              Welcome to my portfolio. I'm an AI Engineer passionate about building intelligent systems
-              and solving complex problems with cutting-edge technology.
-            </p>
+          <div className="max-w-3xl">
+            <h2 className="text-5xl font-bold text-white mb-8">About Me</h2>
+            <div className="space-y-6">
+              <p className="text-white/90 text-lg leading-relaxed">
+                I'm an <span className="text-white font-semibold">MSc Advanced Computer Science</span> student at the University of Leicester (Distinction), 
+                specializing in applied AI and Large Language Models.
+              </p>
+              <p className="text-white/80 text-base leading-relaxed">
+                I build <span className="text-white/90 font-medium">retrieval-augmented systems</span> with embeddings and pgvector, 
+                robust <span className="text-white/90 font-medium">FastAPI/Node back ends</span>, and modern <span className="text-white/90 font-medium">React/Next.js UIs</span>. 
+                I'm comfortable with multimodal STT/TTS/OCR, function calling, and streaming UX. Strong in Python and 
+                software engineering fundamentals — I ship testable services with telemetry, retries, and graceful shutdowns.
+              </p>
+              <p className="text-white/80 text-base leading-relaxed">
+                Looking to help teams turn LLM prototypes into reliable, user-centered products.
+              </p>
+              
+              <div className="pt-4 grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                  <div className="text-white/60 text-sm mb-1">Location</div>
+                  <div className="text-white font-medium">Leicester, UK</div>
+                </div>
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                  <div className="text-white/60 text-sm mb-1">Status</div>
+                  <div className="text-white font-medium flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500" />
+                    Available for work
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* Education Section */}
         <section id="education" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-          <div className="max-w-2xl">
-            <h2 className="text-5xl font-bold text-white mb-6">Education</h2>
-            <p className="text-white/80 text-lg leading-relaxed">
-              Educational background and achievements go here.
-            </p>
+          <div className="max-w-3xl w-full">
+            <h2 className="text-5xl font-bold text-white mb-8">Education</h2>
+            <div className="space-y-6">
+              {/* Master's Degree */}
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white mb-1">Master of Science (M.Sc.)</h3>
+                    <p className="text-white/90 text-lg">Advanced Computer Science</p>
+                  </div>
+                  <div className="px-3 py-1 rounded-full bg-green-500/20 border border-green-500/30">
+                    <span className="text-green-400 text-sm font-medium">Distinction</span>
+                  </div>
+                </div>
+                <p className="text-white/70 text-base mb-3">University of Leicester, UK</p>
+                <p className="text-white/60 text-sm mb-4">Jan 2024 – Jul 2025</p>
+                <div className="space-y-2">
+                  <p className="text-white/80 text-sm">
+                    <span className="text-white/90 font-medium">Key modules:</span> Big Data & Predictive Analytics, C++, Cybersecurity, Technology & Innovation Management
+                  </p>
+                </div>
+              </div>
+
+              {/* Bachelor's Degree */}
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white mb-1">Bachelor of Engineering (B.E.)</h3>
+                    <p className="text-white/90 text-lg">Computer Science & Engineering</p>
+                  </div>
+                  <div className="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/30">
+                    <span className="text-blue-400 text-sm font-medium">8.55/10 (85.5%)</span>
+                  </div>
+                </div>
+                <p className="text-white/70 text-base mb-3">S.N. Patel Institute of Technology & Research Centre, India</p>
+                <p className="text-white/60 text-sm mb-4">Jun 2019 – Jun 2023</p>
+                <div className="space-y-2">
+                  <p className="text-white/80 text-sm">
+                    <span className="text-white/90 font-medium">Key modules:</span> Artificial Intelligence, Computer Networks, Data Mining, Machine Learning, Software Engineering
+                  </p>
+                </div>
+              </div>
+
+              {/* Highlights & Awards */}
+              <div className="p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10">
+                <h4 className="text-lg font-bold text-white mb-4">Highlights & Awards</h4>
+                <div className="grid gap-3">
+                  <div className="flex gap-3">
+                    <span className="text-yellow-400 mt-0.5">🏆</span>
+                    <p className="text-white/80 text-sm"><span className="font-medium text-white">Huawei Tech Arena</span> — Finalist (Top 8/100+ teams)</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <span className="text-yellow-400 mt-0.5">🥉</span>
+                    <p className="text-white/80 text-sm"><span className="font-medium text-white">Cyber4Me CTF</span> — 3rd place (University of Wolverhampton)</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <span className="text-blue-400 mt-0.5">🎯</span>
+                    <p className="text-white/80 text-sm"><span className="font-medium text-white">Encode AI London '25</span> — "Crypto Radio"</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <span className="text-purple-400 mt-0.5">👥</span>
+                    <p className="text-white/80 text-sm"><span className="font-medium text-white">University leadership:</span> Peer Mentor, Course Rep, Leicester 100 (policy review for 10,000+ students)</p>
+                  </div>
+                  <div className="flex gap-3">
+                    <span className="text-green-400 mt-0.5">🎓</span>
+                    <p className="text-white/80 text-sm"><span className="font-medium text-white">Scholarships:</span> MYSY Merit Scholarship, State Aptitude Test Winner</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* Experience Section */}
         <section id="experience" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-          <div className="max-w-2xl">
-            <h2 className="text-5xl font-bold text-white mb-6">Experience</h2>
-            <p className="text-white/80 text-lg leading-relaxed">
-              Professional experience and roles go here.
-            </p>
+          <div className="max-w-3xl w-full">
+            <h2 className="text-5xl font-bold text-white mb-8">Experience</h2>
+            <div className="space-y-6">
+              {/* IBM */}
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">IBM</h3>
+                    <p className="text-white/80 text-base">Virtual Intern</p>
+                  </div>
+                  <span className="text-white/60 text-sm whitespace-nowrap">Jun 2023 – Jul 2023</span>
+                </div>
+                <ul className="space-y-2 mt-4">
+                  <li className="flex gap-2 text-white/80 text-sm">
+                    <span className="text-white/50">•</span>
+                    <span>Prototyped data cleaning & visualisation in Python, cutting exploratory cycle time by ~30% on sample datasets.</span>
+                  </li>
+                  <li className="flex gap-2 text-white/80 text-sm">
+                    <span className="text-white/50">•</span>
+                    <span>Evaluated classical ML models (precision/recall/AUC) and documented trade-offs for baseline selection.</span>
+                  </li>
+                  <li className="flex gap-2 text-white/80 text-sm">
+                    <span className="text-white/50">•</span>
+                    <span>Automated preprocessing (imputation/encoding/scaling) into reusable snippets for consistency across notebooks.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Microsoft */}
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">Microsoft</h3>
+                    <p className="text-white/80 text-base">Virtual Intern</p>
+                  </div>
+                  <span className="text-white/60 text-sm whitespace-nowrap">Apr 2023 – Jun 2023</span>
+                </div>
+                <p className="text-white/70 text-sm mb-3">AICTE approved Virtual Internship under the Future Ready Talent initiative</p>
+                <ul className="space-y-2">
+                  <li className="flex gap-2 text-white/80 text-sm">
+                    <span className="text-white/50">•</span>
+                    <span>Explored Azure (Static Web Apps, Front Door, CDN) and deployed sample apps with CI/CD from GitHub (100% green builds).</span>
+                  </li>
+                  <li className="flex gap-2 text-white/80 text-sm">
+                    <span className="text-white/50">•</span>
+                    <span>Practised Git/GitHub workflows (branching, PR reviews, issues), reducing merge conflicts on small team projects.</span>
+                  </li>
+                  <li className="flex gap-2 text-white/80 text-sm">
+                    <span className="text-white/50">•</span>
+                    <span>Built mini-demos connecting Azure front ends to simple APIs with notes on cost, latency, reliability trade-offs.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Direction Infosystems */}
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">Direction Infosystems</h3>
+                    <p className="text-white/80 text-base">Intern</p>
+                  </div>
+                  <span className="text-white/60 text-sm whitespace-nowrap">Jan 2023 – Apr 2023</span>
+                </div>
+                <p className="text-white/70 text-sm mb-3">Bardoli</p>
+                <ul className="space-y-2">
+                  <li className="flex gap-2 text-white/80 text-sm">
+                    <span className="text-white/50">•</span>
+                    <span>Built and maintained websites using PHP, Laravel, MySQL, Bootstrap, and jQuery in a team setting.</span>
+                  </li>
+                  <li className="flex gap-2 text-white/80 text-sm">
+                    <span className="text-white/50">•</span>
+                    <span>Assisted in UI design and code deployment, ensuring smooth handover and compatibility with in-house tools.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Elsner Technologies */}
+              <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="text-2xl font-bold text-white">Elsner Technologies Pvt. Ltd.</h3>
+                    <p className="text-white/80 text-base">Summer Internship</p>
+                  </div>
+                  <span className="text-white/60 text-sm whitespace-nowrap">Jun 2022 – Jul 2022</span>
+                </div>
+                <p className="text-white/70 text-sm mb-3">Ahmedabad</p>
+                <ul className="space-y-2">
+                  <li className="flex gap-2 text-white/80 text-sm">
+                    <span className="text-white/50">•</span>
+                    <span>Developed a basic Android-based To-Do list app using Java.</span>
+                  </li>
+                  <li className="flex gap-2 text-white/80 text-sm">
+                    <span className="text-white/50">•</span>
+                    <span>Completed foundational coding tasks while gaining exposure to agile teamwork and app development principles.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* Projects Section */}
         <section id="projects" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-          <div className="max-w-2xl">
-            <h2 className="text-5xl font-bold text-white mb-6">Projects highlights</h2>
-            <p className="text-white/80 text-lg leading-relaxed">
-              Highlighted projects and achievements go here.
-            </p>
+          <div className="max-w-3xl w-full">
+            <h2 className="text-5xl font-bold text-white mb-8">Project Highlights</h2>
+            <div className="space-y-6">
+              <p className="text-white/80 text-lg leading-relaxed">
+                From RAG-powered assistants to agentic AI systems, I build full-stack applications that combine cutting-edge AI with production-ready engineering.
+              </p>
+              
+              {/* Quick Project Cards */}
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                  <h4 className="text-lg font-bold text-white mb-2">Job Recruiter Assistant</h4>
+                  <p className="text-white/70 text-sm mb-3">RAG-powered with semantic matching, CV OCR, and SendGrid automation</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">FastAPI</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">Supabase</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">pgvector</span>
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                  <h4 className="text-lg font-bold text-white mb-2">Medical Screening Assistant</h4>
+                  <p className="text-white/70 text-sm mb-3">AI triage chatbot with RAG+CAG pipeline and multimodal STT/TTS</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">Gemini</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">OpenAI</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">Whisper</span>
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                  <h4 className="text-lg font-bold text-white mb-2">Crypto FM</h4>
+                  <p className="text-white/70 text-sm mb-3">Agentic AI crypto radio with real-time market analysis</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">Node.js</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">Gemini</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">Google TTS</span>
+                  </div>
+                </div>
+
+                <div className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-colors">
+                  <h4 className="text-lg font-bold text-white mb-2">30-Day Readmission Prediction</h4>
+                  <p className="text-white/70 text-sm mb-3">ML pipeline on 100k+ dataset to flag readmissions</p>
+                  <div className="flex flex-wrap gap-1.5">
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">Python</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">scikit-learn</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 text-white text-xs">pandas</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* View All Button */}
+              <div className="flex justify-center pt-4">
+                <button
+                  onClick={() => setIsProjectsModalOpen(true)}
+                  className="group px-6 py-3 rounded-xl bg-white/10 backdrop-blur border border-white/20 hover:bg-white/20 transition-all flex items-center gap-2"
+                >
+                  <span className="text-white font-medium">View All Projects</span>
+                  <ExternalLink className="w-4 h-4 text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </button>
+              </div>
+            </div>
           </div>
         </section>
         </div>
@@ -320,6 +561,7 @@ export default function Page() {
       {/* End of frosted glass container */}
 
       <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
+      <ProjectsModal isOpen={isProjectsModalOpen} onClose={() => setIsProjectsModalOpen(false)} />
 
       {/* Local styles for skills marquee and scrollbar */}
       <style jsx>{`
