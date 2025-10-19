@@ -5,6 +5,7 @@ import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Instrument_Serif, Press_Start_2P } from "next/font/google"
 import { Suspense } from "react"
+import { ThemeProvider } from "next-themes"
 import "./globals.css"
 
 const instrumentSerif = Instrument_Serif({
@@ -33,10 +34,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${pressStart2P.variable} antialiased`}>
+    <html lang="en" className={`${instrumentSerif.variable} ${pressStart2P.variable} antialiased`} suppressHydrationWarning>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <Suspense fallback={null}>{children}</Suspense>
-        <Analytics />
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <Suspense fallback={null}>{children}</Suspense>
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

@@ -1,13 +1,14 @@
 "use client"
 
-import { X } from "lucide-react"
-import { useEffect } from "react"
+import { X, Link as LinkIcon } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 
 interface Project {
   title: string
   description: string
   technologies: string[]
   details: string[]
+  githubUrl: string
 }
 
 interface ProjectsModalProps {
@@ -20,6 +21,7 @@ const projects: Project[] = [
     title: "Job Recruiter Assistant",
     description: "RAG-powered assistant with semantic matching, CV OCR, and SendGrid outreach automation",
     technologies: ["FastAPI", "Next.js", "Supabase", "pgvector", "Gemini", "OCR", "SendGrid"],
+    githubUrl: "https://github.com/Raj-Vaghela/job-recruiter-assistant",
     details: [
       "Designed a recruiter-facing assistant with RAG over candidate/job data; 5-table schema and a match_candidates RPC to return semantically similar profiles with evidence-linked answers",
       "Built an ingestion pipeline: CV validation → storage → background OCR → embeddings → index; kept the chat path sub-few-seconds while CV parsing completes asynchronously",
@@ -31,6 +33,7 @@ const projects: Project[] = [
     title: "Medical Screening Assistant",
     description: "AI triage chatbot with RAG+CAG pipeline, multimodal STT/TTS, and NHS documentation OCR",
     technologies: ["Gemini", "OpenAI", "RAG", "CAG", "Supabase", "FastAPI", "Whisper", "ElevenLabs", "OCR"],
+    githubUrl: "https://github.com/Raj-Vaghela/medical-screening-assistant",
     details: [
       "Dual pipeline (RAG + constrained knowledge) grounded in NHS/hospital docs; top-k semantic retrieval with similarity thresholding and cache refresh",
       "Multimodal flow: streaming STT for hands-free triage; natural TTS; OCR of PDFs/JPG/PNG into structured Markdown so the model can cite sections in chat",
@@ -42,6 +45,7 @@ const projects: Project[] = [
     title: "Crypto FM — Agentic AI 'Crypto Radio'",
     description: "Agentic AI crypto radio with real-time market analysis and voice narration",
     technologies: ["Node.js", "Express", "Gemini", "Google Cloud TTS", "CoinGecko", "Whale Alert", "CryptoPanic"],
+    githubUrl: "https://github.com/Raj-Vaghela/crypto-fm",
     details: [
       "Orchestrated data collectors → analyst agent → voice pipeline to narrate market signals; refreshed scripts every ~60s",
       "Implemented segment queue + resilient autoplay with retry/backoff to keep playback smooth during spikes and network hiccups",
@@ -53,6 +57,7 @@ const projects: Project[] = [
     title: "30-Day Readmission Prediction (Diabetes)",
     description: "Risk-scoring pipeline on a 100k+ multi-hospital dataset to flag likely 30-day readmissions",
     technologies: ["Python", "pandas", "scikit-learn", "NumPy", "Matplotlib"],
+    githubUrl: "https://github.com/Raj-Vaghela/readmission-prediction",
     details: [
       "Risk-scoring pipeline on a 100k+ multi-hospital dataset to flag likely 30-day readmissions",
       "Addressed severe class imbalance; added simple patient segmentation (K-means → logistic regression)",
@@ -62,6 +67,10 @@ const projects: Project[] = [
 ]
 
 export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [isScrolling, setIsScrolling] = useState(false)
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden"
@@ -70,6 +79,32 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
     }
     return () => {
       document.body.style.overflow = "unset"
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    let scrollTimeout: NodeJS.Timeout
+
+    const handleScroll = () => {
+      const scrollTop = container.scrollTop
+      const scrollHeight = container.scrollHeight - container.clientHeight
+      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
+      setScrollProgress(progress)
+      setIsScrolling(true)
+      
+      clearTimeout(scrollTimeout)
+      scrollTimeout = setTimeout(() => {
+        setIsScrolling(false)
+      }, 1000)
+    }
+
+    container.addEventListener('scroll', handleScroll)
+    return () => {
+      container.removeEventListener('scroll', handleScroll)
+      clearTimeout(scrollTimeout)
     }
   }, [isOpen])
 
@@ -82,16 +117,18 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
     >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div
-        className="relative w-full max-w-4xl max-h-[90vh] sm:max-h-[85vh] overflow-y-auto rounded-2xl sm:rounded-3xl bg-black/80 backdrop-blur-xl border border-white/20 shadow-2xl animate-in zoom-in-95 duration-300"
+        ref={scrollContainerRef}
+        className="relative w-full max-w-4xl max-h-[90vh] sm:max-h-[85vh] overflow-y-scroll scrollbar-hide rounded-2xl sm:rounded-3xl dark:bg-[hsl(210,25%,18%)] bg-[hsl(200,50%,70%)] dark:bg-opacity-95 bg-opacity-95 backdrop-blur-md border dark:border-white/30 border-white/40 shadow-2xl animate-in zoom-in-95 duration-300 before:absolute before:inset-0 before:rounded-2xl sm:before:rounded-3xl before:bg-gradient-to-br dark:before:from-white/10 before:from-white/15 before:via-transparent before:to-transparent before:pointer-events-none"
         onClick={(e) => e.stopPropagation()}
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-6 bg-black/40 backdrop-blur-xl border-b border-white/10">
-          <h2 className="text-lg sm:text-2xl font-bold text-white">Featured Projects</h2>
-          <button
+        <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-6 bg-gradient-to-b dark:from-[hsl(210,25%,18%)] from-[hsl(200,50%,70%)] dark:via-[hsl(210,25%,18%)]/90 via-[hsl(200,50%,70%)]/90 to-transparent pb-8">
+          <h2 className="text-lg sm:text-2xl font-bold dark:text-white text-slate-900">Featured Projects</h2>
+            <button
             onClick={onClose}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/5 backdrop-blur border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/5 backdrop-blur border dark:border-white/20 border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
           >
-            <X className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white text-slate-900" />
           </button>
         </div>
 
@@ -99,16 +136,27 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
           {projects.map((project, index) => (
             <div
               key={index}
-              className="rounded-xl sm:rounded-2xl bg-white/5 backdrop-blur border border-white/10 p-4 sm:p-6 hover:bg-white/10 transition-colors"
+              className="rounded-xl sm:rounded-2xl bg-white/5 backdrop-blur border dark:border-white/10 border-white/30 p-4 sm:p-6 hover:bg-white/10 transition-colors"
             >
-              <h3 className="text-base sm:text-xl font-bold text-white mb-1.5 sm:mb-2">{project.title}</h3>
-              <p className="text-white/70 text-xs sm:text-sm mb-3 sm:mb-4">{project.description}</p>
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 mb-1.5 sm:mb-2"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <h3 className="text-base sm:text-xl font-bold dark:text-white text-slate-900 group-hover:dark:text-white/90 group-hover:text-slate-700 transition-colors">
+                  {project.title}
+                </h3>
+                <LinkIcon className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white/40 text-slate-500 group-hover:dark:text-emerald-400 group-hover:text-emerald-600 transition-colors" />
+              </a>
+              <p className="dark:text-white/70 text-slate-700 text-xs sm:text-sm mb-3 sm:mb-4">{project.description}</p>
 
               <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/10 text-white text-xs border border-white/20"
+                    className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/10 dark:text-white text-slate-900 text-xs border dark:border-white/20 border-white/30"
                   >
                     {tech}
                   </span>
@@ -118,13 +166,50 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
               <div className="space-y-1.5 sm:space-y-2">
                 {project.details.map((detail, idx) => (
                   <div key={idx} className="flex gap-2">
-                    <span className="text-white/50 text-xs sm:text-sm mt-0.5 sm:mt-1">•</span>
-                    <p className="text-white/80 text-xs sm:text-sm leading-relaxed">{detail}</p>
+                    <span className="dark:text-white/50 text-slate-500 text-xs sm:text-sm mt-0.5 sm:mt-1">•</span>
+                    <p className="dark:text-white/80 text-slate-800 text-xs sm:text-sm leading-relaxed">{detail}</p>
                   </div>
                 ))}
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Circular Progress Ring - Sticky at Bottom Right */}
+        <div className="sticky bottom-0 h-0 pointer-events-none">
+          <div className="absolute bottom-4 right-4 w-8 h-8 group pointer-events-auto opacity-40 hover:opacity-70 transition-opacity duration-300">
+            {/* Background Circle */}
+            <svg className="transform -rotate-90 w-8 h-8">
+              <circle
+                cx="16"
+                cy="16"
+                r="14"
+                stroke="currentColor"
+                strokeWidth="2"
+                fill="none"
+                className="dark:text-white/10 text-slate-400/30"
+              />
+              {/* Progress Circle */}
+              <circle
+                cx="16"
+                cy="16"
+                r="14"
+                stroke="currentColor"
+                strokeWidth="2"
+                fill="none"
+                strokeDasharray={`${2 * Math.PI * 14}`}
+                strokeDashoffset={`${2 * Math.PI * 14 * (1 - scrollProgress / 100)}`}
+                className="dark:text-white/60 text-slate-700 transition-all duration-300"
+                strokeLinecap="round"
+              />
+            </svg>
+            {/* Center Text */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className={`text-[8px] font-medium dark:text-white/70 text-slate-700 transition-opacity duration-200 ${isScrolling ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                {Math.round(scrollProgress)}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

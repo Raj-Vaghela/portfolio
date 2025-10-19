@@ -121,6 +121,29 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
+  }
+  
+  /* Light theme specific overrides */
+  :root:not(.dark) {
+    --gradient-from: oklch(0.98 0.02 240);
+    --gradient-via: oklch(0.96 0.03 220);
+    --gradient-to: oklch(0.97 0.025 200);
+  }
+  
+  .dark {
+    --gradient-from: oklch(0.15 0.03 220);
+    --gradient-via: oklch(0.20 0.025 210);
+    --gradient-to: oklch(0.18 0.02 200);
+  }
+
+  /* Hide scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
