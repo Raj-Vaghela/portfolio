@@ -179,30 +179,31 @@ export default function Page() {
               href="https://github.com/Raj-Vaghela"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+              className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
             >
-              <Github className="w-4 h-4 text-white dark:text-white" />
+              <Github className="w-3.5 h-3.5 text-white dark:text-white" />
             </a>
             <a
               href="https://linkedin.com/in/raj-vaghela"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-9 h-9 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+              className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
             >
-              <Linkedin className="w-4 h-4 text-white dark:text-white" />
+              <Linkedin className="w-3.5 h-3.5 text-white dark:text-white" />
             </a>
             <button
               onClick={() => setIsContactModalOpen(true)}
-              className="w-9 h-9 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+              className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
             >
-              <Mail className="w-4 h-4 text-white dark:text-white" />
+              <Mail className="w-3.5 h-3.5 text-white dark:text-white" />
             </button>
             <a
               href="/cv.pdf"
               download
-              className="w-9 h-9 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+              className="h-8 px-3 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center gap-1.5 hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
             >
-              <FileText className="w-4 h-4 text-white dark:text-white" />
+              <FileText className="w-3.5 h-3.5 text-white dark:text-white" />
+              <span className="text-white dark:text-white text-[11px] font-medium whitespace-nowrap">Download CV</span>
             </a>
           </div>
         </div>
@@ -230,7 +231,7 @@ export default function Page() {
               >
                 {/* Label positioned to the left of slider, centered with indicator */}
                 <span 
-                  className={`absolute right-3 dark:text-white text-slate-900 text-sm font-medium whitespace-nowrap transition-opacity duration-200 ${isScrolling || isDragging ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
+                  className={`absolute right-3 dark:text-white text-slate-500 text-sm font-medium whitespace-nowrap transition-opacity duration-200 ${isScrolling || isDragging ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
                   style={{ 
                     top: '50%',
                     transform: 'translateY(-50%)'
@@ -253,7 +254,7 @@ export default function Page() {
               <div key={`${s}-${i}`} className="flex flex-col items-center">
                 <div className="flex flex-col items-center mb-3">
                   {s.toUpperCase().split("").map((ch, idx) => (
-                    <span key={idx} className="dark:text-white text-slate-700 text-[6px] uppercase leading-tight font-[family-name:var(--font-press-start)]">{ch}</span>
+                    <span key={idx} className="dark:text-white text-slate-500 text-[6px] uppercase leading-tight font-[family-name:var(--font-press-start)]">{ch}</span>
                   ))}
                 </div>
                 <span className="w-1 h-1 rounded-full dark:bg-white bg-slate-700" />
@@ -267,7 +268,7 @@ export default function Page() {
               <div key={`dup-${s}-${i}`} className="flex flex-col items-center">
                 <div className="flex flex-col items-center mb-3">
                   {s.toUpperCase().split("").map((ch, idx) => (
-                    <span key={idx} className="dark:text-white text-slate-700 text-[6px] uppercase leading-tight font-[family-name:var(--font-press-start)]">{ch}</span>
+                    <span key={idx} className="dark:text-white text-slate-500 text-[6px] uppercase leading-tight font-[family-name:var(--font-press-start)]">{ch}</span>
                   ))}
                 </div>
                 <span className="w-1 h-1 rounded-full dark:bg-white bg-slate-700" />
@@ -285,30 +286,30 @@ export default function Page() {
         {/* Me Section */}
         <section id="me" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
           <div className="max-w-3xl">
-            <h2 className="text-5xl font-bold dark:text-white text-slate-900 mb-8">About Me</h2>
+            <h2 className="text-5xl font-bold dark:text-white text-slate-500 mb-8">About Me</h2>
             <div className="space-y-6">
-              <p className="dark:text-white text-slate-900 text-lg leading-relaxed">
-                I'm an <span className="dark:text-white text-slate-950 font-semibold">MSc Advanced Computer Science</span> student at the University of Leicester (Distinction), 
+              <p className="dark:text-white text-slate-500 text-lg leading-relaxed">
+                I'm an <span className="dark:text-white text-slate-700 font-semibold">MSc Advanced Computer Science</span> student at the University of Leicester (Distinction), 
                 specializing in applied AI and Large Language Models.
               </p>
-              <p className="dark:text-white text-slate-800 text-base leading-relaxed">
-                I build <span className="dark:text-white text-slate-950 font-medium">retrieval-augmented systems</span> with embeddings and pgvector, 
-                robust <span className="dark:text-white text-slate-950 font-medium">FastAPI/Node back ends</span>, and modern <span className="dark:text-white text-slate-950 font-medium">React/Next.js UIs</span>. 
+              <p className="dark:text-white text-slate-600 text-base leading-relaxed">
+                I build <span className="dark:text-white text-slate-700 font-medium">retrieval-augmented systems</span> with embeddings and pgvector, 
+                robust <span className="dark:text-white text-slate-700 font-medium">FastAPI/Node back ends</span>, and modern <span className="dark:text-white text-slate-700 font-medium">React/Next.js UIs</span>. 
                 I'm comfortable with multimodal STT/TTS/OCR, function calling, and streaming UX. Strong in Python and 
                 software engineering fundamentals — I ship testable services with telemetry, retries, and graceful shutdowns.
               </p>
-              <p className="dark:text-white text-slate-800 text-base leading-relaxed">
+              <p className="dark:text-white text-slate-600 text-base leading-relaxed">
                 Looking to help teams turn LLM prototypes into reliable, user-centered products.
               </p>
               
               <div className="pt-4 grid grid-cols-2 gap-4">
                 <div className="p-4 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 backdrop-blur-none">
-                  <div className="dark:text-white text-slate-700 text-sm mb-1">Location</div>
-                  <div className="dark:text-white text-slate-950 font-medium">Leicester, UK</div>
+                  <div className="dark:text-white text-slate-500 text-sm mb-1">Location</div>
+                  <div className="dark:text-white text-slate-700 font-medium">Leicester, UK</div>
                 </div>
                 <div className="p-4 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 backdrop-blur-none">
-                  <div className="dark:text-white text-slate-700 text-sm mb-1">Status</div>
-                  <div className="dark:text-white text-slate-950 font-medium flex items-center gap-2">
+                  <div className="dark:text-white text-slate-500 text-sm mb-1">Status</div>
+                  <div className="dark:text-white text-slate-700 font-medium flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-500" />
                     Available for work
                   </div>
@@ -321,24 +322,24 @@ export default function Page() {
         {/* Education Section */}
         <section id="education" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
           <div className="max-w-3xl w-full">
-            <h2 className="text-5xl font-bold dark:text-white text-slate-900 mb-8">Education</h2>
+            <h2 className="text-5xl font-bold dark:text-white text-slate-500 mb-8">Education</h2>
             <div className="space-y-6">
               {/* Master's Degree */}
               <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-slate-900 mb-1">Master of Science (M.Sc.)</h3>
-                    <p className="dark:text-white text-slate-800 text-lg">Advanced Computer Science</p>
+                    <h3 className="text-2xl font-bold dark:text-white text-slate-500 mb-1">Master of Science (M.Sc.)</h3>
+                    <p className="dark:text-white text-slate-600 text-lg">Advanced Computer Science</p>
                   </div>
                   <div className="px-3 py-1 rounded-full bg-white/10 border border-white/30">
-                    <span className="dark:text-white text-slate-900 text-sm font-medium">Distinction</span>
+                    <span className="dark:text-white text-slate-500 text-sm font-medium">Distinction</span>
                   </div>
                 </div>
-                <p className="dark:text-white text-slate-800 text-base mb-3">University of Leicester, UK</p>
-                <p className="dark:text-white text-slate-700 text-sm mb-4">Jan 2024 – Jul 2025</p>
+                <p className="dark:text-white text-slate-600 text-base mb-3">University of Leicester, UK</p>
+                <p className="dark:text-white text-slate-500 text-sm mb-4">Jan 2024 – Jul 2025</p>
                 <div className="space-y-2">
-                  <p className="dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-950 font-medium">Key modules:</span> Big Data & Predictive Analytics, C++, Cybersecurity, Technology & Innovation Management
+                  <p className="dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-700 font-medium">Key modules:</span> Big Data & Predictive Analytics, C++, Cybersecurity, Technology & Innovation Management
                   </p>
                 </div>
               </div>
@@ -347,45 +348,45 @@ export default function Page() {
               <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-slate-900 mb-1">Bachelor of Engineering (B.E.)</h3>
-                    <p className="dark:text-white text-slate-800 text-lg">Computer Science & Engineering</p>
+                    <h3 className="text-2xl font-bold dark:text-white text-slate-500 mb-1">Bachelor of Engineering (B.E.)</h3>
+                    <p className="dark:text-white text-slate-600 text-lg">Computer Science & Engineering</p>
                   </div>
                   <div className="px-3 py-1 rounded-full bg-white/10 border border-white/30">
-                    <span className="dark:text-white text-slate-900 text-sm font-medium">8.55/10 (85.5%)</span>
+                    <span className="dark:text-white text-slate-500 text-sm font-medium">8.55/10 (85.5%)</span>
                   </div>
                 </div>
-                <p className="dark:text-white text-slate-800 text-base mb-3">S.N. Patel Institute of Technology & Research Centre, India</p>
-                <p className="dark:text-white text-slate-700 text-sm mb-4">Jun 2019 – Jun 2023</p>
+                <p className="dark:text-white text-slate-600 text-base mb-3">S.N. Patel Institute of Technology & Research Centre, India</p>
+                <p className="dark:text-white text-slate-500 text-sm mb-4">Jun 2019 – Jun 2023</p>
                 <div className="space-y-2">
-                  <p className="dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-950 font-medium">Key modules:</span> Artificial Intelligence, Computer Networks, Data Mining, Machine Learning, Software Engineering
+                  <p className="dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-700 font-medium">Key modules:</span> Artificial Intelligence, Computer Networks, Data Mining, Machine Learning, Software Engineering
                   </p>
                 </div>
               </div>
 
               {/* Highlights & Awards */}
               <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 backdrop-blur-none">
-                <h4 className="text-lg font-bold dark:text-white text-slate-900 mb-4">Highlights & Awards</h4>
+                <h4 className="text-lg font-bold dark:text-white text-slate-500 mb-4">Highlights & Awards</h4>
                 <div className="grid gap-3">
                   <div className="flex gap-3">
                     <span className="text-yellow-400 mt-0.5">🏆</span>
-                    <p className="dark:text-white text-slate-800 text-sm"><span className="font-medium dark:text-white text-slate-950">Huawei Tech Arena</span> — Finalist (Top 8/100+ teams)</p>
+                    <p className="dark:text-white text-slate-600 text-sm"><span className="font-medium dark:text-white text-slate-700">Huawei Tech Arena</span> — Finalist (Top 8/100+ teams)</p>
                   </div>
                   <div className="flex gap-3">
                     <span className="text-yellow-400 mt-0.5">🥉</span>
-                    <p className="dark:text-white text-slate-800 text-sm"><span className="font-medium dark:text-white text-slate-950">Cyber4Me CTF</span> — 3rd place (University of Wolverhampton)</p>
+                    <p className="dark:text-white text-slate-600 text-sm"><span className="font-medium dark:text-white text-slate-700">Cyber4Me CTF</span> — 3rd place (University of Wolverhampton)</p>
                   </div>
                   <div className="flex gap-3">
                     <span className="text-blue-400 mt-0.5">🎯</span>
-                    <p className="dark:text-white text-slate-800 text-sm"><span className="font-medium dark:text-white text-slate-950">Encode AI London '25</span> — "Crypto Radio"</p>
+                    <p className="dark:text-white text-slate-600 text-sm"><span className="font-medium dark:text-white text-slate-700">Encode AI London '25</span> — "Crypto Radio"</p>
                   </div>
                   <div className="flex gap-3">
                     <span className="text-purple-400 mt-0.5">👥</span>
-                    <p className="dark:text-white text-slate-800 text-sm"><span className="font-medium dark:text-white text-slate-950">University leadership:</span> Peer Mentor, Course Rep, Leicester 100 (policy review for 10,000+ students)</p>
+                    <p className="dark:text-white text-slate-600 text-sm"><span className="font-medium dark:text-white text-slate-700">University leadership:</span> Peer Mentor, Course Rep, Leicester 100 (policy review for 10,000+ students)</p>
                   </div>
                   <div className="flex gap-3">
                     <span className="text-green-400 mt-0.5">🎓</span>
-                    <p className="dark:text-white text-slate-800 text-sm"><span className="font-medium dark:text-white text-slate-950">Scholarships:</span> MYSY Merit Scholarship, State Aptitude Test Winner</p>
+                    <p className="dark:text-white text-slate-600 text-sm"><span className="font-medium dark:text-white text-slate-700">Scholarships:</span> MYSY Merit Scholarship, State Aptitude Test Winner</p>
                   </div>
                 </div>
               </div>
@@ -396,28 +397,28 @@ export default function Page() {
         {/* Experience Section */}
         <section id="experience" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
           <div className="max-w-3xl w-full">
-            <h2 className="text-5xl font-bold dark:text-white text-slate-900 mb-8">Experience</h2>
+            <h2 className="text-5xl font-bold dark:text-white text-slate-500 mb-8">Experience</h2>
             <div className="space-y-6">
               {/* IBM */}
               <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-slate-900 mb-1">IBM</h3>
-                    <p className="dark:text-white text-slate-800 text-lg">Virtual Intern</p>
+                    <h3 className="text-2xl font-bold dark:text-white text-slate-500 mb-1">IBM</h3>
+                    <p className="dark:text-white text-slate-600 text-lg">Virtual Intern</p>
                   </div>
-                  <span className="dark:text-white text-slate-700 text-sm whitespace-nowrap">Jun 2023 – Jul 2023</span>
+                  <span className="dark:text-white text-slate-500 text-sm whitespace-nowrap">Jun 2023 – Jul 2023</span>
                 </div>
                 <ul className="space-y-2 mt-4">
-                  <li className="flex gap-2 dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-700">•</span>
+                  <li className="flex gap-2 dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-500">•</span>
                     <span>Prototyped data cleaning & visualisation in Python, cutting exploratory cycle time by ~30% on sample datasets.</span>
                   </li>
-                  <li className="flex gap-2 dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-700">•</span>
+                  <li className="flex gap-2 dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-500">•</span>
                     <span>Evaluated classical ML models (precision/recall/AUC) and documented trade-offs for baseline selection.</span>
                   </li>
-                  <li className="flex gap-2 dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-700">•</span>
+                  <li className="flex gap-2 dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-500">•</span>
                     <span>Automated preprocessing (imputation/encoding/scaling) into reusable snippets for consistency across notebooks.</span>
                   </li>
                 </ul>
@@ -427,23 +428,23 @@ export default function Page() {
               <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-slate-900 mb-1">Microsoft</h3>
-                    <p className="dark:text-white text-slate-800 text-lg">Virtual Intern</p>
+                    <h3 className="text-2xl font-bold dark:text-white text-slate-500 mb-1">Microsoft</h3>
+                    <p className="dark:text-white text-slate-600 text-lg">Virtual Intern</p>
                   </div>
-                  <span className="dark:text-white text-slate-700 text-sm whitespace-nowrap">Apr 2023 – Jun 2023</span>
+                  <span className="dark:text-white text-slate-500 text-sm whitespace-nowrap">Apr 2023 – Jun 2023</span>
                 </div>
-                <p className="dark:text-white text-slate-800 text-base mb-3">AICTE approved Virtual Internship under the Future Ready Talent initiative</p>
+                <p className="dark:text-white text-slate-600 text-base mb-3">AICTE approved Virtual Internship under the Future Ready Talent initiative</p>
                 <ul className="space-y-2">
-                  <li className="flex gap-2 dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-700">•</span>
+                  <li className="flex gap-2 dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-500">•</span>
                     <span>Explored Azure (Static Web Apps, Front Door, CDN) and deployed sample apps with CI/CD from GitHub (100% green builds).</span>
                   </li>
-                  <li className="flex gap-2 dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-700">•</span>
+                  <li className="flex gap-2 dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-500">•</span>
                     <span>Practised Git/GitHub workflows (branching, PR reviews, issues), reducing merge conflicts on small team projects.</span>
                   </li>
-                  <li className="flex gap-2 dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-700">•</span>
+                  <li className="flex gap-2 dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-500">•</span>
                     <span>Built mini-demos connecting Azure front ends to simple APIs with notes on cost, latency, reliability trade-offs.</span>
                   </li>
                 </ul>
@@ -453,19 +454,19 @@ export default function Page() {
               <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-slate-900 mb-1">Direction Infosystems</h3>
-                    <p className="dark:text-white text-slate-800 text-lg">Intern</p>
+                    <h3 className="text-2xl font-bold dark:text-white text-slate-500 mb-1">Direction Infosystems</h3>
+                    <p className="dark:text-white text-slate-600 text-lg">Intern</p>
                   </div>
-                  <span className="dark:text-white text-slate-700 text-sm whitespace-nowrap">Jan 2023 – Apr 2023</span>
+                  <span className="dark:text-white text-slate-500 text-sm whitespace-nowrap">Jan 2023 – Apr 2023</span>
                 </div>
-                <p className="dark:text-white text-slate-700 text-sm mb-4">Bardoli</p>
+                <p className="dark:text-white text-slate-500 text-sm mb-4">Bardoli</p>
                 <ul className="space-y-2">
-                  <li className="flex gap-2 dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-700">•</span>
+                  <li className="flex gap-2 dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-500">•</span>
                     <span>Built and maintained websites using PHP, Laravel, MySQL, Bootstrap, and jQuery in a team setting.</span>
                   </li>
-                  <li className="flex gap-2 dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-700">•</span>
+                  <li className="flex gap-2 dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-500">•</span>
                     <span>Assisted in UI design and code deployment, ensuring smooth handover and compatibility with in-house tools.</span>
                   </li>
                 </ul>
@@ -475,19 +476,19 @@ export default function Page() {
               <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-slate-900 mb-1">Elsner Technologies Pvt. Ltd.</h3>
-                    <p className="dark:text-white text-slate-800 text-lg">Summer Internship</p>
+                    <h3 className="text-2xl font-bold dark:text-white text-slate-500 mb-1">Elsner Technologies Pvt. Ltd.</h3>
+                    <p className="dark:text-white text-slate-600 text-lg">Summer Internship</p>
                   </div>
-                  <span className="dark:text-white text-slate-700 text-sm whitespace-nowrap">Jun 2022 – Jul 2022</span>
+                  <span className="dark:text-white text-slate-500 text-sm whitespace-nowrap">Jun 2022 – Jul 2022</span>
                 </div>
-                <p className="dark:text-white text-slate-700 text-sm mb-4">Ahmedabad</p>
+                <p className="dark:text-white text-slate-500 text-sm mb-4">Ahmedabad</p>
                 <ul className="space-y-2">
-                  <li className="flex gap-2 dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-700">•</span>
+                  <li className="flex gap-2 dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-500">•</span>
                     <span>Developed a basic Android-based To-Do list app using Java.</span>
                   </li>
-                  <li className="flex gap-2 dark:text-white text-slate-800 text-sm">
-                    <span className="dark:text-white text-slate-700">•</span>
+                  <li className="flex gap-2 dark:text-white text-slate-600 text-sm">
+                    <span className="dark:text-white text-slate-500">•</span>
                     <span>Completed foundational coding tasks while gaining exposure to agile teamwork and app development principles.</span>
                   </li>
                 </ul>
@@ -499,51 +500,51 @@ export default function Page() {
         {/* Projects Section */}
         <section id="projects" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
           <div className="max-w-3xl w-full">
-            <h2 className="text-5xl font-bold dark:text-white text-slate-900 mb-8">Project Highlights</h2>
+            <h2 className="text-5xl font-bold dark:text-white text-slate-500 mb-8">Project Highlights</h2>
             <div className="space-y-6">
-              <p className="dark:text-white text-slate-900 text-lg leading-relaxed">
+              <p className="dark:text-white text-slate-500 text-lg leading-relaxed">
                 From RAG-powered assistants to agentic AI systems, I build full-stack applications that combine cutting-edge AI with production-ready engineering.
               </p>
               
               {/* Quick Project Cards */}
               <div className="grid md:grid-cols-2 gap-4">
-                <div className="p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                  <h4 className="text-lg font-bold dark:text-white text-slate-900 mb-2">Job Recruiter Assistant</h4>
-                  <p className="dark:text-white text-slate-800 text-sm mb-3">RAG-powered with semantic matching, CV OCR, and SendGrid automation</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">FastAPI</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">Supabase</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">pgvector</span>
+                <div className="p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
+                  <h4 className="text-lg font-bold dark:text-white text-slate-500 mb-2">Job Recruiter Assistant</h4>
+                  <p className="dark:text-white text-slate-600 text-sm mb-auto">RAG-powered with semantic matching, CV OCR, and SendGrid automation</p>
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">FastAPI</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">Supabase</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">pgvector</span>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                  <h4 className="text-lg font-bold dark:text-white text-slate-900 mb-2">Medical Screening Assistant</h4>
-                  <p className="dark:text-white text-slate-800 text-sm mb-3">AI triage chatbot with RAG+CAG pipeline and multimodal STT/TTS</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">Gemini</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">OpenAI</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">Whisper</span>
+                <div className="p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
+                  <h4 className="text-lg font-bold dark:text-white text-slate-500 mb-2">Medical Screening Assistant</h4>
+                  <p className="dark:text-white text-slate-600 text-sm mb-auto">AI triage chatbot with RAG+CAG pipeline and multimodal STT/TTS</p>
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">Gemini</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">OpenAI</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">Whisper</span>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                  <h4 className="text-lg font-bold dark:text-white text-slate-900 mb-2">Crypto FM</h4>
-                  <p className="dark:text-white text-slate-800 text-sm mb-3">Agentic AI crypto radio with real-time market analysis</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">Node.js</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">Gemini</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">Google TTS</span>
+                <div className="p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
+                  <h4 className="text-lg font-bold dark:text-white text-slate-500 mb-2">Crypto FM</h4>
+                  <p className="dark:text-white text-slate-600 text-sm mb-auto">Agentic AI crypto radio with real-time market analysis</p>
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">Node.js</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">Gemini</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">Google TTS</span>
                   </div>
                 </div>
 
-                <div className="p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                  <h4 className="text-lg font-bold dark:text-white text-slate-900 mb-2">30-Day Readmission Prediction</h4>
-                  <p className="dark:text-white text-slate-800 text-sm mb-3">ML pipeline on 100k+ dataset to flag readmissions</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">Python</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">scikit-learn</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-900 text-xs border border-transparent dark:border-transparent border-white/50">pandas</span>
+                <div className="p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
+                  <h4 className="text-lg font-bold dark:text-white text-slate-500 mb-2">30-Day Readmission Prediction</h4>
+                  <p className="dark:text-white text-slate-600 text-sm mb-auto">ML pipeline on 100k+ dataset to flag readmissions</p>
+                  <div className="flex flex-wrap gap-1.5 mt-3">
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">Python</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">scikit-learn</span>
+                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-slate-500 text-xs border border-transparent dark:border-transparent border-white/50">pandas</span>
                   </div>
                 </div>
               </div>
@@ -554,8 +555,8 @@ export default function Page() {
                   onClick={() => setIsProjectsModalOpen(true)}
                   className="group px-6 py-3 rounded-xl bg-white/10 dark:bg-white/10 bg-white/25 backdrop-blur-none border border-white/20 dark:border-white/20 border-white/50 hover:bg-white/20 dark:hover:bg-white/20 hover:bg-white/35 transition-all flex items-center gap-2"
                 >
-                  <span className="dark:text-white text-slate-900 font-medium">View All Projects</span>
-                  <ExternalLink className="w-4 h-4 dark:text-white text-slate-900 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  <span className="dark:text-white text-slate-500 font-medium">View All Projects</span>
+                  <ExternalLink className="w-4 h-4 dark:text-white text-slate-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </button>
               </div>
             </div>

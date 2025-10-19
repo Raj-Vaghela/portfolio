@@ -1,6 +1,6 @@
 "use client"
 
-import { X, Link as LinkIcon } from "lucide-react"
+import { X, Github, ExternalLink } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 
 interface Project {
@@ -9,6 +9,7 @@ interface Project {
   technologies: string[]
   details: string[]
   githubUrl: string
+  liveUrl?: string
 }
 
 interface ProjectsModalProps {
@@ -33,7 +34,7 @@ const projects: Project[] = [
     title: "Medical Screening Assistant",
     description: "AI triage chatbot with RAG+CAG pipeline, multimodal STT/TTS, and NHS documentation OCR",
     technologies: ["Gemini", "OpenAI", "RAG", "CAG", "Supabase", "FastAPI", "Whisper", "ElevenLabs", "OCR"],
-    githubUrl: "https://github.com/Raj-Vaghela/medical-screening-assistant",
+    githubUrl: "https://github.com/Raj-Vaghela/NurseChat",
     details: [
       "Dual pipeline (RAG + constrained knowledge) grounded in NHS/hospital docs; top-k semantic retrieval with similarity thresholding and cache refresh",
       "Multimodal flow: streaming STT for hands-free triage; natural TTS; OCR of PDFs/JPG/PNG into structured Markdown so the model can cite sections in chat",
@@ -45,7 +46,8 @@ const projects: Project[] = [
     title: "Crypto FM — Agentic AI 'Crypto Radio'",
     description: "Agentic AI crypto radio with real-time market analysis and voice narration",
     technologies: ["Node.js", "Express", "Gemini", "Google Cloud TTS", "CoinGecko", "Whale Alert", "CryptoPanic"],
-    githubUrl: "https://github.com/Raj-Vaghela/crypto-fm",
+    githubUrl: "https://github.com/Raj-Vaghela/CryptoFM",
+    liveUrl: "https://encode2025.vercel.app",
     details: [
       "Orchestrated data collectors → analyst agent → voice pipeline to narrate market signals; refreshed scripts every ~60s",
       "Implemented segment queue + resilient autoplay with retry/backoff to keep playback smooth during spikes and network hiccups",
@@ -57,7 +59,7 @@ const projects: Project[] = [
     title: "30-Day Readmission Prediction (Diabetes)",
     description: "Risk-scoring pipeline on a 100k+ multi-hospital dataset to flag likely 30-day readmissions",
     technologies: ["Python", "pandas", "scikit-learn", "NumPy", "Matplotlib"],
-    githubUrl: "https://github.com/Raj-Vaghela/readmission-prediction",
+    githubUrl: "https://github.com/Raj-Vaghela/Patient-Readmission-Prediction-Google-Colab",
     details: [
       "Risk-scoring pipeline on a 100k+ multi-hospital dataset to flag likely 30-day readmissions",
       "Addressed severe class imbalance; added simple patient segmentation (K-means → logistic regression)",
@@ -123,12 +125,12 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-6 bg-gradient-to-b dark:from-[hsl(210,25%,18%)] from-[hsl(200,50%,70%)] dark:via-[hsl(210,25%,18%)]/90 via-[hsl(200,50%,70%)]/90 to-transparent pb-8">
-          <h2 className="text-lg sm:text-2xl font-bold dark:text-white text-slate-900">Featured Projects</h2>
+          <h2 className="text-lg sm:text-2xl font-bold dark:text-white text-slate-700">Featured Projects</h2>
             <button
             onClick={onClose}
             className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/5 backdrop-blur border dark:border-white/20 border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
           >
-            <X className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white text-slate-900" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white text-slate-700" />
           </button>
         </div>
 
@@ -138,25 +140,40 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
               key={index}
               className="rounded-xl sm:rounded-2xl bg-white/5 backdrop-blur border dark:border-white/10 border-white/30 p-4 sm:p-6 hover:bg-white/10 transition-colors"
             >
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 mb-1.5 sm:mb-2"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <h3 className="text-base sm:text-xl font-bold dark:text-white text-slate-900 group-hover:dark:text-white/90 group-hover:text-slate-700 transition-colors">
+              <div className="flex items-start justify-between gap-3 mb-1.5 sm:mb-2">
+                <h3 className="text-base sm:text-xl font-bold dark:text-white text-slate-700">
                   {project.title}
                 </h3>
-                <LinkIcon className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white/40 text-slate-500 group-hover:dark:text-emerald-400 group-hover:text-emerald-600 transition-colors" />
-              </a>
-              <p className="dark:text-white/70 text-slate-700 text-xs sm:text-sm mb-3 sm:mb-4">{project.description}</p>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1.5 sm:p-2 rounded-lg bg-white/5 hover:bg-white/10 border dark:border-white/20 border-white/30 transition-all group"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white/50 text-slate-600 group-hover:dark:text-emerald-400 group-hover:text-emerald-600 transition-colors" />
+                    </a>
+                  )}
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1.5 sm:p-2 rounded-lg bg-white/5 hover:bg-white/10 border dark:border-white/20 border-white/30 transition-all group"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Github className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white/50 text-slate-600 group-hover:dark:text-emerald-400 group-hover:text-emerald-600 transition-colors" />
+                  </a>
+                </div>
+              </div>
+              <p className="dark:text-white/70 text-slate-600 text-xs sm:text-sm mb-3 sm:mb-4">{project.description}</p>
 
               <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/10 dark:text-white text-slate-900 text-xs border dark:border-white/20 border-white/30"
+                    className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/10 dark:text-white text-slate-700 text-xs border dark:border-white/20 border-white/30"
                   >
                     {tech}
                   </span>
@@ -167,7 +184,7 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                 {project.details.map((detail, idx) => (
                   <div key={idx} className="flex gap-2">
                     <span className="dark:text-white/50 text-slate-500 text-xs sm:text-sm mt-0.5 sm:mt-1">•</span>
-                    <p className="dark:text-white/80 text-slate-800 text-xs sm:text-sm leading-relaxed">{detail}</p>
+                    <p className="dark:text-white/80 text-slate-600 text-xs sm:text-sm leading-relaxed">{detail}</p>
                   </div>
                 ))}
               </div>
