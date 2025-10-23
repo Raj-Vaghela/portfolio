@@ -31,7 +31,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
           <X className="w-5 h-5" />
         </Button>
 
-        <h2 className="text-2xl sm:text-3xl font-bold dark:text-white text-slate-700 mb-6">Get in Touch</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold dark:text-white text-black mb-6">Get in Touch</h2>
 
         <div className="space-y-4">
           <a
@@ -39,11 +39,11 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 backdrop-blur border dark:border-white/10 border-white/30 hover:bg-white/10 transition-colors group"
           >
             <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
-              <Mail className="w-5 h-5 dark:text-white text-slate-700" />
+              <Mail className="w-5 h-5 dark:text-white text-black" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm dark:text-white/60 text-slate-600 mb-1">Email</p>
-              <p className="dark:text-white text-slate-700 font-medium break-all">vaghela.raj2581@gmail.com</p>
+              <p className="dark:text-white text-black font-medium break-all">vaghela.raj2581@gmail.com</p>
             </div>
           </a>
 
@@ -52,21 +52,21 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 backdrop-blur border dark:border-white/10 border-white/30 hover:bg-white/10 transition-colors group"
           >
             <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
-              <Phone className="w-5 h-5 dark:text-white text-slate-700" />
+              <Phone className="w-5 h-5 dark:text-white text-black" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm dark:text-white/60 text-slate-600 mb-1">Phone</p>
-              <p className="dark:text-white text-slate-700 font-medium">(+44) 7741 896244</p>
+              <p className="dark:text-white text-black font-medium">(+44) 7741 896244</p>
             </div>
           </a>
 
           <div className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 backdrop-blur border dark:border-white/10 border-white/30">
             <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
-              <MapPin className="w-5 h-5 dark:text-white text-slate-700" />
+              <MapPin className="w-5 h-5 dark:text-white text-black" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm dark:text-white/60 text-slate-600 mb-1">Location</p>
-              <p className="dark:text-white text-slate-700 font-medium">Leicester, UK</p>
+              <p className="dark:text-white text-black font-medium">Leicester, UK</p>
             </div>
           </div>
 
@@ -79,8 +79,8 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 p-3 rounded-xl bg-white/5 border dark:border-white/10 border-white/30 hover:bg-white/10 transition-colors"
               >
-                <Linkedin className="w-4 h-4 dark:text-white text-slate-700" />
-                <span className="text-sm dark:text-white text-slate-700 font-medium">LinkedIn</span>
+                <Linkedin className="w-4 h-4 dark:text-white text-black" />
+                <span className="text-sm dark:text-white text-black font-medium">LinkedIn</span>
               </a>
               <a
                 href="https://github.com/Raj-Vaghela"
@@ -88,8 +88,8 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 p-3 rounded-xl bg-white/5 border dark:border-white/10 border-white/30 hover:bg-white/10 transition-colors"
               >
-                <Github className="w-4 h-4 dark:text-white text-slate-700" />
-                <span className="text-sm dark:text-white text-slate-700 font-medium">GitHub</span>
+                <Github className="w-4 h-4 dark:text-white text-black" />
+                <span className="text-sm dark:text-white text-black font-medium">GitHub</span>
               </a>
             </div>
           </div>

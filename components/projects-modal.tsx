@@ -125,12 +125,12 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-6 bg-gradient-to-b dark:from-[hsl(210,25%,18%)] from-[hsl(200,50%,70%)] dark:via-[hsl(210,25%,18%)]/90 via-[hsl(200,50%,70%)]/90 to-transparent pb-8">
-          <h2 className="text-lg sm:text-2xl font-bold dark:text-white text-slate-700">Featured Projects</h2>
+          <h2 className="text-lg sm:text-2xl font-bold dark:text-white text-black">Featured Projects</h2>
             <button
             onClick={onClose}
             className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/5 backdrop-blur border dark:border-white/20 border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
           >
-            <X className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white text-slate-700" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white text-black" />
           </button>
         </div>
 
@@ -141,7 +141,7 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
               className="rounded-xl sm:rounded-2xl bg-white/5 backdrop-blur border dark:border-white/10 border-white/30 p-4 sm:p-6 hover:bg-white/10 transition-colors"
             >
               <div className="flex items-start justify-between gap-3 mb-1.5 sm:mb-2">
-                <h3 className="text-base sm:text-xl font-bold dark:text-white text-slate-700">
+                <h3 className="text-base sm:text-xl font-bold dark:text-white text-black">
                   {project.title}
                 </h3>
                 <div className="flex items-center gap-2 flex-shrink-0">
@@ -167,13 +167,13 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                   </a>
                 </div>
               </div>
-              <p className="dark:text-white/70 text-slate-600 text-xs sm:text-sm mb-3 sm:mb-4">{project.description}</p>
+              <p className="dark:text-white/70 text-gray-900 text-xs sm:text-sm mb-3 sm:mb-4">{project.description}</p>
 
               <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/10 dark:text-white text-slate-700 text-xs border dark:border-white/20 border-white/30"
+                    className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/10 dark:text-white text-black text-xs border dark:border-white/20 border-white/30"
                   >
                     {tech}
                   </span>
@@ -184,7 +184,7 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                 {project.details.map((detail, idx) => (
                   <div key={idx} className="flex gap-2">
                     <span className="dark:text-white/50 text-slate-500 text-xs sm:text-sm mt-0.5 sm:mt-1">•</span>
-                    <p className="dark:text-white/80 text-slate-600 text-xs sm:text-sm leading-relaxed">{detail}</p>
+                    <p className="dark:text-white/80 text-gray-900 text-xs sm:text-sm leading-relaxed">{detail}</p>
                   </div>
                 ))}
               </div>
