@@ -146,4 +146,12 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+  /* Prevent body scroll on mobile to ensure swipe gestures work */
+  @media (max-width: 768px) {
+    body {
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+  }
 }

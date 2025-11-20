@@ -7,6 +7,9 @@ import { ProjectsModal } from "@/components/projects-modal"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { ChatButton } from "@/components/chat-button"
 import { ChatModal } from "@/components/chat-modal"
+import { PortfolioContent } from "@/components/portfolio-content"
+import { MobileDrawer } from "@/components/mobile-drawer"
+import { ProfileImage } from "@/components/profile-image"
 import { useEffect, useRef, useState } from "react"
 
 export default function Page() {
@@ -16,6 +19,7 @@ export default function Page() {
   const [activeSection, setActiveSection] = useState("me")
   const [isScrolling, setIsScrolling] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
+  const [imageUrl, setImageUrl] = useState<string>("")
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const sliderRef = useRef<HTMLDivElement>(null)
 
@@ -28,6 +32,13 @@ export default function Page() {
 
   // Skills for the marquee loaded from /skills.json
   const [marqueeSkills, setMarqueeSkills] = useState<string[]>([])
+
+  // Set image URL on client side to avoid hydration mismatch
+  useEffect(() => {
+    // Support both old and new env variable names for backward compatibility
+    const url = process.env.NEXT_PUBLIC_IMAGE_URL || process.env.NEXT_PUBLIC_GOOGLE_DRIVE_IMAGE_URL || ""
+    setImageUrl(url)
+  }, [])
 
   useEffect(() => {
     fetch("/skills.json")
@@ -56,7 +67,7 @@ export default function Page() {
 
       // Show label while scrolling
       setIsScrolling(true)
-      
+
       // Hide label after scrolling stops
       clearTimeout(scrollTimeout)
       scrollTimeout = setTimeout(() => {
@@ -103,7 +114,7 @@ export default function Page() {
     const rect = e.currentTarget.getBoundingClientRect()
     const clickY = e.clientY - rect.top
     const percentage = clickY / rect.height
-    
+
     const scrollHeight = container.scrollHeight - container.clientHeight
     container.scrollTo({ top: scrollHeight * percentage, behavior: "smooth" })
   }
@@ -113,14 +124,14 @@ export default function Page() {
       if (!isDragging || !sliderRef.current || !scrollContainerRef.current) return
 
       e.preventDefault()
-      
+
       const rect = sliderRef.current.getBoundingClientRect()
       const mouseY = e.clientY - rect.top
       const percentage = Math.max(0, Math.min(1, mouseY / rect.height))
-      
+
       const container = scrollContainerRef.current
       const scrollHeight = container.scrollHeight - container.clientHeight
-      
+
       container.scrollTop = scrollHeight * percentage
     }
 
@@ -142,104 +153,110 @@ export default function Page() {
   }, [isDragging])
 
   return (
-    <main className="relative h-screen flex items-center justify-start overflow-hidden p-8 md:p-12 lg:p-16">
+    <main className="relative h-screen flex items-center justify-start overflow-hidden p-8 lg:p-12 xl:p-16">
       <GradientBackground />
       <div className="absolute inset-0 -z-10 bg-black/20 dark:bg-black/20" />
-      
-      {/* Theme Toggle - Top Right */}
-      <div className="fixed top-8 md:top-12 lg:top-16 right-8 md:right-12 lg:right-16 z-50">
+
+      {/* Theme Toggle - Top Right on desktop, aligned with action buttons on mobile */}
+      <div className="fixed top-4 lg:top-12 xl:top-16 right-4 lg:right-12 xl:right-16 z-50">
         <ThemeToggle />
       </div>
 
       {/* Large frosted glass background container - everything lives inside */}
-      <div className="fixed inset-8 md:inset-12 lg:inset-16 bg-black/30 dark:bg-black/30 bg-transparent backdrop-blur-xl dark:backdrop-blur-xl backdrop-blur-none rounded-[3rem] border border-white/10 dark:border-white/10 border-white/30 shadow-2xl overflow-hidden p-8 transition-colors duration-300">
-        
+      <div className="hidden lg:block fixed inset-4 lg:inset-12 xl:inset-16 bg-black/30 dark:bg-black/30 bg-transparent backdrop-blur-xl dark:backdrop-blur-xl backdrop-blur-none rounded-[2rem] lg:rounded-[3rem] border border-white/10 dark:border-white/10 border-white/30 shadow-2xl overflow-hidden p-4 lg:p-8 transition-colors duration-300 flex flex-col lg:block">
+
         {/* Image card - positioned inside frosted glass with proper spacing */}
-        <div className="absolute left-8 top-8 bottom-8 w-full max-w-[280px] rounded-3xl border border-white/20 dark:border-white/20 border-white/50 shadow-2xl overflow-hidden transition-colors duration-300">
-        {/* Image fills entire space */}
-        <img src="/pic.jpg" alt="Raj Vaghela" className="absolute inset-0 w-full h-full object-cover" />
-        
-        {/* Dark gradient overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 dark:from-black/80 dark:via-black/40 dark:to-black/20" />
+        <div className="relative lg:absolute lg:left-8 lg:top-8 lg:bottom-8 w-full lg:max-w-[280px] h-[300px] lg:h-auto shrink-0 mb-4 lg:mb-0 rounded-3xl border border-white/20 dark:border-white/20 border-white/50 shadow-2xl overflow-hidden transition-colors duration-300 bg-zinc-800">
+          <ProfileImage
+            src={imageUrl}
+            alt="Raj Vaghela"
+            className="absolute inset-0 w-full h-full"
+            priority
+          />
 
-        {/* Available for work badge - top right */}
-        <div className="absolute top-6 right-6">
-          <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20">
-            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite]" />
-            <span className="text-white dark:text-white text-[10px] font-medium">Available for work</span>
+          {/* Dark gradient overlay for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 dark:from-black/80 dark:via-black/40 dark:to-black/20 pointer-events-none" />
+
+          {/* Available for work badge - top right */}
+          <div className="absolute top-6 right-6 z-10">
+            <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite]" />
+              <span className="text-white dark:text-white text-[10px] font-medium">Available for work</span>
+            </div>
+          </div>
+
+          {/* Content at bottom left with equal spacing */}
+          <div className="absolute bottom-4 left-4 space-y-3 z-10">
+            <div>
+              <h1 className="text-4xl font-bold dark:text-white text-white">Raj Vaghela</h1>
+              <p className="dark:text-white text-white text-sm mt-1">AI Engineer</p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <a
+                href="https://github.com/Raj-Vaghela"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+              >
+                <Github className="w-3.5 h-3.5 text-white dark:text-white" />
+              </a>
+              <a
+                href="https://linkedin.com/in/raj-vaghela"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+              >
+                <Linkedin className="w-3.5 h-3.5 text-white dark:text-white" />
+              </a>
+              <button
+                onClick={() => setIsContactModalOpen(true)}
+                className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+                aria-label="Get in touch"
+                title="Get in touch"
+              >
+                <Mail className="w-3.5 h-3.5 text-white dark:text-white" />
+              </button>
+            </div>
+
+            <div className="flex items-center gap-2 mt-2">
+              <ChatButton onClick={() => setIsChatModalOpen(true)} />
+              <a
+                href="/cv.pdf"
+                download
+                className="h-8 px-3 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center gap-1.5 hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+              >
+                <FileText className="w-3.5 h-3.5 text-white dark:text-white" />
+                <span className="text-white dark:text-white text-[11px] font-medium whitespace-nowrap">Download CV</span>
+              </a>
+            </div>
           </div>
         </div>
-
-        {/* Content at bottom left with equal spacing */}
-        <div className="absolute bottom-4 left-4 space-y-3">
-          <div>
-            <h1 className="text-4xl font-bold dark:text-white text-white">Raj Vaghela</h1>
-            <p className="dark:text-white text-white text-sm mt-1">AI Engineer</p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <a
-              href="https://github.com/Raj-Vaghela"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
-            >
-              <Github className="w-3.5 h-3.5 text-white dark:text-white" />
-            </a>
-            <a
-              href="https://linkedin.com/in/raj-vaghela"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
-            >
-              <Linkedin className="w-3.5 h-3.5 text-white dark:text-white" />
-            </a>
-            <button
-              onClick={() => setIsContactModalOpen(true)}
-              className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
-            >
-              <Mail className="w-3.5 h-3.5 text-white dark:text-white" />
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2 mt-2">
-            <ChatButton onClick={() => setIsChatModalOpen(true)} />
-            <a
-              href="/cv.pdf"
-              download
-              className="h-8 px-3 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center gap-1.5 hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
-            >
-              <FileText className="w-3.5 h-3.5 text-white dark:text-white" />
-              <span className="text-white dark:text-white text-[11px] font-medium whitespace-nowrap">Download CV</span>
-            </a>
-          </div>
-        </div>
-      </div>
 
         {/* Vertical Slider Navigation - Right side inside glass */}
-        <nav className="absolute right-8 top-1/2 -translate-y-1/2 z-50">
+        <nav className="hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 z-50">
           <div className="flex items-center gap-3">
-            <div 
+            <div
               ref={sliderRef}
               className="w-px h-32 bg-white/20 dark:bg-white/20 bg-white/50 relative cursor-pointer hover:w-1 transition-all duration-200 group"
               onClick={handleSliderClick}
             >
-              <div 
+              <div
                 className={`absolute w-full bg-white rounded-full cursor-grab active:cursor-grabbing ${isDragging ? '' : 'transition-all duration-300'}`}
                 onMouseDown={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
                   setIsDragging(true)
                 }}
-                style={{ 
-                  height: '25%', 
-                  top: `${(sections.findIndex(s => s.id === activeSection) / (sections.length - 1)) * 75}%` 
-                }} 
+                style={{
+                  height: '25%',
+                  top: `${(sections.findIndex(s => s.id === activeSection) / (sections.length - 1)) * 75}%`
+                }}
               >
                 {/* Label positioned to the left of slider, centered with indicator */}
-                <span 
+                <span
                   className={`absolute right-3 dark:text-white text-gray-800 text-sm font-medium whitespace-nowrap transition-opacity duration-200 ${isScrolling || isDragging ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
-                  style={{ 
+                  style={{
                     top: '50%',
                     transform: 'translateY(-50%)'
                   }}
@@ -252,380 +269,126 @@ export default function Page() {
         </nav>
 
         {/* Skills vertical marquee between card and content - inside glass */}
-        <div className="absolute z-20 top-0 bottom-0 left-[calc(4rem+280px-3px)] overflow-hidden group px-4">
-        <div className="skills-marquee-wrapper">
-          <div className="skills-marquee-content">
-            {/* Add spacing before first word */}
-            <div className="h-3" />
-            {marqueeSkills.map((s, i) => (
-              <div key={`${s}-${i}`} className="flex flex-col items-center">
-                <div className="flex flex-col items-center mb-3">
-                  {s.toUpperCase().split("").map((ch, idx) => (
-                    <span key={idx} className="dark:text-white text-gray-800 text-[6px] uppercase leading-tight font-[family-name:var(--font-press-start)]">{ch}</span>
-                  ))}
+        <div className="hidden lg:block absolute z-20 top-0 bottom-0 left-[calc(4rem+280px-3px)] overflow-hidden group px-4">
+          <div className="skills-marquee-wrapper">
+            <div className="skills-marquee-content">
+              {/* Add spacing before first word */}
+              <div className="h-3" />
+              {marqueeSkills.map((s, i) => (
+                <div key={`${s}-${i}`} className="flex flex-col items-center">
+                  <div className="flex flex-col items-center mb-3">
+                    {s.toUpperCase().split("").map((ch, idx) => (
+                      <span key={idx} className="dark:text-white text-gray-800 text-[6px] uppercase leading-tight font-[family-name:var(--font-press-start)]">{ch}</span>
+                    ))}
+                  </div>
+                  <span className="w-1 h-1 rounded-full dark:bg-white bg-slate-700" />
                 </div>
-                <span className="w-1 h-1 rounded-full dark:bg-white bg-slate-700" />
-              </div>
-            ))}
-          </div>
-          <div className="skills-marquee-content" aria-hidden="true">
-            {/* Add spacing before first word in duplicate */}
-            <div className="h-3" />
-            {marqueeSkills.map((s, i) => (
-              <div key={`dup-${s}-${i}`} className="flex flex-col items-center">
-                <div className="flex flex-col items-center mb-3">
-                  {s.toUpperCase().split("").map((ch, idx) => (
-                    <span key={idx} className="dark:text-white text-gray-800 text-[6px] uppercase leading-tight font-[family-name:var(--font-press-start)]">{ch}</span>
-                  ))}
+              ))}
+            </div>
+            <div className="skills-marquee-content" aria-hidden="true">
+              {/* Add spacing before first word in duplicate */}
+              <div className="h-3" />
+              {marqueeSkills.map((s, i) => (
+                <div key={`dup-${s}-${i}`} className="flex flex-col items-center">
+                  <div className="flex flex-col items-center mb-3">
+                    {s.toUpperCase().split("").map((ch, idx) => (
+                      <span key={idx} className="dark:text-white text-gray-800 text-[6px] uppercase leading-tight font-[family-name:var(--font-press-start)]">{ch}</span>
+                    ))}
+                  </div>
+                  <span className="w-1 h-1 rounded-full dark:bg-white bg-slate-700" />
                 </div>
-                <span className="w-1 h-1 rounded-full dark:bg-white bg-slate-700" />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
         {/* Scrollable Content Area - Right side inside glass */}
         <div
           ref={scrollContainerRef}
-          className="absolute z-5 top-0 bottom-0 right-0 left-[calc(8rem+280px)] overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-hide"
-      >
-        {/* Me Section */}
-        <section id="me" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-          <div className="max-w-3xl">
-            <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">About Me</h2>
-            <div className="space-y-6">
-              <p className="dark:text-white text-gray-800 text-lg leading-relaxed">
-                I'm an <span className="dark:text-white text-black font-semibold">MSc Advanced Computer Science</span> student at the University of Leicester (Distinction), 
-                specializing in applied AI and Large Language Models.
-              </p>
-              <p className="dark:text-white text-gray-900 text-base leading-relaxed">
-                I build <span className="dark:text-white text-black font-medium">retrieval-augmented systems</span> with embeddings and pgvector, 
-                robust <span className="dark:text-white text-black font-medium">FastAPI/Node back ends</span>, and modern <span className="dark:text-white text-black font-medium">React/Next.js UIs</span>. 
-                I'm comfortable with multimodal STT/TTS/OCR, function calling, and streaming UX. Strong in Python and 
-                software engineering fundamentals — I ship testable services with telemetry, retries, and graceful shutdowns.
-              </p>
-              <p className="dark:text-white text-gray-900 text-base leading-relaxed">
-                Looking to help teams turn LLM prototypes into reliable, user-centered products.
-              </p>
-              
-              <div className="pt-4 grid grid-cols-2 gap-4">
-                <div className="p-4 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 backdrop-blur-none">
-                  <div className="dark:text-white text-gray-800 text-sm mb-1">Location</div>
-                  <div className="dark:text-white text-black font-medium">Leicester, UK</div>
-                </div>
-                <div className="p-4 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 backdrop-blur-none">
-                  <div className="dark:text-white text-gray-800 text-sm mb-1">Status</div>
-                  <div className="dark:text-white text-black font-medium flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-green-500" />
-                    Available for work
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Education Section */}
-        <section id="education" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-          <div className="max-w-3xl w-full">
-            <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Education</h2>
-            <div className="space-y-6">
-              {/* Master's Degree */}
-              <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Master of Science (M.Sc.)</h3>
-                    <p className="dark:text-white text-gray-900 text-lg">Advanced Computer Science</p>
-                  </div>
-                  <div className="px-3 py-1 rounded-full bg-white/10 border border-white/30">
-                    <span className="dark:text-white text-gray-800 text-sm font-medium">Distinction</span>
-                  </div>
-                </div>
-                <p className="dark:text-white text-gray-900 text-base mb-3">University of Leicester, UK</p>
-                <p className="dark:text-white text-gray-800 text-sm mb-4">Jan 2024 – Jul 2025</p>
-                <div className="space-y-2">
-                  <p className="dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-black font-medium">Key modules:</span> Big Data & Predictive Analytics, C++, Cybersecurity, Technology & Innovation Management
-                  </p>
-                </div>
-              </div>
-
-              {/* Bachelor's Degree */}
-              <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Bachelor of Engineering (B.E.)</h3>
-                    <p className="dark:text-white text-gray-900 text-lg">Computer Science & Engineering</p>
-                  </div>
-                  <div className="px-3 py-1 rounded-full bg-white/10 border border-white/30">
-                    <span className="dark:text-white text-gray-800 text-sm font-medium">8.55/10 (85.5%)</span>
-                  </div>
-                </div>
-                <p className="dark:text-white text-gray-900 text-base mb-3">S.N. Patel Institute of Technology & Research Centre, India</p>
-                <p className="dark:text-white text-gray-800 text-sm mb-4">Jun 2019 – Jun 2023</p>
-                <div className="space-y-2">
-                  <p className="dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-black font-medium">Key modules:</span> Artificial Intelligence, Computer Networks, Data Mining, Machine Learning, Software Engineering
-                  </p>
-                </div>
-              </div>
-
-              {/* Highlights & Awards */}
-              <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 backdrop-blur-none">
-                <h4 className="text-lg font-bold dark:text-white text-gray-800 mb-4">Highlights & Awards</h4>
-                <div className="grid gap-3">
-                  <div className="flex gap-3">
-                    <span className="text-yellow-400 mt-0.5">🏆</span>
-                    <p className="dark:text-white text-gray-900 text-sm"><span className="font-medium dark:text-white text-black">Huawei Tech Arena</span> — Finalist (Top 8/100+ teams)</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <span className="text-yellow-400 mt-0.5">🥉</span>
-                    <p className="dark:text-white text-gray-900 text-sm"><span className="font-medium dark:text-white text-black">Cyber4Me CTF</span> — 3rd place (University of Wolverhampton)</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <span className="text-blue-400 mt-0.5">🎯</span>
-                    <p className="dark:text-white text-gray-900 text-sm"><span className="font-medium dark:text-white text-black">Encode AI London '25</span> — "Crypto Radio"</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <span className="text-purple-400 mt-0.5">👥</span>
-                    <p className="dark:text-white text-gray-900 text-sm"><span className="font-medium dark:text-white text-black">University leadership:</span> Peer Mentor, Course Rep, Leicester 100 (policy review for 10,000+ students)</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <span className="text-green-400 mt-0.5">🎓</span>
-                    <p className="dark:text-white text-gray-900 text-sm"><span className="font-medium dark:text-white text-black">Scholarships:</span> MYSY Merit Scholarship, State Aptitude Test Winner</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Experience Section */}
-        <section id="experience" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-          <div className="max-w-3xl w-full">
-            <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Experience</h2>
-            <div className="space-y-6">
-              {/* IBM */}
-              <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">IBM</h3>
-                    <p className="dark:text-white text-gray-900 text-lg">Virtual Intern</p>
-                  </div>
-                  <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Jun 2023 – Jul 2023</span>
-                </div>
-                <ul className="space-y-2 mt-4">
-                  <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-gray-800">•</span>
-                    <span>Prototyped data cleaning & visualisation in Python, cutting exploratory cycle time by ~30% on sample datasets.</span>
-                  </li>
-                  <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-gray-800">•</span>
-                    <span>Evaluated classical ML models (precision/recall/AUC) and documented trade-offs for baseline selection.</span>
-                  </li>
-                  <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-gray-800">•</span>
-                    <span>Automated preprocessing (imputation/encoding/scaling) into reusable snippets for consistency across notebooks.</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Microsoft */}
-              <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Microsoft</h3>
-                    <p className="dark:text-white text-gray-900 text-lg">Virtual Intern</p>
-                  </div>
-                  <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Apr 2023 – Jun 2023</span>
-                </div>
-                <p className="dark:text-white text-gray-900 text-base mb-3">AICTE approved Virtual Internship under the Future Ready Talent initiative</p>
-                <ul className="space-y-2">
-                  <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-gray-800">•</span>
-                    <span>Explored Azure (Static Web Apps, Front Door, CDN) and deployed sample apps with CI/CD from GitHub (100% green builds).</span>
-                  </li>
-                  <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-gray-800">•</span>
-                    <span>Practised Git/GitHub workflows (branching, PR reviews, issues), reducing merge conflicts on small team projects.</span>
-                  </li>
-                  <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-gray-800">•</span>
-                    <span>Built mini-demos connecting Azure front ends to simple APIs with notes on cost, latency, reliability trade-offs.</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Direction Infosystems */}
-              <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Direction Infosystems</h3>
-                    <p className="dark:text-white text-gray-900 text-lg">Intern</p>
-                  </div>
-                  <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Jan 2023 – Apr 2023</span>
-                </div>
-                <p className="dark:text-white text-gray-800 text-sm mb-4">Bardoli</p>
-                <ul className="space-y-2">
-                  <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-gray-800">•</span>
-                    <span>Built and maintained websites using PHP, Laravel, MySQL, Bootstrap, and jQuery in a team setting.</span>
-                  </li>
-                  <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-gray-800">•</span>
-                    <span>Assisted in UI design and code deployment, ensuring smooth handover and compatibility with in-house tools.</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Elsner Technologies */}
-              <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                <div className="flex items-start justify-between mb-3">
-                  <div>
-                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Elsner Technologies Pvt. Ltd.</h3>
-                    <p className="dark:text-white text-gray-900 text-lg">Summer Internship</p>
-                  </div>
-                  <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Jun 2022 – Jul 2022</span>
-                </div>
-                <p className="dark:text-white text-gray-800 text-sm mb-4">Ahmedabad</p>
-                <ul className="space-y-2">
-                  <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-gray-800">•</span>
-                    <span>Developed a basic Android-based To-Do list app using Java.</span>
-                  </li>
-                  <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                    <span className="dark:text-white text-gray-800">•</span>
-                    <span>Completed foundational coding tasks while gaining exposure to agile teamwork and app development principles.</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Projects Section */}
-        <section id="projects" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-          <div className="max-w-3xl w-full">
-            <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Project Highlights</h2>
-            <div className="space-y-6">
-              <p className="dark:text-white text-gray-800 text-lg leading-relaxed">
-                From RAG-powered assistants to agentic AI systems, I build full-stack applications that combine cutting-edge AI with production-ready engineering.
-              </p>
-              
-              {/* Quick Project Cards */}
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
-                  <div className="flex items-start justify-between mb-2 gap-2">
-                    <h4 className="text-lg font-bold dark:text-white text-gray-800">Job Recruiter Assistant</h4>
-                    <a
-                      href="https://github.com/Raj-Vaghela/job-recruiter-assistant"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
-                    </a>
-                  </div>
-                  <p className="dark:text-white text-gray-900 text-sm mb-auto">RAG-powered with semantic matching, CV OCR, and SendGrid automation</p>
-                  <div className="flex flex-wrap gap-1.5 mt-3">
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">FastAPI</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Supabase</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">pgvector</span>
-                  </div>
-                </div>
-
-                <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
-                  <div className="flex items-start justify-between mb-2 gap-2">
-                    <h4 className="text-lg font-bold dark:text-white text-gray-800">Medical Screening Assistant</h4>
-                    <a
-                      href="https://github.com/Raj-Vaghela/NurseChat"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
-                    </a>
-                  </div>
-                  <p className="dark:text-white text-gray-900 text-sm mb-auto">AI triage chatbot with RAG+CAG pipeline and multimodal STT/TTS</p>
-                  <div className="flex flex-wrap gap-1.5 mt-3">
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Gemini</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">OpenAI</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Whisper</span>
-                  </div>
-                </div>
-
-                <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
-                  <div className="flex items-start justify-between mb-2 gap-2">
-                    <h4 className="text-lg font-bold dark:text-white text-gray-800">Crypto FM</h4>
-                    <div className="flex gap-1">
-                      <a
-                        href="https://encode2025.vercel.app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <ExternalLink className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
-                      </a>
-                      <a
-                        href="https://github.com/Raj-Vaghela/CryptoFM"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
-                      </a>
-                    </div>
-                  </div>
-                  <p className="dark:text-white text-gray-900 text-sm mb-auto">Agentic AI crypto radio with real-time market analysis</p>
-                  <div className="flex flex-wrap gap-1.5 mt-3">
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Node.js</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Gemini</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Google TTS</span>
-                  </div>
-                </div>
-
-                <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
-                  <div className="flex items-start justify-between mb-2 gap-2">
-                    <h4 className="text-lg font-bold dark:text-white text-gray-800">30-Day Readmission Prediction</h4>
-                    <a
-                      href="https://github.com/Raj-Vaghela/Patient-Readmission-Prediction-Google-Colab"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
-                    </a>
-                  </div>
-                  <p className="dark:text-white text-gray-900 text-sm mb-auto">ML pipeline on 100k+ dataset to flag readmissions</p>
-                  <div className="flex flex-wrap gap-1.5 mt-3">
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Python</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">scikit-learn</span>
-                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">pandas</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* View All Button */}
-              <div className="flex justify-center pt-4">
-                <button
-                  onClick={() => setIsProjectsModalOpen(true)}
-                  className="group px-6 py-3 rounded-xl bg-white/10 dark:bg-white/10 bg-white/25 backdrop-blur-none border border-white/20 dark:border-white/20 border-white/50 hover:bg-white/20 dark:hover:bg-white/20 hover:bg-white/35 transition-all flex items-center gap-2"
-                >
-                  <span className="dark:text-white text-gray-800 font-medium">View All Projects</span>
-                  <ExternalLink className="w-4 h-4 dark:text-white text-gray-800 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
+          className="relative lg:absolute z-5 lg:top-0 lg:bottom-0 lg:right-0 lg:left-[calc(8rem+280px)] flex-1 w-full lg:w-auto overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-hide"
+        >
+          <PortfolioContent onOpenProjectsModal={() => setIsProjectsModalOpen(true)} />
         </div>
 
+      </div>
+      {/* End of frosted glass container */}
+
+      {/* Mobile Drawer View */}
+      <div className="lg:hidden">
+        {/* Full screen background image */}
+        <div className="fixed inset-0 z-0 bg-zinc-900">
+          <ProfileImage
+            src={imageUrl}
+            alt="Raj Vaghela"
+            className="w-full h-full"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30 pointer-events-none" />
+        </div>
+
+        {/* Name & Info - Bottom Left like Reels */}
+        <div className="fixed bottom-6 left-4 z-10">
+          <h1 className="text-xl font-bold text-white drop-shadow-lg">Raj Vaghela</h1>
+          <p className="text-white/90 text-sm mt-0.5 drop-shadow-lg">AI Engineer</p>
+          <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mt-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite]" />
+            <span className="text-white text-[10px] font-medium">Available for work</span>
+          </div>
+        </div>
+
+        {/* Vertical Action Buttons - Right side like Reels/Shorts */}
+        <div className="fixed right-4 bottom-6 z-20 flex flex-col gap-3">
+          <a
+            href="https://linkedin.com/in/raj-vaghela"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col items-center gap-0.5 group"
+          >
+            <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
+              <Linkedin className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-white text-[9px] font-medium drop-shadow-lg">LinkedIn</span>
+          </a>
+
+          <button
+            onClick={() => setIsContactModalOpen(true)}
+            className="flex flex-col items-center gap-0.5 group"
+          >
+            <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
+              <Mail className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-white text-[9px] font-medium drop-shadow-lg">Contact</span>
+          </button>
+
+          <button
+            onClick={() => setIsChatModalOpen(true)}
+            className="flex flex-col items-center gap-0.5 group"
+          >
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:scale-105 transition-all active:scale-90 shadow-lg shadow-purple-500/30">
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+            </div>
+            <span className="text-white text-[9px] font-medium drop-shadow-lg">Chat AI</span>
+          </button>
+
+          <a
+            href="/cv.pdf"
+            download
+            className="flex flex-col items-center gap-0.5 group"
+          >
+            <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
+              <FileText className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-white text-[9px] font-medium drop-shadow-lg">Resume</span>
+          </a>
+        </div>
+
+        <MobileDrawer
+          isAnyModalOpen={isContactModalOpen || isProjectsModalOpen || isChatModalOpen}
+        >
+          <PortfolioContent onOpenProjectsModal={() => setIsProjectsModalOpen(true)} />
+        </MobileDrawer>
       </div>
       {/* End of frosted glass container */}
 

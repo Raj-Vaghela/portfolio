@@ -241,7 +241,7 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
             <button
               onClick={handleSendMessage}
               disabled={!inputValue.trim()}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/30 dark:bg-white/8 backdrop-blur-md border border-white/50 dark:border-white/15 hover:bg-white/40 dark:hover:bg-white/12 hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all flex items-center justify-center shadow-md"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/50 dark:bg-white/20 backdrop-blur-md border border-white/70 dark:border-white/35 hover:bg-white/60 dark:hover:bg-white/25 hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all flex items-center justify-center shadow-xl"
             >
               <Send className="w-4 h-4 text-white dark:text-white" />
             </button>

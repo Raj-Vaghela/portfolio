@@ -35,10 +35,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${instrumentSerif.variable} ${pressStart2P.variable} antialiased`} suppressHydrationWarning>
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          <Suspense fallback={null}>{children}</Suspense>
-          <Analytics />
+      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+        <Suspense fallback={null}>{children}</Suspense>
+        <Analytics />
         </ThemeProvider>
       </body>
     </html>
