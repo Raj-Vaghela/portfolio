@@ -125,12 +125,12 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-300"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300"
       onClick={onClose}
     >
-        {/* Balanced blurred backdrop */}
-        <div className="absolute inset-0 bg-black/40 dark:bg-black/35" style={{ backdropFilter: 'blur(20px) saturate(115%)' }} />
-      <div 
+      {/* Balanced blurred backdrop */}
+      <div className="absolute inset-0 bg-black/40 dark:bg-black/35" style={{ backdropFilter: 'blur(20px) saturate(115%)' }} />
+      <div
         className="absolute inset-0 opacity-30"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.8' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -139,8 +139,8 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
         }}
       />
 
-        <div
-          className="relative w-full max-w-2xl h-[600px] flex flex-col rounded-[2rem] dark:bg-[hsl(210,25%,8%)] bg-[hsl(200,50%,70%)] dark:bg-opacity-95 bg-opacity-85 border dark:border-white/5 border-white/60 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300 overflow-hidden"
+      <div
+        className="relative w-full max-w-2xl h-[600px] flex flex-col rounded-[2rem] dark:bg-[hsl(210,25%,8%)] bg-[hsl(200,50%,70%)] dark:bg-opacity-95 bg-opacity-85 border dark:border-white/5 border-white/60 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
         style={{
           backdropFilter: 'blur(40px) saturate(150%)',
@@ -149,9 +149,9 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
       >
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br dark:from-white/[0.08] from-white/25 dark:via-white/[0.02] via-white/10 to-transparent pointer-events-none rounded-[2rem]" />
-        
+
         {/* Grain texture overlay */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.18] dark:opacity-[0.1] pointer-events-none mix-blend-overlay rounded-[2rem]"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
@@ -159,42 +159,39 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
             backgroundSize: '140px 140px',
           }}
         />
-        
-        
+
+
         {/* Simple Close Button */}
         <div className="absolute top-4 right-4 z-30">
-            <button
-              onClick={onClose}
-              className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/8 border dark:border-white/10 border-white/40 flex items-center justify-center transition-all hover:scale-110 active:scale-90 backdrop-blur-md"
-            >
-              <X className="w-3.5 h-3.5 dark:text-white/60 text-slate-600" />
-            </button>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/8 border dark:border-white/10 border-white/40 flex items-center justify-center transition-all hover:scale-110 active:scale-90 backdrop-blur-md"
+          >
+            <X className="w-3.5 h-3.5 dark:text-white/60 text-slate-600" />
+          </button>
         </div>
 
         {/* Pure Conversation */}
-        <div 
+        <div
           ref={messagesContainerRef}
           className="flex-1 overflow-y-auto px-8 py-16 space-y-6 relative z-10 scrollbar-hide"
         >
           {messages.map((message, index) => (
             <div
               key={message.id}
-              className={`animate-in fade-in slide-in-from-bottom-2 duration-300 ${
-                message.sender === "user" ? "text-right" : ""
-              }`}
+              className={`animate-in fade-in slide-in-from-bottom-2 duration-300 ${message.sender === "user" ? "text-right" : ""
+                }`}
               style={{ animationDelay: `${index * 80}ms` }}
             >
               <div className={`inline-block max-w-[80%] ${message.sender === "user" ? "text-right" : ""}`}>
-                  <div className={`inline-block px-3 py-2 rounded-lg ${
-                    message.sender === "bot"
-                      ? "bg-white/5 dark:bg-white/2 border border-white/10 dark:border-white/5"
-                      : "bg-white/15 dark:bg-white/5 border border-white/20 dark:border-white/8"
+                <div className={`inline-block px-3 py-2 rounded-lg ${message.sender === "bot"
+                  ? "bg-white/5 dark:bg-white/2 border border-white/10 dark:border-white/5"
+                  : "bg-white/15 dark:bg-white/5 border border-white/20 dark:border-white/8"
                   }`}>
-                  <p className={`text-sm leading-relaxed whitespace-pre-line ${
-                    message.sender === "bot"
-                      ? "dark:text-white/85 text-black/85"
-                      : "dark:text-white/95 text-black/95"
-                  }`}>
+                  <p className={`text-sm leading-relaxed whitespace-pre-line ${message.sender === "bot"
+                    ? "dark:text-white/85 text-black/85"
+                    : "dark:text-white/95 text-black/95"
+                    }`}>
                     {message.text}
                   </p>
                 </div>
@@ -214,7 +211,7 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
             </div>
           )}
           <div ref={messagesEndRef} />
-          
+
           {/* Scroll Indicator */}
           {showScrollIndicator && (
             <div className="absolute bottom-24 right-6 z-20 animate-in fade-in duration-200">

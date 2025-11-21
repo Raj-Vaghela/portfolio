@@ -96,7 +96,7 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
       const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0
       setScrollProgress(progress)
       setIsScrolling(true)
-      
+
       clearTimeout(scrollTimeout)
       scrollTimeout = setTimeout(() => {
         setIsScrolling(false)
@@ -114,34 +114,36 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-200"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div
         ref={scrollContainerRef}
-        className="relative w-full max-w-4xl max-h-[90vh] sm:max-h-[85vh] overflow-y-scroll scrollbar-hide rounded-2xl sm:rounded-3xl dark:bg-[hsl(210,25%,18%)] bg-[hsl(200,50%,70%)] dark:bg-opacity-95 bg-opacity-95 backdrop-blur-md border dark:border-white/30 border-white/40 shadow-2xl animate-in zoom-in-95 duration-300 before:absolute before:inset-0 before:rounded-2xl sm:before:rounded-3xl before:bg-gradient-to-br dark:before:from-white/10 before:from-white/15 before:via-transparent before:to-transparent before:pointer-events-none"
+        className="relative w-full h-full sm:h-auto sm:max-h-[85vh] max-w-4xl overflow-y-scroll scrollbar-hide bg-[hsl(200,50%,95%)] dark:bg-[hsl(210,25%,18%)] sm:rounded-3xl dark:bg-opacity-95 bg-opacity-95 backdrop-blur-md border-none sm:border dark:border-white/30 border-white/40 shadow-2xl animate-in slide-in-from-bottom-10 sm:zoom-in-95 duration-300"
         onClick={(e) => e.stopPropagation()}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-6 bg-gradient-to-b dark:from-[hsl(210,25%,18%)] from-[hsl(200,50%,70%)] dark:via-[hsl(210,25%,18%)]/90 via-[hsl(200,50%,70%)]/90 to-transparent pb-8">
-          <h2 className="text-lg sm:text-2xl font-bold dark:text-white text-black">Featured Projects</h2>
-            <button
+        {/* Header */}
+        <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-6 bg-gradient-to-b from-[hsl(200,50%,95%)] dark:from-[hsl(210,25%,18%)] via-[hsl(200,50%,95%)]/95 dark:via-[hsl(210,25%,18%)]/95 to-transparent pb-6">
+          <h2 className="text-xl sm:text-2xl font-bold dark:text-white text-black">Featured Projects</h2>
+          <button
             onClick={onClose}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/5 backdrop-blur border dark:border-white/20 border-white/30 flex items-center justify-center hover:bg-white/10 transition-colors"
+            className="w-10 h-10 sm:w-10 sm:h-10 rounded-full sm:rounded-xl bg-black/5 dark:bg-white/10 backdrop-blur border border-black/10 dark:border-white/20 flex items-center justify-center hover:bg-black/10 dark:hover:bg-white/20 transition-colors"
           >
-            <X className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white text-black" />
+            <X className="w-5 h-5 dark:text-white text-black" />
           </button>
         </div>
 
-        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+        {/* Content */}
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 pb-24 sm:pb-6">
           {projects.map((project, index) => (
             <div
               key={index}
-              className="rounded-xl sm:rounded-2xl bg-white/5 backdrop-blur border dark:border-white/10 border-white/30 p-4 sm:p-6 hover:bg-white/10 transition-colors"
+              className="rounded-2xl sm:rounded-2xl bg-white/50 dark:bg-white/5 backdrop-blur border border-white/40 dark:border-white/10 p-5 sm:p-6 hover:bg-white/60 dark:hover:bg-white/10 transition-colors shadow-sm"
             >
-              <div className="flex items-start justify-between gap-3 mb-1.5 sm:mb-2">
-                <h3 className="text-base sm:text-xl font-bold dark:text-white text-black">
+              <div className="flex items-start justify-between gap-3 mb-3 sm:mb-2">
+                <h3 className="text-lg sm:text-xl font-bold dark:text-white text-black leading-tight">
                   {project.title}
                 </h3>
                 <div className="flex items-center gap-2 flex-shrink-0">
@@ -150,41 +152,42 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-1.5 sm:p-2 rounded-lg bg-white/5 hover:bg-white/10 border dark:border-white/20 border-white/30 transition-all group"
+                      className="p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/20 transition-all group"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white/50 text-slate-600 group-hover:dark:text-emerald-400 group-hover:text-emerald-600 transition-colors" />
+                      <ExternalLink className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
                     </a>
                   )}
                   <a
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-1.5 sm:p-2 rounded-lg bg-white/5 hover:bg-white/10 border dark:border-white/20 border-white/30 transition-all group"
+                    className="p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/20 transition-all group"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <Github className="w-4 h-4 sm:w-5 sm:h-5 dark:text-white/50 text-slate-600 group-hover:dark:text-emerald-400 group-hover:text-emerald-600 transition-colors" />
+                    <Github className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
                   </a>
                 </div>
               </div>
-              <p className="dark:text-white/70 text-gray-900 text-xs sm:text-sm mb-3 sm:mb-4">{project.description}</p>
 
-              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+              <p className="dark:text-white/80 text-slate-700 text-sm sm:text-sm mb-4 leading-relaxed">{project.description}</p>
+
+              <div className="flex flex-wrap gap-2 mb-4">
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/10 dark:text-white text-black text-xs border dark:border-white/20 border-white/30"
+                    className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/10 dark:text-white text-slate-800 text-xs font-medium border border-black/5 dark:border-white/20"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
 
-              <div className="space-y-1.5 sm:space-y-2">
+              <div className="space-y-2 bg-black/5 dark:bg-black/20 rounded-xl p-3 sm:p-0 sm:bg-transparent sm:dark:bg-transparent sm:rounded-none sm:p-0">
                 {project.details.map((detail, idx) => (
-                  <div key={idx} className="flex gap-2">
-                    <span className="dark:text-white/50 text-slate-500 text-xs sm:text-sm mt-0.5 sm:mt-1">•</span>
-                    <p className="dark:text-white/80 text-gray-900 text-xs sm:text-sm leading-relaxed">{detail}</p>
+                  <div key={idx} className="flex gap-2.5 items-start">
+                    <span className="dark:text-emerald-400/70 text-emerald-600/70 text-xs sm:text-sm mt-1.5">•</span>
+                    <p className="dark:text-white/70 text-slate-600 text-sm leading-relaxed">{detail}</p>
                   </div>
                 ))}
               </div>
@@ -193,36 +196,36 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
         </div>
 
         {/* Circular Progress Ring - Sticky at Bottom Right */}
-        <div className="sticky bottom-0 h-0 pointer-events-none">
-          <div className="absolute bottom-4 right-4 w-8 h-8 group pointer-events-auto opacity-40 hover:opacity-70 transition-opacity duration-300">
+        <div className="sticky bottom-6 right-6 pointer-events-none flex justify-end px-6 pb-6">
+          <div className="relative w-10 h-10 group pointer-events-auto opacity-60 hover:opacity-100 transition-opacity duration-300 bg-white/10 dark:bg-black/40 backdrop-blur-md rounded-full shadow-lg">
             {/* Background Circle */}
-            <svg className="transform -rotate-90 w-8 h-8">
+            <svg className="transform -rotate-90 w-10 h-10">
               <circle
-                cx="16"
-                cy="16"
-                r="14"
+                cx="20"
+                cy="20"
+                r="16"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="3"
                 fill="none"
                 className="dark:text-white/10 text-slate-400/30"
               />
               {/* Progress Circle */}
               <circle
-                cx="16"
-                cy="16"
-                r="14"
+                cx="20"
+                cy="20"
+                r="16"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="3"
                 fill="none"
-                strokeDasharray={`${2 * Math.PI * 14}`}
-                strokeDashoffset={`${2 * Math.PI * 14 * (1 - scrollProgress / 100)}`}
-                className="dark:text-white/60 text-slate-700 transition-all duration-300"
+                strokeDasharray={`${2 * Math.PI * 16}`}
+                strokeDashoffset={`${2 * Math.PI * 16 * (1 - scrollProgress / 100)}`}
+                className="dark:text-emerald-400 text-emerald-600 transition-all duration-300"
                 strokeLinecap="round"
               />
             </svg>
             {/* Center Text */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className={`text-[8px] font-medium dark:text-white/70 text-slate-700 transition-opacity duration-200 ${isScrolling ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+              <span className={`text-[10px] font-bold dark:text-white text-slate-800 transition-opacity duration-200 ${isScrolling ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                 {Math.round(scrollProgress)}
               </span>
             </div>
