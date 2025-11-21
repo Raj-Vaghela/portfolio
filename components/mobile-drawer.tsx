@@ -43,7 +43,7 @@ export function MobileDrawer({ children, isAnyModalOpen = false }: MobileDrawerP
             <Drawer.Root shouldScaleBackground open={isOpen} onOpenChange={setIsOpen}>
                 {/* Scroll indicator - only show when drawer and modals are closed */}
                 {!isOpen && !isAnyModalOpen && (
-                    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-20 h-20 flex items-center justify-center z-[100] pointer-events-none">
+                    <div className="fixed bottom-2 left-1/2 -translate-x-1/2 w-12 h-12 flex items-center justify-center z-[100] pointer-events-none">
                         <ScrollIndicator />
                     </div>
                 )}

@@ -20,6 +20,7 @@ export default function Page() {
   const [isScrolling, setIsScrolling] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [imageUrl, setImageUrl] = useState<string>("")
+  const [resumeUrl, setResumeUrl] = useState<string>("")
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const sliderRef = useRef<HTMLDivElement>(null)
 
@@ -38,6 +39,7 @@ export default function Page() {
     // Support both old and new env variable names for backward compatibility
     const url = process.env.NEXT_PUBLIC_IMAGE_URL || process.env.NEXT_PUBLIC_GOOGLE_DRIVE_IMAGE_URL || ""
     setImageUrl(url)
+    setResumeUrl(process.env.NEXT_PUBLIC_RESUME_URL || "/cv.pdf")
   }, [])
 
   useEffect(() => {
@@ -153,7 +155,7 @@ export default function Page() {
   }, [isDragging])
 
   return (
-    <main className="relative h-screen flex items-center justify-start overflow-hidden p-8 lg:p-12 xl:p-16">
+    <main className="relative h-[100dvh] w-full flex items-center justify-start overflow-hidden overscroll-none p-0 lg:p-12 xl:p-16">
       <GradientBackground />
       <div className="absolute inset-0 -z-10 bg-black/20 dark:bg-black/20" />
 
@@ -222,8 +224,9 @@ export default function Page() {
             <div className="flex items-center gap-2 mt-2">
               <ChatButton onClick={() => setIsChatModalOpen(true)} />
               <a
-                href="/cv.pdf"
-                download
+                href={resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="h-8 px-3 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center gap-1.5 hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
               >
                 <FileText className="w-3.5 h-3.5 text-white dark:text-white" />
@@ -379,8 +382,9 @@ export default function Page() {
             </button>
 
             <a
-              href="/cv.pdf"
-              download
+              href={resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex flex-col items-center gap-0.5 group"
             >
               <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
