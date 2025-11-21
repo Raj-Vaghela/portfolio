@@ -326,62 +326,69 @@ export default function Page() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30 pointer-events-none" />
         </div>
 
-        {/* Name & Info - Bottom Left like Reels */}
-        <div className="fixed bottom-6 left-4 z-10">
-          <h1 className="text-xl font-bold text-white drop-shadow-lg">Raj Vaghela</h1>
-          <p className="text-white/90 text-sm mt-0.5 drop-shadow-lg">AI Engineer</p>
-          <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mt-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite]" />
-            <span className="text-white text-[10px] font-medium">Available for work</span>
+        {/* Mobile Layout - Reels/Shorts Style */}
+        <div className="absolute inset-0 z-30 pointer-events-none">
+          {/* Name & Info - Bottom Left */}
+          <div className="absolute bottom-20 left-4 flex flex-col items-start gap-2 pointer-events-auto">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-md border border-white/10">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-xs font-medium text-white/90">Available for work</span>
+            </div>
+            <h1 className="text-4xl font-bold text-white tracking-tight drop-shadow-lg">
+              Raj Vaghela
+            </h1>
+            <p className="text-white/80 text-sm font-medium drop-shadow-md max-w-[280px] leading-relaxed">
+              Full Stack Developer building AI-powered applications
+            </p>
           </div>
-        </div>
 
-        {/* Vertical Action Buttons - Right side like Reels/Shorts */}
-        <div className="fixed right-4 bottom-6 z-20 flex flex-col gap-3">
-          <a
-            href="https://linkedin.com/in/raj-vaghela"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-col items-center gap-0.5 group"
-          >
-            <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
-              <Linkedin className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-white text-[9px] font-medium drop-shadow-lg">LinkedIn</span>
-          </a>
+          {/* Action Buttons - Bottom Right Vertical Stack */}
+          <div className="absolute bottom-20 right-4 flex flex-col gap-4 pointer-events-auto items-center">
+            <a
+              href="https://linkedin.com/in/raj-vaghela"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center gap-0.5 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
+                <Linkedin className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-white text-[9px] font-medium drop-shadow-lg">LinkedIn</span>
+            </a>
 
-          <button
-            onClick={() => setIsContactModalOpen(true)}
-            className="flex flex-col items-center gap-0.5 group"
-          >
-            <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
-              <Mail className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-white text-[9px] font-medium drop-shadow-lg">Contact</span>
-          </button>
+            <button
+              onClick={() => setIsContactModalOpen(true)}
+              className="flex flex-col items-center gap-0.5 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
+                <Mail className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-white text-[9px] font-medium drop-shadow-lg">Contact</span>
+            </button>
 
-          <button
-            onClick={() => setIsChatModalOpen(true)}
-            className="flex flex-col items-center gap-0.5 group"
-          >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:scale-105 transition-all active:scale-90 shadow-lg shadow-purple-500/30">
-              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-              </svg>
-            </div>
-            <span className="text-white text-[9px] font-medium drop-shadow-lg">Chat AI</span>
-          </button>
+            <button
+              onClick={() => setIsChatModalOpen(true)}
+              className="flex flex-col items-center gap-0.5 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:scale-105 transition-all active:scale-90 shadow-lg shadow-purple-500/30">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                </svg>
+              </div>
+              <span className="text-white text-[9px] font-medium drop-shadow-lg">Chat AI</span>
+            </button>
 
-          <a
-            href="/cv.pdf"
-            download
-            className="flex flex-col items-center gap-0.5 group"
-          >
-            <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
-              <FileText className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-white text-[9px] font-medium drop-shadow-lg">Resume</span>
-          </a>
+            <a
+              href="/cv.pdf"
+              download
+              className="flex flex-col items-center gap-0.5 group"
+            >
+              <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
+                <FileText className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-white text-[9px] font-medium drop-shadow-lg">Resume</span>
+            </a>
+          </div>
         </div>
 
         <MobileDrawer
@@ -390,7 +397,6 @@ export default function Page() {
           <PortfolioContent onOpenProjectsModal={() => setIsProjectsModalOpen(true)} />
         </MobileDrawer>
       </div>
-      {/* End of frosted glass container */}
 
       <ContactModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} />
       <ProjectsModal isOpen={isProjectsModalOpen} onClose={() => setIsProjectsModalOpen(false)} />

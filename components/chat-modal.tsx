@@ -125,7 +125,7 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-in fade-in duration-300"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-300"
       onClick={onClose}
     >
       {/* Balanced blurred backdrop */}

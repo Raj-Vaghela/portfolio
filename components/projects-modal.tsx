@@ -1,7 +1,10 @@
+
 "use client"
 
 import { X, Github, ExternalLink } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
+import { Drawer } from "vaul"
+import { useIsMobile } from "@/hooks/use-mobile"
 
 interface Project {
   title: string
@@ -72,9 +75,10 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [isScrolling, setIsScrolling] = useState(false)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && !isMobile) { // Only control body overflow for desktop modal
       document.body.style.overflow = "hidden"
     } else {
       document.body.style.overflow = "unset"
@@ -82,9 +86,11 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
     return () => {
       document.body.style.overflow = "unset"
     }
-  }, [isOpen])
+  }, [isOpen, isMobile])
 
   useEffect(() => {
+    if (isMobile) return; // Only apply scroll progress for desktop modal
+
     const container = scrollContainerRef.current
     if (!container) return
 
@@ -108,13 +114,100 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
       container.removeEventListener('scroll', handleScroll)
       clearTimeout(scrollTimeout)
     }
-  }, [isOpen])
+  }, [isOpen, isMobile])
 
   if (!isOpen) return null
 
+  if (isMobile) {
+    return (
+      <Drawer.Root shouldScaleBackground open={isOpen} onOpenChange={(open) => !open && onClose()}>
+        <Drawer.Portal>
+          <Drawer.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]" onClick={onClose} />
+          <Drawer.Content className="bg-black/20 dark:bg-black/20 backdrop-blur-xl border-t border-white/10 flex flex-col rounded-t-[2rem] h-[96%] mt-24 fixed bottom-0 left-0 right-0 z-[110] outline-none">
+            <div className="p-4 bg-transparent rounded-t-[2rem] flex-1 flex flex-col min-h-0">
+              {/* Handle / Scroll Indicator */}
+              <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-white/30 mb-8" />
+
+              <div className="max-w-md mx-auto w-full flex-1 overflow-y-auto pb-20 scrollbar-hide">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold dark:text-white text-black">Featured Projects</h2>
+                  <button
+                    onClick={onClose}
+                    className="w-10 h-10 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors"
+                  >
+                    <X className="w-5 h-5 dark:text-white text-black" />
+                  </button>
+                </div>
+
+                <div className="space-y-6">
+                  {projects.map((project, index) => (
+                    <div
+                      key={index}
+                      className="rounded-2xl bg-white/5 backdrop-blur border border-white/10 p-6 hover:bg-white/10 transition-colors shadow-sm"
+                    >
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <h3 className="text-xl font-bold dark:text-white text-black leading-tight">
+                          {project.title}
+                        </h3>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          {project.liveUrl && (
+                            <a
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 transition-all group"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <ExternalLink className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-400 transition-colors" />
+                            </a>
+                          )}
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 transition-all group"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <Github className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-400 transition-colors" />
+                          </a>
+                        </div>
+                      </div>
+
+                      <p className="dark:text-white/80 text-slate-700 text-sm mb-4 leading-relaxed">{project.description}</p>
+
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {project.technologies.map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-3 py-1 rounded-full bg-white/10 dark:text-white text-slate-800 text-xs font-medium border border-white/20"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="space-y-2 bg-black/20 rounded-xl p-3">
+                        {project.details.map((detail, idx) => (
+                          <div key={idx} className="flex gap-2.5 items-start">
+                            <span className="dark:text-emerald-400/70 text-emerald-600/70 text-xs mt-1.5">•</span>
+                            <p className="dark:text-white/70 text-slate-600 text-sm leading-relaxed">{detail}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </Drawer.Content>
+        </Drawer.Portal>
+      </Drawer.Root>
+    )
+  }
+
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
@@ -217,15 +310,15 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                 stroke="currentColor"
                 strokeWidth="3"
                 fill="none"
-                strokeDasharray={`${2 * Math.PI * 16}`}
-                strokeDashoffset={`${2 * Math.PI * 16 * (1 - scrollProgress / 100)}`}
+                strokeDasharray={`${2 * Math.PI * 16} `}
+                strokeDashoffset={`${2 * Math.PI * 16 * (1 - scrollProgress / 100)} `}
                 className="dark:text-emerald-400 text-emerald-600 transition-all duration-300"
                 strokeLinecap="round"
               />
             </svg>
             {/* Center Text */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className={`text-[10px] font-bold dark:text-white text-slate-800 transition-opacity duration-200 ${isScrolling ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+              <span className={`text - [10px] font - bold dark: text - white text - slate - 800 transition - opacity duration - 200 ${isScrolling ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} `}>
                 {Math.round(scrollProgress)}
               </span>
             </div>
