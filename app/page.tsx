@@ -346,7 +346,7 @@ export default function Page() {
           </div>
 
           {/* Action Buttons - Bottom Right Vertical Stack */}
-          <div className="absolute bottom-28 right-4 flex flex-col gap-4 pointer-events-auto items-center">
+          <div className="absolute bottom-28 right-4 flex flex-col gap-5 pointer-events-auto items-center">
             <a
               href="https://linkedin.com/in/raj-vaghela"
               target="_blank"

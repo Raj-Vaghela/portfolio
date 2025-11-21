@@ -184,7 +184,7 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
               style={{ animationDelay: `${index * 80}ms` }}
             >
               <div className={`inline-block max-w-[80%] ${message.sender === "user" ? "text-right" : ""}`}>
-                <div className={`inline-block px-3 py-2 rounded-lg ${message.sender === "bot"
+                <div className={`inline-block px-4 py-3 rounded-xl ${message.sender === "bot"
                   ? "bg-white/5 dark:bg-white/2 border border-white/10 dark:border-white/5"
                   : "bg-white/15 dark:bg-white/5 border border-white/20 dark:border-white/8"
                   }`}>
