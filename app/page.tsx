@@ -329,7 +329,7 @@ export default function Page() {
         {/* Mobile Layout - Reels/Shorts Style */}
         <div className="absolute inset-0 z-30 pointer-events-none">
           {/* Name & Info - Bottom Left */}
-          <div className="absolute bottom-20 left-4 flex flex-col items-start gap-2 pointer-events-auto">
+          <div className="absolute bottom-12 left-4 flex flex-col items-start gap-2 pointer-events-auto">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-md border border-white/10">
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span className="text-xs font-medium text-white/90">Available for work</span>
@@ -343,7 +343,7 @@ export default function Page() {
           </div>
 
           {/* Action Buttons - Bottom Right Vertical Stack */}
-          <div className="absolute bottom-20 right-4 flex flex-col gap-4 pointer-events-auto items-center">
+          <div className="absolute bottom-12 right-4 flex flex-col gap-4 pointer-events-auto items-center">
             <a
               href="https://linkedin.com/in/raj-vaghela"
               target="_blank"
