@@ -1,7 +1,7 @@
 
 "use client"
 
-import { X, Github, ExternalLink } from "lucide-react"
+import { X, Github, ExternalLink, Home } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Drawer } from "vaul"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -130,12 +130,12 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
 
               <div className="max-w-md mx-auto w-full flex-1 overflow-y-auto pb-20 scrollbar-hide">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold dark:text-white text-black">Featured Projects</h2>
+                  <Drawer.Title className="text-2xl font-bold dark:text-white text-black">Featured Projects</Drawer.Title>
                   <button
                     onClick={onClose}
                     className="w-10 h-10 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center hover:bg-white/20 transition-colors"
                   >
-                    <X className="w-5 h-5 dark:text-white text-black" />
+                    <Home className="w-5 h-5 dark:text-white text-black" />
                   </button>
                 </div>
 

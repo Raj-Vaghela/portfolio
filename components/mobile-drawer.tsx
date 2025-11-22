@@ -31,6 +31,23 @@ export function MobileDrawer({ children, isAnyModalOpen = false }: MobileDrawerP
         }
     }
 
+    const onMouseDown = (e: React.MouseEvent) => {
+        touchStart.current = e.clientY
+    }
+
+    const onMouseUp = (e: React.MouseEvent) => {
+        if (!touchStart.current) return
+
+        const touchEndY = e.clientY
+        const distance = touchStart.current - touchEndY
+        const isUpSwipe = distance > minSwipeDistance
+
+        if (isUpSwipe) {
+            setIsOpen(true)
+        }
+        touchStart.current = null
+    }
+
     return (
         <>
             {/* Full-screen swipe area */}
@@ -38,6 +55,8 @@ export function MobileDrawer({ children, isAnyModalOpen = false }: MobileDrawerP
                 className="fixed inset-0 z-0"
                 onTouchStart={onTouchStart}
                 onTouchEnd={onTouchEnd}
+                onMouseDown={onMouseDown}
+                onMouseUp={onMouseUp}
             />
 
             <Drawer.Root shouldScaleBackground open={isOpen} onOpenChange={setIsOpen}>
@@ -56,6 +75,7 @@ export function MobileDrawer({ children, isAnyModalOpen = false }: MobileDrawerP
                     <Drawer.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
                     <Drawer.Content className="bg-black/20 dark:bg-black/20 backdrop-blur-xl border-t border-white/10 flex flex-col rounded-t-[2rem] h-[96%] mt-24 fixed bottom-0 left-0 right-0 z-50 outline-none">
                         <div className="p-4 bg-transparent rounded-t-[2rem] flex-1 flex flex-col min-h-0">
+                            <Drawer.Title className="sr-only">Mobile Menu</Drawer.Title>
                             <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-white/30 mb-8" />
                             <div className="max-w-md mx-auto w-full flex-1 overflow-y-auto pb-20">
                                 {children}
