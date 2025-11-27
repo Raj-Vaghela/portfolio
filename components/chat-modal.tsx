@@ -128,50 +128,24 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
       className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-300"
       onClick={onClose}
     >
-      {/* Balanced blurred backdrop */}
-      <div className="absolute inset-0 bg-black/40 dark:bg-black/35" style={{ backdropFilter: 'blur(20px) saturate(115%)' }} />
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.8' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '180px 180px',
-        }}
-      />
+      {/* Solid backdrop */}
+      <div className="absolute inset-0 bg-black/80" />
 
       <div
-        className="relative w-full max-w-2xl h-[600px] flex flex-col rounded-[2rem] dark:bg-[hsl(210,25%,8%)] bg-[hsl(200,50%,70%)] dark:bg-opacity-95 bg-opacity-85 border dark:border-white/5 border-white/60 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300 overflow-hidden"
+        className="relative w-full max-w-2xl h-[600px] flex flex-col dark:bg-black bg-white border-[6px] border-black dark:border-white shadow-[12px_12px_0_rgba(0,0,0,1)] dark:shadow-[12px_12px_0_rgba(255,255,255,1)] animate-in zoom-in-95 duration-300 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          backdropFilter: 'blur(40px) saturate(150%)',
-          boxShadow: '0 30px 120px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12) inset',
-        }}
       >
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br dark:from-white/[0.08] from-white/25 dark:via-white/[0.02] via-white/10 to-transparent pointer-events-none rounded-[2rem]" />
-
-        {/* Grain texture overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.18] dark:opacity-[0.1] pointer-events-none mix-blend-overlay rounded-[2rem]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-            backgroundRepeat: 'repeat',
-            backgroundSize: '140px 140px',
-          }}
-        />
-
-
-        {/* Simple Close Button */}
+        {/* Close Button */}
         <div className="absolute top-4 right-4 z-30">
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/8 border dark:border-white/10 border-white/40 flex items-center justify-center transition-all hover:scale-110 active:scale-90 backdrop-blur-md"
+            className="w-10 h-10 bg-brutalist-yellow dark:bg-brutalist-cyan border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all"
           >
-            <X className="w-3.5 h-3.5 dark:text-white/60 text-slate-600" />
+            <X className="w-5 h-5 text-black dark:text-white" />
           </button>
         </div>
 
-        {/* Pure Conversation */}
+        {/* Conversation */}
         <div
           ref={messagesContainerRef}
           className="flex-1 overflow-y-auto px-8 py-16 space-y-6 relative z-10 scrollbar-hide"
@@ -184,13 +158,13 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
               style={{ animationDelay: `${index * 80}ms` }}
             >
               <div className={`inline-block max-w-[80%] ${message.sender === "user" ? "text-right" : ""}`}>
-                <div className={`inline-block px-4 py-3 rounded-xl ${message.sender === "bot"
-                  ? "bg-white/5 dark:bg-white/2 border border-white/10 dark:border-white/5"
-                  : "bg-white/15 dark:bg-white/5 border border-white/20 dark:border-white/8"
+                <div className={`inline-block px-4 py-3 border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] ${message.sender === "bot"
+                  ? "dark:bg-white/5 bg-black/5"
+                  : "bg-brutalist-purple"
                   }`}>
-                  <p className={`text-sm leading-relaxed whitespace-pre-line ${message.sender === "bot"
-                    ? "dark:text-white/85 text-black/85"
-                    : "dark:text-white/95 text-black/95"
+                  <p className={`text-sm leading-relaxed whitespace-pre-line font-medium ${message.sender === "bot"
+                    ? "dark:text-white text-black"
+                    : "text-white"
                     }`}>
                     {message.text}
                   </p>
@@ -203,9 +177,9 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
             <div className="animate-in fade-in duration-200">
               <div className="inline-block">
                 <div className="flex gap-1">
-                  <div className="w-1.5 h-1.5 rounded-full dark:bg-white/40 bg-black/40 animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <div className="w-1.5 h-1.5 rounded-full dark:bg-white/40 bg-black/40 animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <div className="w-1.5 h-1.5 rounded-full dark:bg-white/40 bg-black/40 animate-bounce" style={{ animationDelay: "300ms" }} />
+                  <div className="w-2 h-2 bg-black dark:bg-white animate-bounce" style={{ animationDelay: "0ms" }} />
+                  <div className="w-2 h-2 bg-black dark:bg-white animate-bounce" style={{ animationDelay: "150ms" }} />
+                  <div className="w-2 h-2 bg-black dark:bg-white animate-bounce" style={{ animationDelay: "300ms" }} />
                 </div>
               </div>
             </div>
@@ -215,14 +189,14 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
           {/* Scroll Indicator */}
           {showScrollIndicator && (
             <div className="absolute bottom-24 right-6 z-20 animate-in fade-in duration-200">
-              <div className="w-10 h-10 rounded-full bg-white/15 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 flex items-center justify-center shadow-lg hover:scale-105 transition-transform cursor-pointer">
-                <ChevronDown className="w-5 h-5 text-white dark:text-white opacity-90" />
+              <div className="w-12 h-12 bg-brutalist-cyan dark:bg-brutalist-yellow border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all cursor-pointer">
+                <ChevronDown className="w-6 h-6 text-black dark:text-white" />
               </div>
             </div>
           )}
         </div>
 
-        {/* Floating Pill Input */}
+        {/* Input */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 w-full max-w-md px-4">
           <div className="relative">
             <input
@@ -232,15 +206,15 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Type your message..."
-              className="w-full pl-5 pr-14 py-4 rounded-full bg-white/20 dark:bg-white/5 backdrop-blur-xl border border-white/40 dark:border-white/10 dark:text-white text-black placeholder:dark:text-white/40 placeholder:text-slate-600 focus:outline-none focus:border-white/50 dark:focus:border-white/20 transition-all shadow-lg hover:shadow-xl"
-              style={{ fontSize: '14px' }}
+              className="w-full pl-5 pr-16 py-4 dark:bg-white/5 bg-black/5 border-[3px] border-black dark:border-white shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(255,255,255,1)] dark:text-white text-black placeholder:dark:text-white/50 placeholder:text-black/50 focus:outline-none focus:translate-x-[2px] focus:translate-y-[2px] focus:shadow-[2px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[2px_2px_0_rgba(255,255,255,1)] transition-all font-medium"
+              style={{ fontSize: '16px' }}
             />
             <button
               onClick={handleSendMessage}
               disabled={!inputValue.trim()}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/50 dark:bg-white/20 backdrop-blur-md border border-white/70 dark:border-white/35 hover:bg-white/60 dark:hover:bg-white/25 hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all flex items-center justify-center shadow-xl"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-brutalist-magenta border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:shadow-[3px_3px_0_rgba(0,0,0,1)] dark:disabled:hover:shadow-[3px_3px_0_rgba(255,255,255,1)] transition-all flex items-center justify-center"
             >
-              <Send className="w-4 h-4 text-white dark:text-white" />
+              <Send className="w-5 h-5 text-white" />
             </button>
           </div>
         </div>

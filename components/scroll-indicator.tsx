@@ -3,36 +3,36 @@
 export function ScrollIndicator() {
   return (
     <div className="relative w-12 h-12 flex items-end justify-center pb-1">
-      {/* Chevron Stack - smaller and at bottom */}
+      {/* Chevron Stack */}
       <div className="flex flex-col gap-0">
         {/* First chevron */}
         <svg
-          className="w-4 h-4 text-white animate-fade-slide-1"
+          className="w-5 h-5 text-white dark:text-white animate-fade-slide-1"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 15l7-7 7 7" />
+          <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={4} d="M5 15l7-7 7 7" />
         </svg>
 
         {/* Second chevron */}
         <svg
-          className="w-4 h-4 text-white animate-fade-slide-2 -mt-2"
+          className="w-5 h-5 text-white dark:text-white animate-fade-slide-2 -mt-2"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 15l7-7 7 7" />
+          <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={4} d="M5 15l7-7 7 7" />
         </svg>
 
         {/* Third chevron */}
         <svg
-          className="w-4 h-4 text-white animate-fade-slide-3 -mt-2"
+          className="w-5 h-5 text-white dark:text-white animate-fade-slide-3 -mt-2"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 15l7-7 7 7" />
+          <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={4} d="M5 15l7-7 7 7" />
         </svg>
       </div>
 

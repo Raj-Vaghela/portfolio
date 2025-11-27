@@ -50,22 +50,19 @@ export function ProfileImage({ src, alt, className, priority = false }: ProfileI
 
   return (
     <div className={cn("relative overflow-hidden bg-zinc-100 dark:bg-zinc-800", className)}>
-      {/* Placeholder / Fallback - Modern mesh gradient with shimmer */}
+      {/* Placeholder / Fallback - Flat brutalist colors */}
       {(isLoading || hasError) && (
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 z-10">
-          {/* Animated mesh gradient overlay */}
-          <div className="absolute inset-0 opacity-50">
-            <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-blob" />
-            <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000" />
-            <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000" />
+        <div className="absolute inset-0 bg-brutalist-yellow dark:bg-brutalist-cyan z-10">
+          {/* Flat geometric shapes - no blur */}
+          <div className="absolute inset-0">
+            <div className="absolute top-10 left-10 w-32 h-32 bg-brutalist-magenta dark:bg-brutalist-yellow opacity-40" />
+            <div className="absolute top-1/4 right-20 w-24 h-24 bg-brutalist-cyan dark:bg-brutalist-magenta opacity-40" />
+            <div className="absolute bottom-20 left-1/4 w-40 h-40 bg-brutalist-green dark:bg-brutalist-orange opacity-40" />
           </div>
-
-          {/* Shimmer effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
 
           {/* Initials */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-white font-bold text-4xl md:text-6xl opacity-90 font-[family-name:var(--font-instrument-serif)] drop-shadow-2xl">
+            <span className="text-black dark:text-white font-black text-6xl md:text-8xl font-[family-name:var(--font-instrument-serif)]">
               RV
             </span>
           </div>

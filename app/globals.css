@@ -74,6 +74,41 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+/* Neo-Brutalism Design System */
+:root {
+  /* Brutalist Colors */
+  --brutalist-yellow: #FFEB3B;
+  --brutalist-cyan: #00BCD4;
+  --brutalist-magenta: #E91E63;
+  --brutalist-green: #4CAF50;
+  --brutalist-orange: #FF9800;
+  --brutalist-purple: #9C27B0;
+  --brutalist-black: #000000;
+  --brutalist-white: #FFFFFF;
+
+  /* Brutalist Borders */
+  --brutalist-border-thin: 3px solid var(--brutalist-black);
+  --brutalist-border: 4px solid var(--brutalist-black);
+  --brutalist-border-thick: 6px solid var(--brutalist-black);
+
+  /* Brutalist Shadows */
+  --brutalist-shadow-sm: 4px 4px 0 var(--brutalist-black);
+  --brutalist-shadow: 6px 6px 0 var(--brutalist-black);
+  --brutalist-shadow-lg: 8px 8px 0 var(--brutalist-black);
+  --brutalist-shadow-xl: 12px 12px 0 var(--brutalist-black);
+}
+
+.dark {
+  /* Dark mode uses same vibrant colors */
+  --brutalist-border-thin: 3px solid var(--brutalist-white);
+  --brutalist-border: 4px solid var(--brutalist-white);
+  --brutalist-border-thick: 6px solid var(--brutalist-white);
+  --brutalist-shadow-sm: 4px 4px 0 var(--brutalist-white);
+  --brutalist-shadow: 6px 6px 0 var(--brutalist-white);
+  --brutalist-shadow-lg: 8px 8px 0 var(--brutalist-white);
+  --brutalist-shadow-xl: 12px 12px 0 var(--brutalist-white);
+}
+
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -102,6 +137,15 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  /* Brutalist Colors */
+  --color-brutalist-yellow: var(--brutalist-yellow);
+  --color-brutalist-cyan: var(--brutalist-cyan);
+  --color-brutalist-magenta: var(--brutalist-magenta);
+  --color-brutalist-green: var(--brutalist-green);
+  --color-brutalist-orange: var(--brutalist-orange);
+  --color-brutalist-purple: var(--brutalist-purple);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -120,17 +164,18 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground transition-colors duration-300;
   }
-  
+
   /* Light theme specific overrides */
   :root:not(.dark) {
     --gradient-from: oklch(0.98 0.02 240);
     --gradient-via: oklch(0.96 0.03 220);
     --gradient-to: oklch(0.97 0.025 200);
   }
-  
+
   .dark {
     --gradient-from: oklch(0.15 0.03 220);
     --gradient-via: oklch(0.20 0.025 210);
@@ -142,7 +187,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }

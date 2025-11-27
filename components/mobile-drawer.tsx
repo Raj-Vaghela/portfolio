@@ -72,11 +72,11 @@ export function MobileDrawer({ children, isAnyModalOpen = false }: MobileDrawerP
                 </Drawer.Trigger>
 
                 <Drawer.Portal>
-                    <Drawer.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-                    <Drawer.Content className="bg-black/20 dark:bg-black/20 backdrop-blur-xl border-t border-white/10 flex flex-col rounded-t-[2rem] h-[96%] mt-24 fixed bottom-0 left-0 right-0 z-50 outline-none">
-                        <div className="p-4 bg-transparent rounded-t-[2rem] flex-1 flex flex-col min-h-0">
+                    <Drawer.Overlay className="fixed inset-0 bg-black/80" />
+                    <Drawer.Content className="dark:bg-black bg-white border-t-[6px] border-black dark:border-white flex flex-col h-[96%] mt-24 fixed bottom-0 left-0 right-0 z-50 outline-none">
+                        <div className="p-4 bg-transparent flex-1 flex flex-col min-h-0">
                             <Drawer.Title className="sr-only">Mobile Menu</Drawer.Title>
-                            <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-white/30 mb-8" />
+                            <div className="mx-auto w-16 h-2 flex-shrink-0 bg-black dark:bg-white mb-6" />
                             <div className="max-w-md mx-auto w-full flex-1 overflow-y-auto pb-20">
                                 {children}
                             </div>

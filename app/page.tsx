@@ -65,7 +65,7 @@ export default function Page() {
     let scrollTimeout: NodeJS.Timeout
 
     const handleScroll = () => {
-      const scrollPosition = container.scrollTop + container.clientHeight / 2
+      const scrollPosition = container.scrollLeft + container.clientWidth / 2
 
       // Show label while scrolling
       setIsScrolling(true)
@@ -79,11 +79,11 @@ export default function Page() {
       for (const section of sections) {
         const element = document.getElementById(section.id)
         if (element) {
-          const offsetTop = element.offsetTop
-          const offsetHeight = element.offsetHeight
+          const offsetLeft = element.offsetLeft
+          const offsetWidth = element.offsetWidth
           if (
-            scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + offsetHeight
+            scrollPosition >= offsetLeft &&
+            scrollPosition < offsetLeft + offsetWidth
           ) {
             setActiveSection(section.id)
             break
@@ -104,8 +104,8 @@ export default function Page() {
     const element = document.getElementById(id)
     if (element && scrollContainerRef.current) {
       const container = scrollContainerRef.current
-      const offsetTop = element.offsetTop
-      container.scrollTo({ top: offsetTop, behavior: "smooth" })
+      const offsetLeft = element.offsetLeft
+      container.scrollTo({ left: offsetLeft, behavior: "smooth" })
     }
   }
 
@@ -114,11 +114,11 @@ export default function Page() {
     if (!container || isDragging) return
 
     const rect = e.currentTarget.getBoundingClientRect()
-    const clickY = e.clientY - rect.top
-    const percentage = clickY / rect.height
+    const clickX = e.clientX - rect.left
+    const percentage = clickX / rect.width
 
-    const scrollHeight = container.scrollHeight - container.clientHeight
-    container.scrollTo({ top: scrollHeight * percentage, behavior: "smooth" })
+    const scrollWidth = container.scrollWidth - container.clientWidth
+    container.scrollTo({ left: scrollWidth * percentage, behavior: "smooth" })
   }
 
   useEffect(() => {
@@ -128,13 +128,13 @@ export default function Page() {
       e.preventDefault()
 
       const rect = sliderRef.current.getBoundingClientRect()
-      const mouseY = e.clientY - rect.top
-      const percentage = Math.max(0, Math.min(1, mouseY / rect.height))
+      const mouseX = e.clientX - rect.left
+      const percentage = Math.max(0, Math.min(1, mouseX / rect.width))
 
       const container = scrollContainerRef.current
-      const scrollHeight = container.scrollHeight - container.clientHeight
+      const scrollWidth = container.scrollWidth - container.clientWidth
 
-      container.scrollTop = scrollHeight * percentage
+      container.scrollLeft = scrollWidth * percentage
     }
 
     const handleMouseUp = () => {
@@ -164,11 +164,11 @@ export default function Page() {
         <ThemeToggle />
       </div>
 
-      {/* Large frosted glass background container - everything lives inside */}
-      <div className="hidden lg:block fixed inset-4 lg:inset-12 xl:inset-16 bg-black/30 dark:bg-black/30 bg-transparent backdrop-blur-xl dark:backdrop-blur-xl backdrop-blur-none rounded-[2rem] lg:rounded-[3rem] border border-white/10 dark:border-white/10 border-white/30 shadow-2xl overflow-hidden p-4 lg:p-8 transition-colors duration-300 flex flex-col lg:block">
+      {/* Neo-brutalist container - solid background with thick border and hard shadow */}
+      <div className="hidden lg:block fixed inset-4 lg:inset-12 xl:inset-16 dark:bg-black bg-white border-[6px] border-black dark:border-white shadow-[12px_12px_0_rgba(0,0,0,1)] dark:shadow-[12px_12px_0_rgba(255,255,255,1)] overflow-hidden p-4 lg:p-8 transition-colors duration-300 flex flex-col lg:block">
 
-        {/* Image card - positioned inside frosted glass with proper spacing */}
-        <div className="relative lg:absolute lg:left-8 lg:top-8 lg:bottom-8 w-full lg:max-w-[280px] h-[300px] lg:h-auto shrink-0 mb-4 lg:mb-0 rounded-3xl border border-white/20 dark:border-white/20 border-white/50 shadow-2xl overflow-hidden transition-colors duration-300 bg-zinc-800">
+        {/* Profile card - brutalist style */}
+        <div className="relative lg:absolute lg:left-8 lg:top-8 lg:bottom-8 w-full lg:max-w-[280px] h-[300px] lg:h-auto shrink-0 mb-4 lg:mb-0 border-[5px] border-black dark:border-white shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(255,255,255,1)] overflow-hidden transition-colors duration-300 bg-brutalist-yellow dark:bg-brutalist-cyan">
           <ProfileImage
             src={imageUrl}
             alt="Raj Vaghela"
@@ -176,22 +176,22 @@ export default function Page() {
             priority
           />
 
-          {/* Dark gradient overlay for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 dark:from-black/80 dark:via-black/40 dark:to-black/20 pointer-events-none" />
+          {/* Solid overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
 
-          {/* Available for work badge - top right */}
-          <div className="absolute top-6 right-6 z-10">
-            <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite]" />
-              <span className="text-white dark:text-white text-[10px] font-medium">Available for work</span>
+          {/* Available for work badge - brutalist style */}
+          <div className="absolute top-4 right-4 z-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-brutalist-green border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)]">
+              <div className="w-2 h-2 bg-black dark:bg-white animate-[pulse_2s_ease-in-out_infinite]" />
+              <span className="text-black dark:text-white text-[11px] font-bold uppercase">Available</span>
             </div>
           </div>
 
-          {/* Content at bottom left with equal spacing */}
+          {/* Content at bottom left */}
           <div className="absolute bottom-4 left-4 space-y-3 z-10">
             <div>
-              <h1 className="text-4xl font-bold dark:text-white text-white">Raj Vaghela</h1>
-              <p className="dark:text-white text-white text-sm mt-1">AI Engineer</p>
+              <h1 className="text-4xl font-black dark:text-white text-white drop-shadow-[2px_2px_0_rgba(0,0,0,1)]">Raj Vaghela</h1>
+              <p className="dark:text-white text-white text-sm mt-1 font-bold">AI Engineer</p>
             </div>
 
             <div className="flex items-center gap-2">
@@ -199,25 +199,25 @@ export default function Page() {
                 href="https://github.com/Raj-Vaghela"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+                className="w-10 h-10 bg-white dark:bg-black border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
               >
-                <Github className="w-3.5 h-3.5 text-white dark:text-white" />
+                <Github className="w-4 h-4 text-black dark:text-white" />
               </a>
               <a
                 href="https://linkedin.com/in/raj-vaghela"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+                className="w-10 h-10 bg-white dark:bg-black border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
               >
-                <Linkedin className="w-3.5 h-3.5 text-white dark:text-white" />
+                <Linkedin className="w-4 h-4 text-black dark:text-white" />
               </a>
               <button
                 onClick={() => setIsContactModalOpen(true)}
-                className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+                className="w-10 h-10 bg-white dark:bg-black border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
                 aria-label="Get in touch"
                 title="Get in touch"
               >
-                <Mail className="w-3.5 h-3.5 text-white dark:text-white" />
+                <Mail className="w-4 h-4 text-black dark:text-white" />
               </button>
             </div>
 
@@ -227,42 +227,38 @@ export default function Page() {
                 href={resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-8 px-3 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center gap-1.5 hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+                className="h-10 px-4 bg-brutalist-magenta border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center gap-2 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
               >
-                <FileText className="w-3.5 h-3.5 text-white dark:text-white" />
-                <span className="text-white dark:text-white text-[11px] font-medium whitespace-nowrap">Download CV</span>
+                <FileText className="w-4 h-4 text-white" />
+                <span className="text-white text-xs font-bold uppercase whitespace-nowrap">Download CV</span>
               </a>
             </div>
           </div>
         </div>
 
-        {/* Vertical Slider Navigation - Right side inside glass */}
-        <nav className="hidden lg:block absolute right-8 top-1/2 -translate-y-1/2 z-50">
-          <div className="flex items-center gap-3">
+        {/* Horizontal Slider Navigation - Bottom inside container */}
+        <nav className="hidden lg:block absolute bottom-8 left-1/2 -translate-x-1/2 z-50">
+          <div className="flex flex-col items-center gap-3">
             <div
               ref={sliderRef}
-              className="w-px h-32 bg-white/20 dark:bg-white/20 bg-white/50 relative cursor-pointer hover:w-1 transition-all duration-200 group"
+              className="h-1 w-64 bg-black dark:bg-white relative cursor-pointer hover:h-2 transition-all duration-200 group border-[2px] border-black dark:border-white"
               onClick={handleSliderClick}
             >
               <div
-                className={`absolute w-full bg-white rounded-full cursor-grab active:cursor-grabbing ${isDragging ? '' : 'transition-all duration-300'}`}
+                className={`absolute h-full bg-brutalist-yellow dark:bg-brutalist-cyan cursor-grab active:cursor-grabbing border-[2px] border-black dark:border-white ${isDragging ? '' : 'transition-all duration-300'}`}
                 onMouseDown={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
                   setIsDragging(true)
                 }}
                 style={{
-                  height: '25%',
-                  top: `${(sections.findIndex(s => s.id === activeSection) / (sections.length - 1)) * 75}%`
+                  width: '25%',
+                  left: `${(sections.findIndex(s => s.id === activeSection) / (sections.length - 1)) * 75}%`
                 }}
               >
-                {/* Label positioned to the left of slider, centered with indicator */}
+                {/* Label positioned above slider, centered with indicator */}
                 <span
-                  className={`absolute right-3 dark:text-white text-gray-800 text-sm font-medium whitespace-nowrap transition-opacity duration-200 ${isScrolling || isDragging ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
-                  style={{
-                    top: '50%',
-                    transform: 'translateY(-50%)'
-                  }}
+                  className={`absolute bottom-4 left-1/2 -translate-x-1/2 dark:text-white text-black text-sm font-black whitespace-nowrap uppercase transition-opacity duration-200 ${isScrolling || isDragging ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
                 >
                   {sections.find(s => s.id === activeSection)?.label || 'Me'}
                 </span>
@@ -284,7 +280,7 @@ export default function Page() {
                       <span key={idx} className="dark:text-white text-gray-800 text-[6px] uppercase leading-tight font-[family-name:var(--font-press-start)]">{ch}</span>
                     ))}
                   </div>
-                  <span className="w-1 h-1 rounded-full dark:bg-white bg-slate-700" />
+                  <span className="w-2 h-2 bg-black dark:bg-white" />
                 </div>
               ))}
             </div>
@@ -295,20 +291,20 @@ export default function Page() {
                 <div key={`dup-${s}-${i}`} className="flex flex-col items-center">
                   <div className="flex flex-col items-center mb-3">
                     {s.toUpperCase().split("").map((ch, idx) => (
-                      <span key={idx} className="dark:text-white text-gray-800 text-[6px] uppercase leading-tight font-[family-name:var(--font-press-start)]">{ch}</span>
+                      <span key={idx} className="dark:text-white text-black text-[6px] uppercase leading-tight font-[family-name:var(--font-press-start)]">{ch}</span>
                     ))}
                   </div>
-                  <span className="w-1 h-1 rounded-full dark:bg-white bg-slate-700" />
+                  <span className="w-2 h-2 bg-black dark:bg-white" />
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Scrollable Content Area - Right side inside glass */}
+        {/* Scrollable Content Area - Horizontal scroll */}
         <div
           ref={scrollContainerRef}
-          className="relative lg:absolute z-5 lg:top-0 lg:bottom-0 lg:right-0 lg:left-[calc(8rem+280px)] flex-1 w-full lg:w-auto overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-hide"
+          className="relative lg:absolute z-5 lg:top-0 lg:bottom-0 lg:right-0 lg:left-[calc(8rem+280px)] flex-1 w-full lg:w-auto overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide"
         >
           <PortfolioContent onOpenProjectsModal={() => setIsProjectsModalOpen(true)} />
         </div>
@@ -351,46 +347,46 @@ export default function Page() {
               href="https://linkedin.com/in/raj-vaghela"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col items-center gap-0.5 group"
+              className="flex flex-col items-center gap-1 group"
             >
-              <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
-                <Linkedin className="w-4 h-4 text-white" />
+              <div className="w-12 h-12 bg-brutalist-yellow dark:bg-brutalist-cyan border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all active:translate-x-[3px] active:translate-y-[3px] active:shadow-none">
+                <Linkedin className="w-5 h-5 text-black dark:text-white" />
               </div>
-              <span className="text-white text-[9px] font-medium drop-shadow-lg">LinkedIn</span>
+              <span className="text-white text-[10px] font-black drop-shadow-[2px_2px_0_rgba(0,0,0,1)] uppercase">LinkedIn</span>
             </a>
 
             <button
               onClick={() => setIsContactModalOpen(true)}
-              className="flex flex-col items-center gap-0.5 group"
+              className="flex flex-col items-center gap-1 group"
             >
-              <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
-                <Mail className="w-4 h-4 text-white" />
+              <div className="w-12 h-12 bg-brutalist-green border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all active:translate-x-[3px] active:translate-y-[3px] active:shadow-none">
+                <Mail className="w-5 h-5 text-black dark:text-white" />
               </div>
-              <span className="text-white text-[9px] font-medium drop-shadow-lg">Contact</span>
+              <span className="text-white text-[10px] font-black drop-shadow-[2px_2px_0_rgba(0,0,0,1)] uppercase">Contact</span>
             </button>
 
             <button
               onClick={() => setIsChatModalOpen(true)}
-              className="flex flex-col items-center gap-0.5 group"
+              className="flex flex-col items-center gap-1 group"
             >
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:scale-105 transition-all active:scale-90 shadow-lg shadow-purple-500/30">
-                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              <div className="w-12 h-12 bg-brutalist-purple border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all active:translate-x-[3px] active:translate-y-[3px] active:shadow-none">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth={3} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                 </svg>
               </div>
-              <span className="text-white text-[9px] font-medium drop-shadow-lg">Chat AI</span>
+              <span className="text-white text-[10px] font-black drop-shadow-[2px_2px_0_rgba(0,0,0,1)] uppercase">Chat AI</span>
             </button>
 
             <a
               href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col items-center gap-0.5 group"
+              className="flex flex-col items-center gap-1 group"
             >
-              <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
-                <FileText className="w-4 h-4 text-white" />
+              <div className="w-12 h-12 bg-brutalist-magenta border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all active:translate-x-[3px] active:translate-y-[3px] active:shadow-none">
+                <FileText className="w-5 h-5 text-white" />
               </div>
-              <span className="text-white text-[9px] font-medium drop-shadow-lg">Resume</span>
+              <span className="text-white text-[10px] font-black drop-shadow-[2px_2px_0_rgba(0,0,0,1)] uppercase">Resume</span>
             </a>
           </div>
         </div>

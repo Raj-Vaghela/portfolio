@@ -8,36 +8,31 @@ interface PortfolioContentProps {
 
 export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps) {
     return (
-        <>
+        <div className="lg:flex lg:flex-row lg:h-full lg:items-center">
             {/* Me Section */}
-            <section id="me" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-                <div className="max-w-3xl">
-                    <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">About Me</h2>
-                    <div className="space-y-6">
-                        <p className="dark:text-white text-gray-800 text-lg leading-relaxed">
-                            I'm an <span className="dark:text-white text-black font-semibold">MSc Advanced Computer Science</span> student at the University of Leicester (Distinction),
+            <section id="me" className="min-h-[600px] lg:min-w-[100vw] lg:w-[100vw] lg:h-full flex items-center justify-center p-8 md:p-12 lg:flex-shrink-0">
+                <div className="max-w-2xl w-full">
+                    <h2 className="text-4xl lg:text-5xl font-black dark:text-white text-black uppercase mb-6">About Me</h2>
+                    <div className="space-y-4">
+                        <p className="dark:text-white text-black text-base lg:text-lg leading-relaxed font-bold">
+                            I'm an <span className="dark:text-white text-black font-black">MSc Advanced Computer Science</span> student at the University of Leicester (Distinction),
                             specializing in applied AI and Large Language Models.
                         </p>
-                        <p className="dark:text-white text-gray-900 text-base leading-relaxed">
-                            I build <span className="dark:text-white text-black font-medium">retrieval-augmented systems</span> with embeddings and pgvector,
-                            robust <span className="dark:text-white text-black font-medium">FastAPI/Node back ends</span>, and modern <span className="dark:text-white text-black font-medium">React/Next.js UIs</span>.
-                            I'm comfortable with multimodal STT/TTS/OCR, function calling, and streaming UX. Strong in Python and
-                            software engineering fundamentals — I ship testable services with telemetry, retries, and graceful shutdowns.
-                        </p>
-                        <p className="dark:text-white text-gray-900 text-base leading-relaxed">
-                            Looking to help teams turn LLM prototypes into reliable, user-centered products.
+                        <p className="dark:text-white text-black text-sm lg:text-base leading-relaxed font-bold">
+                            I build <span className="dark:text-white text-black font-black">retrieval-augmented systems</span> with embeddings and pgvector,
+                            robust <span className="dark:text-white text-black font-black">FastAPI/Node back ends</span>, and modern <span className="dark:text-white text-black font-black">React/Next.js UIs</span>.
                         </p>
 
-                        <div className="pt-4 grid grid-cols-2 gap-4">
-                            <div className="p-4 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 backdrop-blur-none">
-                                <div className="dark:text-white text-gray-800 text-sm mb-1">Location</div>
-                                <div className="dark:text-white text-black font-medium">Leicester, UK</div>
+                        <div className="pt-4 grid grid-cols-2 gap-3">
+                            <div className="p-3 bg-brutalist-cyan dark:bg-brutalist-purple border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)]">
+                                <div className="text-black dark:text-white text-xs mb-1 font-black uppercase">Location</div>
+                                <div className="text-black dark:text-white font-black text-sm">Leicester, UK</div>
                             </div>
-                            <div className="p-4 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 backdrop-blur-none">
-                                <div className="dark:text-white text-gray-800 text-sm mb-1">Status</div>
-                                <div className="dark:text-white text-black font-medium flex items-center gap-2">
-                                    <div className="w-2 h-2 rounded-full bg-green-500" />
-                                    Available for work
+                            <div className="p-3 bg-brutalist-green dark:bg-brutalist-yellow border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)]">
+                                <div className="text-black dark:text-black text-xs mb-1 font-black uppercase">Status</div>
+                                <div className="text-black dark:text-black font-black text-sm flex items-center gap-2">
+                                    <div className="w-2 h-2 bg-black dark:bg-black border-[1px] border-black dark:border-black" />
+                                    Available
                                 </div>
                             </div>
                         </div>
@@ -46,73 +41,59 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
             </section>
 
             {/* Education Section */}
-            <section id="education" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-                <div className="max-w-3xl w-full">
-                    <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Education</h2>
-                    <div className="space-y-6">
+            <section id="education" className="min-h-[600px] lg:min-w-[100vw] lg:w-[100vw] lg:h-full flex items-center justify-center p-8 md:p-12 lg:flex-shrink-0">
+                <div className="max-w-4xl w-full">
+                    <h2 className="text-4xl lg:text-5xl font-black dark:text-white text-black uppercase mb-6">Education</h2>
+                    <div className="grid md:grid-cols-2 gap-4">
                         {/* Master's Degree */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                            <div className="flex items-start justify-between mb-3">
+                        <div className="p-4 bg-brutalist-magenta dark:bg-brutalist-purple border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all">
+                            <div className="flex items-start justify-between mb-2 gap-2">
                                 <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Master of Science (M.Sc.)</h3>
-                                    <p className="dark:text-white text-gray-900 text-lg">Advanced Computer Science</p>
+                                    <h3 className="text-lg font-black text-white uppercase">M.Sc.</h3>
+                                    <p className="text-white text-sm font-bold">Advanced Computer Science</p>
                                 </div>
-                                <div className="px-3 py-1 rounded-full bg-white/10 border border-white/30">
-                                    <span className="dark:text-white text-gray-800 text-sm font-medium">Distinction</span>
+                                <div className="px-2 py-0.5 bg-brutalist-yellow dark:bg-brutalist-cyan border-[2px] border-black dark:border-white">
+                                    <span className="text-black text-xs font-black uppercase">Distinction</span>
                                 </div>
                             </div>
-                            <p className="dark:text-white text-gray-900 text-base mb-3">University of Leicester, UK</p>
-                            <p className="dark:text-white text-gray-800 text-sm mb-4">Jan 2024 – Jul 2025</p>
-                            <div className="space-y-2">
-                                <p className="dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-black font-medium">Key modules:</span> Big Data & Predictive Analytics, C++, Cybersecurity, Technology & Innovation Management
-                                </p>
-                            </div>
+                            <p className="text-white text-xs mb-1 font-bold">University of Leicester, UK</p>
+                            <p className="text-white text-xs font-bold">Jan 2024 – Jul 2025</p>
                         </div>
 
                         {/* Bachelor's Degree */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                            <div className="flex items-start justify-between mb-3">
+                        <div className="p-4 bg-brutalist-orange dark:bg-brutalist-cyan border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all">
+                            <div className="flex items-start justify-between mb-2 gap-2">
                                 <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Bachelor of Engineering (B.E.)</h3>
-                                    <p className="dark:text-white text-gray-900 text-lg">Computer Science & Engineering</p>
+                                    <h3 className="text-lg font-black text-white dark:text-black uppercase">B.E.</h3>
+                                    <p className="text-white dark:text-black text-sm font-bold">Computer Science & Engineering</p>
                                 </div>
-                                <div className="px-3 py-1 rounded-full bg-white/10 border border-white/30">
-                                    <span className="dark:text-white text-gray-800 text-sm font-medium">8.55/10 (85.5%)</span>
+                                <div className="px-2 py-0.5 bg-brutalist-yellow border-[2px] border-black dark:border-white">
+                                    <span className="text-black text-xs font-black uppercase">85.5%</span>
                                 </div>
                             </div>
-                            <p className="dark:text-white text-gray-900 text-base mb-3">S.N. Patel Institute of Technology & Research Centre, India</p>
-                            <p className="dark:text-white text-gray-800 text-sm mb-4">Jun 2019 – Jun 2023</p>
-                            <div className="space-y-2">
-                                <p className="dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-black font-medium">Key modules:</span> Artificial Intelligence, Computer Networks, Data Mining, Machine Learning, Software Engineering
-                                </p>
-                            </div>
+                            <p className="text-white dark:text-black text-xs mb-1 font-bold">S.N. Patel Institute, India</p>
+                            <p className="text-white dark:text-black text-xs font-bold">Jun 2019 – Jun 2023</p>
                         </div>
 
-                        {/* Highlights & Awards */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 backdrop-blur-none">
-                            <h4 className="text-lg font-bold dark:text-white text-gray-800 mb-4">Highlights & Awards</h4>
-                            <div className="grid gap-3">
-                                <div className="flex gap-3">
-                                    <span className="text-yellow-400 mt-0.5">🏆</span>
-                                    <p className="dark:text-white text-gray-900 text-sm"><span className="font-medium dark:text-white text-black">Huawei Tech Arena</span> — Finalist (Top 8/100+ teams)</p>
+                        {/* Highlights - Spans 2 columns */}
+                        <div className="md:col-span-2 p-4 bg-brutalist-green dark:bg-brutalist-purple border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)]">
+                            <h4 className="text-base font-black text-black dark:text-white mb-3 uppercase">Highlights</h4>
+                            <div className="grid md:grid-cols-2 gap-2 text-xs">
+                                <div className="flex gap-2">
+                                    <span>🏆</span>
+                                    <p className="text-black dark:text-white font-bold"><span className="font-black uppercase">Huawei Tech Arena</span> — Finalist</p>
                                 </div>
-                                <div className="flex gap-3">
-                                    <span className="text-yellow-400 mt-0.5">🥉</span>
-                                    <p className="dark:text-white text-gray-900 text-sm"><span className="font-medium dark:text-white text-black">Cyber4Me CTF</span> — 3rd place (University of Wolverhampton)</p>
+                                <div className="flex gap-2">
+                                    <span>🥉</span>
+                                    <p className="text-black dark:text-white font-bold"><span className="font-black uppercase">Cyber4Me CTF</span> — 3rd place</p>
                                 </div>
-                                <div className="flex gap-3">
-                                    <span className="text-blue-400 mt-0.5">🎯</span>
-                                    <p className="dark:text-white text-gray-900 text-sm"><span className="font-medium dark:text-white text-black">Encode AI London '25</span> — "Crypto Radio"</p>
+                                <div className="flex gap-2">
+                                    <span>🎯</span>
+                                    <p className="text-black dark:text-white font-bold"><span className="font-black uppercase">Encode AI</span> — Crypto Radio</p>
                                 </div>
-                                <div className="flex gap-3">
-                                    <span className="text-purple-400 mt-0.5">👥</span>
-                                    <p className="dark:text-white text-gray-900 text-sm"><span className="font-medium dark:text-white text-black">University leadership:</span> Peer Mentor, Course Rep, Leicester 100 (policy review for 10,000+ students)</p>
-                                </div>
-                                <div className="flex gap-3">
-                                    <span className="text-green-400 mt-0.5">🎓</span>
-                                    <p className="dark:text-white text-gray-900 text-sm"><span className="font-medium dark:text-white text-black">Scholarships:</span> MYSY Merit Scholarship, State Aptitude Test Winner</p>
+                                <div className="flex gap-2">
+                                    <span>🎓</span>
+                                    <p className="text-black dark:text-white font-bold"><span className="font-black uppercase">Scholarships</span> — MYSY Merit</p>
                                 </div>
                             </div>
                         </div>
@@ -121,101 +102,74 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
             </section>
 
             {/* Experience Section */}
-            <section id="experience" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-                <div className="max-w-3xl w-full">
-                    <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Experience</h2>
-                    <div className="space-y-6">
+            <section id="experience" className="min-h-[600px] lg:min-w-[100vw] lg:w-[100vw] lg:h-full flex items-center justify-center p-8 md:p-12 lg:flex-shrink-0">
+                <div className="max-w-4xl w-full">
+                    <h2 className="text-4xl lg:text-5xl font-black dark:text-white text-black uppercase mb-6">Experience</h2>
+                    <div className="grid md:grid-cols-2 gap-4">
                         {/* IBM */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                            <div className="flex items-start justify-between mb-3">
-                                <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">IBM</h3>
-                                    <p className="dark:text-white text-gray-900 text-lg">Virtual Intern</p>
-                                </div>
-                                <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Jun 2023 – Jul 2023</span>
+                        <div className="p-4 bg-brutalist-cyan dark:bg-brutalist-yellow border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all">
+                            <div className="mb-2">
+                                <h3 className="text-lg font-black text-black dark:text-black uppercase">IBM</h3>
+                                <p className="text-black dark:text-black text-sm font-bold">Virtual Intern</p>
+                                <span className="text-black dark:text-black text-xs font-bold">Jun 2023 – Jul 2023</span>
                             </div>
-                            <ul className="space-y-2 mt-4">
-                                <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-gray-800">•</span>
-                                    <span>Prototyped data cleaning & visualisation in Python, cutting exploratory cycle time by ~30% on sample datasets.</span>
+                            <ul className="space-y-1 text-xs">
+                                <li className="flex gap-1 text-black dark:text-black font-bold">
+                                    <span className="font-black">▪</span>
+                                    <span>Data cleaning & ML model evaluation</span>
                                 </li>
-                                <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-gray-800">•</span>
-                                    <span>Evaluated classical ML models (precision/recall/AUC) and documented trade-offs for baseline selection.</span>
-                                </li>
-                                <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-gray-800">•</span>
-                                    <span>Automated preprocessing (imputation/encoding/scaling) into reusable snippets for consistency across notebooks.</span>
+                                <li className="flex gap-1 dark:text-white text-black font-bold">
+                                    <span className="font-black">▪</span>
+                                    <span>Automated preprocessing pipelines</span>
                                 </li>
                             </ul>
                         </div>
 
                         {/* Microsoft */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                            <div className="flex items-start justify-between mb-3">
-                                <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Microsoft</h3>
-                                    <p className="dark:text-white text-gray-900 text-lg">Virtual Intern</p>
-                                </div>
-                                <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Apr 2023 – Jun 2023</span>
+                        <div className="p-4 bg-brutalist-purple dark:bg-brutalist-magenta border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all">
+                            <div className="mb-2">
+                                <h3 className="text-lg font-black text-white uppercase">Microsoft</h3>
+                                <p className="text-white text-sm font-bold">Virtual Intern</p>
+                                <span className="text-white text-xs font-bold">Apr 2023 – Jun 2023</span>
                             </div>
-                            <p className="dark:text-white text-gray-900 text-base mb-3">AICTE approved Virtual Internship under the Future Ready Talent initiative</p>
-                            <ul className="space-y-2">
-                                <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-gray-800">•</span>
-                                    <span>Explored Azure (Static Web Apps, Front Door, CDN) and deployed sample apps with CI/CD from GitHub (100% green builds).</span>
+                            <ul className="space-y-1 text-xs">
+                                <li className="flex gap-1 text-white font-bold">
+                                    <span className="font-black">▪</span>
+                                    <span>Azure deployment & CI/CD</span>
                                 </li>
-                                <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-gray-800">•</span>
-                                    <span>Practised Git/GitHub workflows (branching, PR reviews, issues), reducing merge conflicts on small team projects.</span>
-                                </li>
-                                <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-gray-800">•</span>
-                                    <span>Built mini-demos connecting Azure front ends to simple APIs with notes on cost, latency, reliability trade-offs.</span>
+                                <li className="flex gap-1 text-white font-bold">
+                                    <span className="font-black">▪</span>
+                                    <span>Git workflows & collaboration</span>
                                 </li>
                             </ul>
                         </div>
 
                         {/* Direction Infosystems */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                            <div className="flex items-start justify-between mb-3">
-                                <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Direction Infosystems</h3>
-                                    <p className="dark:text-white text-gray-900 text-lg">Intern</p>
-                                </div>
-                                <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Jan 2023 – Apr 2023</span>
+                        <div className="p-4 bg-brutalist-yellow dark:bg-brutalist-orange border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all">
+                            <div className="mb-2">
+                                <h3 className="text-lg font-black text-black dark:text-white uppercase">Direction Infosystems</h3>
+                                <p className="text-black dark:text-white text-sm font-bold">Intern</p>
+                                <span className="text-black dark:text-white text-xs font-bold">Jan 2023 – Apr 2023</span>
                             </div>
-                            <p className="dark:text-white text-gray-800 text-sm mb-4">Bardoli</p>
-                            <ul className="space-y-2">
-                                <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-gray-800">•</span>
-                                    <span>Built and maintained websites using PHP, Laravel, MySQL, Bootstrap, and jQuery in a team setting.</span>
-                                </li>
-                                <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-gray-800">•</span>
-                                    <span>Assisted in UI design and code deployment, ensuring smooth handover and compatibility with in-house tools.</span>
+                            <ul className="space-y-1 text-xs">
+                                <li className="flex gap-1 text-black dark:text-white font-bold">
+                                    <span className="font-black">▪</span>
+                                    <span>PHP, Laravel, MySQL development</span>
                                 </li>
                             </ul>
                         </div>
 
                         {/* Elsner Technologies */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                            <div className="flex items-start justify-between mb-3">
-                                <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Elsner Technologies Pvt. Ltd.</h3>
-                                    <p className="dark:text-white text-gray-900 text-lg">Summer Internship</p>
-                                </div>
-                                <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Jun 2022 – Jul 2022</span>
+                        <div className="p-4 bg-brutalist-green dark:bg-brutalist-cyan border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all">
+                            <div className="mb-2">
+                                <h3 className="text-lg font-black text-black dark:text-black uppercase">Elsner Technologies</h3>
+                                <p className="text-black dark:text-black text-sm font-bold">Summer Internship</p>
+                                <span className="text-black dark:text-black text-xs font-bold">Jun 2022 – Jul 2022</span>
                             </div>
-                            <p className="dark:text-white text-gray-800 text-sm mb-4">Ahmedabad</p>
-                            <ul className="space-y-2">
-                                <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-gray-800">•</span>
-                                    <span>Developed a basic Android-based To-Do list app using Java.</span>
-                                </li>
-                                <li className="flex gap-2 dark:text-white text-gray-900 text-sm">
-                                    <span className="dark:text-white text-gray-800">•</span>
-                                    <span>Completed foundational coding tasks while gaining exposure to agile teamwork and app development principles.</span>
+                            <ul className="space-y-1 text-xs">
+                                <li className="flex gap-1 text-black dark:text-black font-bold">
+                                    <span className="font-black">▪</span>
+                                    <span>Android app development (Java)</span>
                                 </li>
                             </ul>
                         </div>
@@ -224,125 +178,116 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
             </section>
 
             {/* Projects Section */}
-            <section id="projects" className="min-h-[600px] flex items-center justify-center p-8 md:p-12">
-                <div className="max-w-3xl w-full">
-                    <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Project Highlights</h2>
-                    <div className="space-y-6">
-                        <p className="dark:text-white text-gray-800 text-lg leading-relaxed">
-                            From RAG-powered assistants to agentic AI systems, I build full-stack applications that combine cutting-edge AI with production-ready engineering.
+            <section id="projects" className="min-h-[600px] lg:min-w-[100vw] lg:w-[100vw] lg:h-full flex items-center justify-center p-8 md:p-12 lg:flex-shrink-0">
+                <div className="max-w-5xl w-full">
+                    <h2 className="text-4xl lg:text-5xl font-black dark:text-white text-black mb-6 uppercase">Projects</h2>
+                    <div className="space-y-4">
+                        <p className="dark:text-white text-black text-sm lg:text-base leading-relaxed font-bold">
+                            From RAG-powered assistants to agentic AI systems, I build full-stack applications combining cutting-edge AI with production-ready engineering.
                         </p>
 
-                        {/* Quick Project Cards */}
-                        <div className="grid md:grid-cols-2 gap-4">
-                            <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
+                        {/* Project Cards - 2x2 Grid */}
+                        <div className="grid md:grid-cols-2 gap-3">
+                            <div className="group p-4 bg-brutalist-purple dark:bg-brutalist-magenta border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all flex flex-col">
                                 <div className="flex items-start justify-between mb-2 gap-2">
-                                    <h4 className="text-lg font-bold dark:text-white text-gray-800">Job Recruiter Assistant</h4>
+                                    <h4 className="text-base font-black text-white uppercase">Job Recruiter Assistant</h4>
                                     <a
                                         href="https://github.com/Raj-Vaghela/job-recruiter-assistant"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                                        onClick={(e) => e.stopPropagation()}
+                                        className="p-1 bg-brutalist-magenta border-[2px] border-black dark:border-white shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(255,255,255,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all flex-shrink-0"
                                     >
-                                        <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
+                                        <Github className="w-3 h-3 text-white" />
                                     </a>
                                 </div>
-                                <p className="dark:text-white text-gray-900 text-sm mb-auto">RAG-powered with semantic matching, CV OCR, and SendGrid automation</p>
-                                <div className="flex flex-wrap gap-1.5 mt-3">
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">FastAPI</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Supabase</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">pgvector</span>
+                                <p className="text-white text-xs mb-2 font-bold">RAG-powered with semantic matching, CV OCR, SendGrid automation</p>
+                                <div className="flex flex-wrap gap-1 mt-auto">
+                                    <span className="px-2 py-0.5 bg-brutalist-cyan dark:bg-brutalist-yellow border-[1px] border-black dark:border-white text-black text-[10px] font-black uppercase">FastAPI</span>
+                                    <span className="px-2 py-0.5 bg-brutalist-cyan dark:bg-brutalist-yellow border-[1px] border-black dark:border-white text-black text-[10px] font-black uppercase">Supabase</span>
                                 </div>
                             </div>
 
-                            <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
+                            <div className="group p-4 bg-brutalist-cyan dark:bg-brutalist-yellow border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all flex flex-col">
                                 <div className="flex items-start justify-between mb-2 gap-2">
-                                    <h4 className="text-lg font-bold dark:text-white text-gray-800">Medical Screening Assistant</h4>
+                                    <h4 className="text-base font-black text-black uppercase">Medical Screening</h4>
                                     <a
                                         href="https://github.com/Raj-Vaghela/NurseChat"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                                        onClick={(e) => e.stopPropagation()}
+                                        className="p-1 bg-brutalist-magenta border-[2px] border-black dark:border-white shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(255,255,255,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all flex-shrink-0"
                                     >
-                                        <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
+                                        <Github className="w-3 h-3 text-white" />
                                     </a>
                                 </div>
-                                <p className="dark:text-white text-gray-900 text-sm mb-auto">AI triage chatbot with RAG+CAG pipeline and multimodal STT/TTS</p>
-                                <div className="flex flex-wrap gap-1.5 mt-3">
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Gemini</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">OpenAI</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Whisper</span>
+                                <p className="text-black text-xs mb-2 font-bold">AI triage chatbot with RAG+CAG pipeline, multimodal STT/TTS</p>
+                                <div className="flex flex-wrap gap-1 mt-auto">
+                                    <span className="px-2 py-0.5 bg-brutalist-cyan dark:bg-brutalist-yellow border-[1px] border-black dark:border-white text-black text-[10px] font-black uppercase">Gemini</span>
+                                    <span className="px-2 py-0.5 bg-brutalist-cyan dark:bg-brutalist-yellow border-[1px] border-black dark:border-white text-black text-[10px] font-black uppercase">OpenAI</span>
                                 </div>
                             </div>
 
-                            <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
+                            <div className="group p-4 bg-brutalist-orange dark:bg-brutalist-green border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all flex flex-col">
                                 <div className="flex items-start justify-between mb-2 gap-2">
-                                    <h4 className="text-lg font-bold dark:text-white text-gray-800">Crypto FM</h4>
+                                    <h4 className="text-base font-black text-white dark:text-black uppercase">Crypto FM</h4>
                                     <div className="flex gap-1">
                                         <a
                                             href="https://encode2025.vercel.app"
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                                            onClick={(e) => e.stopPropagation()}
+                                            className="p-1 bg-brutalist-green border-[2px] border-black dark:border-white shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(255,255,255,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all flex-shrink-0"
                                         >
-                                            <ExternalLink className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
+                                            <ExternalLink className="w-3 h-3 text-white dark:text-black" />
                                         </a>
                                         <a
                                             href="https://github.com/Raj-Vaghela/CryptoFM"
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                                            onClick={(e) => e.stopPropagation()}
+                                            className="p-1 bg-brutalist-magenta border-[2px] border-black dark:border-white shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(255,255,255,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all flex-shrink-0"
                                         >
-                                            <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
+                                            <Github className="w-3 h-3 text-white" />
                                         </a>
                                     </div>
                                 </div>
-                                <p className="dark:text-white text-gray-900 text-sm mb-auto">Agentic AI crypto radio with real-time market analysis</p>
-                                <div className="flex flex-wrap gap-1.5 mt-3">
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Node.js</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Gemini</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Google TTS</span>
+                                <p className="text-white dark:text-black text-xs mb-2 font-bold">Agentic AI crypto radio with real-time market analysis</p>
+                                <div className="flex flex-wrap gap-1 mt-auto">
+                                    <span className="px-2 py-0.5 bg-brutalist-cyan dark:bg-brutalist-yellow border-[1px] border-black dark:border-white text-black text-[10px] font-black uppercase">Node.js</span>
+                                    <span className="px-2 py-0.5 bg-brutalist-cyan dark:bg-brutalist-yellow border-[1px] border-black dark:border-white text-black text-[10px] font-black uppercase">Gemini</span>
                                 </div>
                             </div>
 
-                            <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
+                            <div className="group p-4 bg-brutalist-magenta dark:bg-brutalist-purple border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all flex flex-col">
                                 <div className="flex items-start justify-between mb-2 gap-2">
-                                    <h4 className="text-lg font-bold dark:text-white text-gray-800">30-Day Readmission Prediction</h4>
+                                    <h4 className="text-base font-black text-white uppercase">Readmission Prediction</h4>
                                     <a
                                         href="https://github.com/Raj-Vaghela/Patient-Readmission-Prediction-Google-Colab"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                                        onClick={(e) => e.stopPropagation()}
+                                        className="p-1 bg-brutalist-magenta border-[2px] border-black dark:border-white shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(255,255,255,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all flex-shrink-0"
                                     >
-                                        <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
+                                        <Github className="w-3 h-3 text-white" />
                                     </a>
                                 </div>
-                                <p className="dark:text-white text-gray-900 text-sm mb-auto">ML pipeline on 100k+ dataset to flag readmissions</p>
-                                <div className="flex flex-wrap gap-1.5 mt-3">
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Python</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">scikit-learn</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">pandas</span>
+                                <p className="text-white text-xs mb-2 font-bold">ML pipeline on 100k+ dataset to flag readmissions</p>
+                                <div className="flex flex-wrap gap-1 mt-auto">
+                                    <span className="px-2 py-0.5 bg-brutalist-cyan dark:bg-brutalist-yellow border-[1px] border-black dark:border-white text-black text-[10px] font-black uppercase">Python</span>
+                                    <span className="px-2 py-0.5 bg-brutalist-cyan dark:bg-brutalist-yellow border-[1px] border-black dark:border-white text-black text-[10px] font-black uppercase">ML</span>
                                 </div>
                             </div>
                         </div>
 
                         {/* View All Button */}
-                        <div className="flex justify-center pt-4">
+                        <div className="flex justify-center pt-2">
                             <button
                                 onClick={onOpenProjectsModal}
-                                className="group px-6 py-3 rounded-xl bg-white/10 dark:bg-white/10 bg-white/25 backdrop-blur-none border border-white/20 dark:border-white/20 border-white/50 hover:bg-white/20 dark:hover:bg-white/20 hover:bg-white/35 transition-all flex items-center gap-2"
+                                className="group px-5 py-2 bg-brutalist-purple border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all flex items-center gap-2"
                             >
-                                <span className="dark:text-white text-gray-800 font-medium">View All Projects</span>
-                                <ExternalLink className="w-4 h-4 dark:text-white text-gray-800 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                <span className="text-white font-black uppercase text-sm">View All Projects</span>
+                                <ExternalLink className="w-3 h-3 text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                             </button>
                         </div>
                     </div>
                 </div>
             </section>
-        </>
+        </div>
     )
 }

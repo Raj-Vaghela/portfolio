@@ -10,15 +10,11 @@ export function ChatButton({ onClick }: ChatButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="h-8 px-3 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center gap-1.5 hover:bg-white/20 dark:hover:bg-white/20 transition-all group relative overflow-hidden"
+      className="h-10 px-4 bg-brutalist-purple border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center gap-2 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all active:translate-x-[3px] active:translate-y-[3px] active:shadow-none group"
       title="Chat with AI Assistant"
     >
-      <MessageCircle className="w-3.5 h-3.5 text-white dark:text-white transition-transform group-hover:scale-110" />
-      <span className="text-white dark:text-white text-[11px] font-medium whitespace-nowrap">Chat with AI</span>
-      
-      {/* Subtle glow on hover */}
-      <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg" />
+      <MessageCircle className="w-4 h-4 text-white transition-transform group-hover:scale-110" />
+      <span className="text-white text-xs font-bold uppercase whitespace-nowrap">Chat AI</span>
     </button>
   )
 }
-
