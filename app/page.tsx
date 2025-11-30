@@ -168,7 +168,7 @@ export default function Page() {
       <div className="hidden lg:block fixed inset-4 lg:inset-12 xl:inset-16 dark:bg-black bg-white border-[6px] border-black dark:border-white shadow-[12px_12px_0_rgba(0,0,0,1)] dark:shadow-[12px_12px_0_rgba(255,255,255,1)] overflow-hidden p-4 lg:p-8 transition-colors duration-300 flex flex-col lg:block">
 
         {/* Profile card - brutalist style */}
-        <div className="relative lg:absolute lg:left-8 lg:top-8 lg:bottom-8 w-full lg:max-w-[280px] h-[300px] lg:h-auto shrink-0 mb-4 lg:mb-0 border-[5px] border-black dark:border-white shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(255,255,255,1)] overflow-hidden transition-colors duration-300 bg-brutalist-yellow dark:bg-brutalist-cyan">
+        <div className="relative lg:absolute lg:left-8 lg:top-8 lg:bottom-8 w-full lg:max-w-[320px] h-[300px] lg:h-auto shrink-0 mb-4 lg:mb-0 border-[5px] border-black dark:border-white shadow-[8px_8px_0_rgba(0,0,0,1)] dark:shadow-[8px_8px_0_rgba(255,255,255,1)] overflow-hidden transition-colors duration-300 bg-brutalist-yellow dark:bg-brutalist-cyan">
           <ProfileImage
             src={imageUrl}
             alt="Raj Vaghela"
@@ -268,7 +268,7 @@ export default function Page() {
         </nav>
 
         {/* Skills vertical marquee between card and content - inside glass */}
-        <div className="hidden lg:block absolute z-20 top-0 bottom-0 left-[calc(4rem+280px-3px)] overflow-hidden group px-4">
+        <div className="hidden lg:block absolute z-20 top-0 bottom-0 left-[calc(4rem+320px-3px)] overflow-hidden group px-4">
           <div className="skills-marquee-wrapper">
             <div className="skills-marquee-content">
               {/* Add spacing before first word */}
@@ -304,7 +304,7 @@ export default function Page() {
         {/* Scrollable Content Area - Horizontal scroll */}
         <div
           ref={scrollContainerRef}
-          className="relative lg:absolute z-5 lg:top-0 lg:bottom-0 lg:right-0 lg:left-[calc(8rem+280px)] flex-1 w-full lg:w-auto overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide"
+          className="relative lg:absolute z-5 lg:top-0 lg:bottom-0 lg:right-0 lg:left-[calc(8rem+320px)] flex-1 w-full lg:w-auto overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-hide"
         >
           <PortfolioContent onOpenProjectsModal={() => setIsProjectsModalOpen(true)} />
         </div>
