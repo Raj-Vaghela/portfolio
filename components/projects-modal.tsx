@@ -1,4 +1,3 @@
-
 "use client"
 
 import { X, Github, ExternalLink, Home } from "lucide-react"
@@ -211,81 +210,126 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
       onClick={onClose}
     >
       <div className="absolute inset-0 bg-black/80" />
-      <div
-        ref={scrollContainerRef}
-        className="relative w-full h-full sm:h-auto sm:max-h-[85vh] max-w-4xl overflow-y-scroll scrollbar-hide dark:bg-black bg-white sm:border-[6px] border-black dark:border-white sm:shadow-[12px_12px_0_rgba(0,0,0,1)] dark:sm:shadow-[12px_12px_0_rgba(255,255,255,1)] animate-in slide-in-from-bottom-10 sm:zoom-in-95 duration-300"
-        onClick={(e) => e.stopPropagation()}
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
-        {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-6 dark:bg-black bg-white pb-6">
-          <h2 className="text-xl sm:text-3xl font-black dark:text-white text-black uppercase">Projects</h2>
-          <button
-            onClick={onClose}
-            className="w-10 h-10 sm:w-12 sm:h-12 bg-brutalist-yellow dark:bg-brutalist-cyan border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all"
-          >
-            <X className="w-5 h-5 sm:w-6 sm:h-6 dark:text-white text-black" />
-          </button>
-        </div>
 
-        {/* Content */}
-        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 pb-24 sm:pb-6">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="dark:bg-white/5 bg-black/5 border-[4px] border-black dark:border-white shadow-[6px_6px_0_rgba(0,0,0,1)] dark:shadow-[6px_6px_0_rgba(255,255,255,1)] p-5 sm:p-6 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0_rgba(255,255,255,1)] transition-all"
+      {/* Modal Frame Wrapper */}
+      <div
+        className="relative w-full h-full sm:h-auto sm:max-h-[85vh] max-w-4xl dark:bg-black bg-white sm:border-[6px] border-black dark:border-white sm:shadow-[12px_12px_0_rgba(0,0,0,1)] dark:sm:shadow-[12px_12px_0_rgba(255,255,255,1)] animate-in slide-in-from-bottom-10 sm:zoom-in-95 duration-300 overflow-hidden flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Scroll Container */}
+        <div
+          ref={scrollContainerRef}
+          className="w-full flex-1 overflow-y-scroll scrollbar-hide min-h-0"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {/* Header */}
+          <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-6 dark:bg-black bg-white pb-6">
+            <h2 className="text-xl sm:text-3xl font-black dark:text-white text-black uppercase">Projects</h2>
+            <button
+              onClick={onClose}
+              className="w-10 h-10 sm:w-12 sm:h-12 bg-brutalist-yellow dark:bg-brutalist-cyan border-[3px] border-black dark:border-white shadow-[3px_3px_0_rgba(0,0,0,1)] dark:shadow-[3px_3px_0_rgba(255,255,255,1)] flex items-center justify-center hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all"
             >
-              <div className="flex items-start justify-between gap-3 mb-3 sm:mb-3">
-                <h3 className="text-lg sm:text-xl font-black dark:text-white text-black leading-tight uppercase">
-                  {project.title}
-                </h3>
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  {project.liveUrl && (
+              <X className="w-5 h-5 sm:w-6 sm:h-6 dark:text-white text-black" />
+            </button>
+          </div>
+
+          {/* Content */}
+          <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 pb-24 sm:pb-6">
+            {projects.map((project, index) => (
+              <div
+                key={index}
+                className="dark:bg-white/5 bg-black/5 border-[4px] border-black dark:border-white shadow-[6px_6px_0_rgba(0,0,0,1)] dark:shadow-[6px_6px_0_rgba(255,255,255,1)] p-5 sm:p-6 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[4px_4px_0_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0_rgba(255,255,255,1)] transition-all"
+              >
+                <div className="flex items-start justify-between gap-3 mb-3 sm:mb-3">
+                  <h3 className="text-lg sm:text-xl font-black dark:text-white text-black leading-tight uppercase">
+                    {project.title}
+                  </h3>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 bg-brutalist-green border-[3px] border-black dark:border-white shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(255,255,255,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all group"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <ExternalLink className="w-5 h-5 text-black dark:text-white" />
+                      </a>
+                    )}
                     <a
-                      href={project.liveUrl}
+                      href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 bg-brutalist-green border-[3px] border-black dark:border-white shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(255,255,255,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all group"
+                      className="p-2 bg-brutalist-magenta border-[3px] border-black dark:border-white shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(255,255,255,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all group"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <ExternalLink className="w-5 h-5 text-black dark:text-white" />
+                      <Github className="w-5 h-5 text-white" />
                     </a>
-                  )}
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 bg-brutalist-magenta border-[3px] border-black dark:border-white shadow-[2px_2px_0_rgba(0,0,0,1)] dark:shadow-[2px_2px_0_rgba(255,255,255,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[1px_1px_0_rgba(0,0,0,1)] dark:hover:shadow-[1px_1px_0_rgba(255,255,255,1)] transition-all group"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Github className="w-5 h-5 text-white" />
-                  </a>
+                  </div>
+                </div>
+
+                <p className="dark:text-white/90 text-black/90 text-sm mb-4 leading-relaxed font-medium">{project.description}</p>
+
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-3 py-1 bg-brutalist-cyan dark:bg-brutalist-yellow border-[2px] border-black dark:border-white text-black dark:text-black text-xs font-bold uppercase"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="space-y-2 dark:bg-white/5 bg-black/5 border-[2px] border-black dark:border-white p-3">
+                  {project.details.map((detail, idx) => (
+                    <div key={idx} className="flex gap-2.5 items-start">
+                      <span className="text-black dark:text-white text-sm mt-1 font-black">▪</span>
+                      <p className="dark:text-white/80 text-black/80 text-sm leading-relaxed font-medium">{detail}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
 
-              <p className="dark:text-white/90 text-black/90 text-sm mb-4 leading-relaxed font-medium">{project.description}</p>
+        {/* Scroll Progress Ring - Desktop Only */}
+        <div
+          className={`absolute right-8 bottom-8 z-50 transition-opacity duration-300 ${isScrolling || scrollProgress > 0 ? 'opacity-100' : 'opacity-0 hover:opacity-100'
+            }`}
+        >
+          <div className="relative w-16 h-16 bg-white dark:bg-black border-[3px] border-black dark:border-white shadow-[4px_4px_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_rgba(255,255,255,1)] rounded-full flex items-center justify-center">
+            {/* Progress Circle */}
+            <svg className="w-full h-full -rotate-90 transform" viewBox="0 0 36 36">
+              {/* Background Circle */}
+              <path
+                className="text-black/10 dark:text-white/10"
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              {/* Progress Circle */}
+              <path
+                className="text-brutalist-yellow dark:text-brutalist-cyan transition-all duration-100 ease-out"
+                strokeDasharray="100, 100"
+                strokeDashoffset={100 - scrollProgress}
+                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="4"
+                strokeLinecap="butt"
+              />
+            </svg>
 
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1 bg-brutalist-cyan dark:bg-brutalist-yellow border-[2px] border-black dark:border-white text-black dark:text-black text-xs font-bold uppercase"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              <div className="space-y-2 dark:bg-white/5 bg-black/5 border-[2px] border-black dark:border-white p-3">
-                {project.details.map((detail, idx) => (
-                  <div key={idx} className="flex gap-2.5 items-start">
-                    <span className="text-black dark:text-white text-sm mt-1 font-black">▪</span>
-                    <p className="dark:text-white/80 text-black/80 text-sm leading-relaxed font-medium">{detail}</p>
-                  </div>
-                ))}
-              </div>
+            {/* Percentage Text */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-[10px] font-black dark:text-white text-black">
+                {Math.round(scrollProgress)}%
+              </span>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>
