@@ -2,15 +2,12 @@
 
 import { GrainGradient } from "@paper-design/shaders-react"
 import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { useMounted } from "@/lib/use-mounted"
 
 export function GradientBackground() {
   const { theme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const mounted = useMounted()
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const isDark = !mounted || theme === "dark"
 

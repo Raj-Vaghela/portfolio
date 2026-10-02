@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
@@ -12,41 +12,13 @@ interface ProfileImageProps {
 }
 
 export function ProfileImage({ src, alt, className, priority = false }: ProfileImageProps) {
-  const [imageSrc, setImageSrc] = useState<string>("")
-  const [isLoading, setIsLoading] = useState(true)
-  const [hasError, setHasError] = useState(false)
-
-  useEffect(() => {
-    if (!src) {
-      setHasError(true)
-      setIsLoading(false)
-      return
-    }
-
-    // Helper to convert Google Drive links to direct embed links
-    const getDirectUrl = (url: string) => {
-      try {
-        // Check if it's a Google Drive link
-        if (url.includes("drive.google.com")) {
-          // Extract ID - handle trailing slash
-          const idMatch = url.match(/\/d\/([^\/]+)|id=([^&]+)/)
-          const id = idMatch ? (idMatch[1] || idMatch[2]) : null
-
-          if (id) {
-            return `https://drive.google.com/thumbnail?id=${id}&sz=w2000`
-          }
-        }
-        return url
-      } catch (e) {
-        return url
-      }
-    }
-
-    const directUrl = getDirectUrl(src)
-    setImageSrc(directUrl)
-    setIsLoading(true)
-    setHasError(false)
-  }, [src])
+  const [loadedSrc, setLoadedSrc] = useState("")
+  const [failedSrc, setFailedSrc] = useState("")
+  const idMatch = src.includes("drive.google.com") ? src.match(/\/d\/([^/]+)|id=([^&]+)/) : null
+  const driveId = idMatch ? (idMatch[1] || idMatch[2]) : null
+  const imageSrc = driveId ? `https://drive.google.com/thumbnail?id=${driveId}&sz=w2000` : src
+  const hasError = !imageSrc || failedSrc === imageSrc
+  const isLoading = !!imageSrc && loadedSrc !== imageSrc && !hasError
 
   return (
     <div className={cn("relative overflow-hidden bg-zinc-100 dark:bg-zinc-800", className)}>
@@ -83,11 +55,8 @@ export function ProfileImage({ src, alt, className, priority = false }: ProfileI
             "object-cover transition-opacity duration-500",
             isLoading ? "opacity-0" : "opacity-100"
           )}
-          onLoad={() => setIsLoading(false)}
-          onError={() => {
-            setIsLoading(false)
-            setHasError(true)
-          }}
+          onLoad={() => setLoadedSrc(imageSrc)}
+          onError={() => setFailedSrc(imageSrc)}
           priority={priority}
           quality={90}
         />

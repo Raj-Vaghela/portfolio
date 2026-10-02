@@ -1,7 +1,7 @@
 "use client"
 
 import { GradientBackground } from "@/components/gradient-background"
-import { Mail, Github, Linkedin, FileText, ExternalLink } from "lucide-react"
+import { Mail, Github, Linkedin, FileText } from "lucide-react"
 import { ContactModal } from "@/components/contact-modal"
 import { ProjectsModal } from "@/components/projects-modal"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -11,6 +11,16 @@ import { PortfolioContent } from "@/components/portfolio-content"
 import { MobileDrawer } from "@/components/mobile-drawer"
 import { ProfileImage } from "@/components/profile-image"
 import { useEffect, useRef, useState } from "react"
+import { profile } from "@/lib/profile"
+import skills from "@/public/skills.json"
+
+const sections = [
+    { id: "me", label: "Me" },
+    { id: "experience", label: "Experience" },
+    { id: "projects", label: "Projects" },
+    { id: "education", label: "Education" },
+  ]
+
 
 export default function Page() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
@@ -19,44 +29,12 @@ export default function Page() {
   const [activeSection, setActiveSection] = useState("me")
   const [isScrolling, setIsScrolling] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
-  const [imageUrl, setImageUrl] = useState<string>("")
-  const [resumeUrl, setResumeUrl] = useState<string>("")
+  const imageUrl = process.env.NEXT_PUBLIC_IMAGE_URL || process.env.NEXT_PUBLIC_GOOGLE_DRIVE_IMAGE_URL || ""
+  const resumeUrl = profile.resume
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const sliderRef = useRef<HTMLDivElement>(null)
 
-  const sections = [
-    { id: "me", label: "Me" },
-    { id: "education", label: "Education" },
-    { id: "experience", label: "Experience" },
-    { id: "projects", label: "Projects highlights" },
-  ]
-
-  // Skills for the marquee loaded from /skills.json
-  const [marqueeSkills, setMarqueeSkills] = useState<string[]>([])
-
-  // Set image URL on client side to avoid hydration mismatch
-  useEffect(() => {
-    // Support both old and new env variable names for backward compatibility
-    const url = process.env.NEXT_PUBLIC_IMAGE_URL || process.env.NEXT_PUBLIC_GOOGLE_DRIVE_IMAGE_URL || ""
-    setImageUrl(url)
-    setResumeUrl(process.env.NEXT_PUBLIC_RESUME_URL || "/cv.pdf")
-  }, [])
-
-  useEffect(() => {
-    fetch("/skills.json")
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setMarqueeSkills(data as string[])
-        } else if (data && Array.isArray((data as any).skills)) {
-          setMarqueeSkills((data as any).skills as string[])
-        }
-      })
-      .catch(() => {
-        // ignore; fallback skills will be used
-      })
-  }, [])
-
+  const marqueeSkills: string[] = skills
 
   useEffect(() => {
     const container = scrollContainerRef.current
@@ -99,15 +77,6 @@ export default function Page() {
       clearTimeout(scrollTimeout)
     }
   }, [])
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element && scrollContainerRef.current) {
-      const container = scrollContainerRef.current
-      const offsetTop = element.offsetTop
-      container.scrollTo({ top: offsetTop, behavior: "smooth" })
-    }
-  }
 
   const handleSliderClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = scrollContainerRef.current
@@ -179,11 +148,11 @@ export default function Page() {
           {/* Dark gradient overlay for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 dark:from-black/80 dark:via-black/40 dark:to-black/20 pointer-events-none" />
 
-          {/* Available for work badge - top right */}
+          {/* Open to conversations badge - top right */}
           <div className="absolute top-6 right-6 z-10">
             <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20">
               <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite]" />
-              <span className="text-white dark:text-white text-[10px] font-medium">Available for work</span>
+              <span className="text-white dark:text-white text-[10px] font-medium">Open to conversations</span>
             </div>
           </div>
 
@@ -191,12 +160,13 @@ export default function Page() {
           <div className="absolute bottom-4 left-4 space-y-3 z-10">
             <div>
               <h1 className="text-4xl font-bold dark:text-white text-white">Raj Vaghela</h1>
-              <p className="dark:text-white text-white text-sm mt-1">AI Engineer</p>
+              <p className="dark:text-white text-white text-sm mt-1">AI Systems Engineer</p>
             </div>
 
             <div className="flex items-center gap-2">
               <a
                 href="https://github.com/Raj-Vaghela"
+                aria-label="View Raj Vaghela on GitHub"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
@@ -205,6 +175,7 @@ export default function Page() {
               </a>
               <a
                 href="https://linkedin.com/in/raj-vaghela"
+                aria-label="View Raj Vaghela on LinkedIn"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
@@ -272,7 +243,7 @@ export default function Page() {
         </nav>
 
         {/* Skills vertical marquee between card and content - inside glass */}
-        <div className="hidden lg:block absolute z-20 top-0 bottom-0 left-[calc(4rem+280px-3px)] overflow-hidden group px-4">
+        <div aria-hidden="true" className="hidden lg:block absolute z-20 top-0 bottom-0 left-[calc(4rem+280px-3px)] overflow-hidden group px-4">
           <div className="skills-marquee-wrapper">
             <div className="skills-marquee-content">
               {/* Add spacing before first word */}
@@ -335,13 +306,13 @@ export default function Page() {
           <div className="absolute bottom-10 left-4 flex flex-col items-start gap-2 pointer-events-auto">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-md border border-white/10">
               <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs font-medium text-white/90">Available for work</span>
+              <span className="text-xs font-medium text-white/90">Open to conversations</span>
             </div>
             <h1 className="text-4xl font-bold text-white tracking-tight drop-shadow-lg">
               Raj Vaghela
             </h1>
             <p className="text-white/80 text-sm font-medium drop-shadow-md max-w-[280px] leading-relaxed">
-              Full Stack Developer building AI-powered applications
+              AI Systems Engineer at Stack8s. Building LLM applications, data pipelines and full stack tools.
             </p>
           </div>
 
@@ -378,7 +349,7 @@ export default function Page() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                 </svg>
               </div>
-              <span className="text-white text-[9px] font-medium drop-shadow-lg">Chat AI</span>
+              <span className="text-white text-[9px] font-medium drop-shadow-lg">Profile guide</span>
             </button>
 
             <a
@@ -398,7 +369,7 @@ export default function Page() {
         <MobileDrawer
           isAnyModalOpen={isContactModalOpen || isProjectsModalOpen || isChatModalOpen}
         >
-          <PortfolioContent onOpenProjectsModal={() => setIsProjectsModalOpen(true)} />
+          <PortfolioContent idPrefix="mobile-" onOpenProjectsModal={() => setIsProjectsModalOpen(true)} />
         </MobileDrawer>
       </div>
 
