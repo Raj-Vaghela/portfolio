@@ -24,8 +24,19 @@ const pressStart2P = Press_Start_2P({
 })
 
 export const metadata: Metadata = {
-  title: "rajvaghela",
-  description: "Portfolio of rajvaghela",
+  metadataBase: new URL("https://www.rajvaghela.dev"),
+  title: "Raj Vaghela | AI Systems Engineer",
+  description: "AI Systems Engineer at Stack8s building LLM applications, cloud pricing pipelines and full stack tools. Python, FastAPI, Next.js and Supabase. Based in Leicester, UK.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Raj Vaghela | AI Systems Engineer",
+    description: "LLM applications, data pipelines and full stack delivery. Explore my work at Stack8s and selected projects.",
+    url: "/",
+    siteName: "Raj Vaghela",
+    locale: "en_GB",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image", title: "Raj Vaghela | AI Systems Engineer", description: "LLM applications, data pipelines and full stack delivery." },
 }
 
 export default function RootLayout({
@@ -38,6 +49,16 @@ export default function RootLayout({
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
         <Suspense fallback={null}>{children}</Suspense>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "Raj Vaghela",
+          url: "https://www.rajvaghela.dev",
+          jobTitle: "AI Systems Engineer",
+          worksFor: { "@type": "Organization", name: "Stack8s" },
+          sameAs: ["https://github.com/Raj-Vaghela", "https://www.linkedin.com/in/raj-vaghela/"],
+          knowsAbout: ["LLM applications", "Retrieval augmented generation", "Data pipelines", "Full stack development"],
+        }).replace(/</g, "\\u003c") }} />
         <Analytics />
         <SpeedInsights />
         </ThemeProvider>
