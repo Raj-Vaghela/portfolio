@@ -11,16 +11,14 @@ import { PortfolioContent } from "@/components/portfolio-content"
 import { MobileDrawer } from "@/components/mobile-drawer"
 import { ProfileImage } from "@/components/profile-image"
 import { useEffect, useRef, useState } from "react"
-import { profile } from "@/lib/profile"
 import skills from "@/public/skills.json"
 
 const sections = [
-    { id: "me", label: "Me" },
-    { id: "experience", label: "Experience" },
-    { id: "projects", label: "Projects" },
-    { id: "education", label: "Education" },
-  ]
-
+  { id: "me", label: "Me" },
+  { id: "education", label: "Education" },
+  { id: "experience", label: "Experience" },
+  { id: "projects", label: "Projects highlights" },
+]
 
 export default function Page() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false)
@@ -30,7 +28,7 @@ export default function Page() {
   const [isScrolling, setIsScrolling] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const imageUrl = process.env.NEXT_PUBLIC_IMAGE_URL || process.env.NEXT_PUBLIC_GOOGLE_DRIVE_IMAGE_URL || ""
-  const resumeUrl = profile.resume
+  const resumeUrl = "/cv.pdf"
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const sliderRef = useRef<HTMLDivElement>(null)
 
@@ -166,7 +164,6 @@ export default function Page() {
             <div className="flex items-center gap-2">
               <a
                 href="https://github.com/Raj-Vaghela"
-                aria-label="View Raj Vaghela on GitHub"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
@@ -175,7 +172,6 @@ export default function Page() {
               </a>
               <a
                 href="https://linkedin.com/in/raj-vaghela"
-                aria-label="View Raj Vaghela on LinkedIn"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
@@ -243,7 +239,7 @@ export default function Page() {
         </nav>
 
         {/* Skills vertical marquee between card and content - inside glass */}
-        <div aria-hidden="true" className="hidden lg:block absolute z-20 top-0 bottom-0 left-[calc(4rem+280px-3px)] overflow-hidden group px-4">
+        <div className="hidden lg:block absolute z-20 top-0 bottom-0 left-[calc(4rem+280px-3px)] overflow-hidden group px-4">
           <div className="skills-marquee-wrapper">
             <div className="skills-marquee-content">
               {/* Add spacing before first word */}
@@ -312,7 +308,7 @@ export default function Page() {
               Raj Vaghela
             </h1>
             <p className="text-white/80 text-sm font-medium drop-shadow-md max-w-[280px] leading-relaxed">
-              AI Systems Engineer at Stack8s. Building LLM applications, data pipelines and full stack tools.
+              AI Systems Engineer at Stack8s building AI-powered applications
             </p>
           </div>
 
@@ -349,7 +345,7 @@ export default function Page() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                 </svg>
               </div>
-              <span className="text-white text-[9px] font-medium drop-shadow-lg">Profile guide</span>
+              <span className="text-white text-[9px] font-medium drop-shadow-lg">Chat AI</span>
             </button>
 
             <a
@@ -369,7 +365,7 @@ export default function Page() {
         <MobileDrawer
           isAnyModalOpen={isContactModalOpen || isProjectsModalOpen || isChatModalOpen}
         >
-          <PortfolioContent idPrefix="mobile-" onOpenProjectsModal={() => setIsProjectsModalOpen(true)} />
+          <PortfolioContent onOpenProjectsModal={() => setIsProjectsModalOpen(true)} />
         </MobileDrawer>
       </div>
 
