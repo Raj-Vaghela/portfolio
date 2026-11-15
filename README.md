@@ -26,3 +26,7 @@ Set `NEXT_PUBLIC_IMAGE_URL` to the existing profile image URL. The legacy `NEXT_
 Keep the current production domain and image configuration when deploying. Git branches provide a reviewable change; merging to the configured production branch may trigger Vercel deployment. Check desktop and mobile views, the profile guide, project dialog and CV download before merging.
 
 Portfolio descriptions distinguish commercial work from prototypes. Add performance or impact metrics only with a reproducible baseline and measurement period.
+
+## Development plan and licensing review
+
+See [ROADMAP.md](ROADMAP.md) for candidate engineering tasks and validation criteria. The repository is public, but a top-level accepted open-source licence has not been selected. Before adding one, confirm the rights to any code, CV content and media, and whether there are at least 20 hours of work genuinely planned for this portfolio.
