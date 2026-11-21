@@ -1,6 +1,6 @@
 # Raj Vaghela portfolio
 
-Next.js portfolio for Raj Vaghela, AI Systems Engineer at Stack8s. Includes commercial experience, personal and academic projects, an updated CV, and a profile guide.
+Next.js portfolio for Raj Vaghela, AI Systems Engineer at Kordin Labs. Includes commercial experience, personal and academic projects, an updated CV, and a profile guide.
 
 ## Development
 

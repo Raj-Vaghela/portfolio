@@ -1,7 +1,7 @@
 "use client"
 
 import { Github, ExternalLink } from "lucide-react"
-import { stack8sWork } from "@/lib/profile"
+import { currentWork, profile, projects } from "@/lib/profile"
 
 interface PortfolioContentProps {
     onOpenProjectsModal: () => void
@@ -16,17 +16,17 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                     <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">About Me</h2>
                     <div className="space-y-6">
                         <p className="dark:text-white text-gray-800 text-lg leading-relaxed">
-                            I&apos;m an <span className="dark:text-white text-black font-semibold">AI Systems Engineer at Stack8s</span> and an MSc Advanced Computer Science graduate from the University of Leicester (Distinction),
+                            I&apos;m an <span className="dark:text-white text-black font-semibold">{profile.role} at {profile.employer}</span> and an MSc Advanced Computer Science graduate from the University of Leicester (Distinction),
                             specializing in applied AI and Large Language Models.
                         </p>
                         <p className="dark:text-white text-gray-900 text-base leading-relaxed">
                             I build <span className="dark:text-white text-black font-medium">retrieval-augmented systems</span> with embeddings and pgvector,
                             robust <span className="dark:text-white text-black font-medium">FastAPI/Node back ends</span>, and modern <span className="dark:text-white text-black font-medium">React/Next.js UIs</span>.
                             I&apos;m comfortable with multimodal STT/TTS/OCR, function calling, and streaming UX. Strong in Python and
-                            software engineering fundamentals — I ship testable services with telemetry, retries, and graceful shutdowns.
+                            software engineering fundamentals. I ship testable services with telemetry, retries, and graceful shutdowns.
                         </p>
                         <p className="dark:text-white text-gray-900 text-base leading-relaxed">
-                            At Stack8s, I build AI applications, cloud pricing pipelines and internal tools that connect models, data and infrastructure.
+                            At {profile.employer}, I build features across the frontend and backend, from interfaces to APIs, and review code with both teams.
                         </p>
 
                         <div className="pt-4 grid grid-cols-2 gap-4">
@@ -38,7 +38,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                 <div className="dark:text-white text-gray-800 text-sm mb-1">Status</div>
                                 <div className="dark:text-white text-black font-medium flex items-center gap-2">
                                     <div className="w-2 h-2 rounded-full bg-green-500" />
-                                    AI Systems Engineer at Stack8s
+                                    {profile.role} at {profile.employer}
                                 </div>
                             </div>
                         </div>
@@ -126,18 +126,17 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                 <div className="max-w-3xl w-full">
                     <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Experience</h2>
                     <div className="space-y-6">
-                        {/* Stack8s */}
                         <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
                             <div className="flex items-start justify-between mb-3">
                                 <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Stack8s</h3>
-                                    <p className="dark:text-white text-gray-900 text-lg">AI Systems Engineer</p>
+                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">{profile.employer}</h3>
+                                    <p className="dark:text-white text-gray-900 text-lg">{profile.role}</p>
                                 </div>
-                                <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Jan 2026 – Present</span>
+                                <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">{profile.roleStart} to present</span>
                             </div>
                             <p className="dark:text-white text-gray-800 text-sm mb-4">Remote, UK</p>
                             <ul className="space-y-2 mt-4">
-                                {stack8sWork.map((item) => (
+                                {currentWork.map((item) => (
                                     <li key={item} className="flex gap-2 dark:text-white text-gray-900 text-sm">
                                         <span className="dark:text-white text-gray-800">•</span>
                                         <span>{item}</span>
@@ -249,106 +248,33 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                 <div className="max-w-3xl w-full">
                     <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Project Highlights</h2>
                     <div className="space-y-6">
-                        <p className="dark:text-white text-gray-800 text-lg leading-relaxed">
-                            From RAG-powered assistants to agentic AI systems, I build full-stack applications that combine cutting-edge AI with production-ready engineering.
-                        </p>
-
-                        {/* Quick Project Cards */}
                         <div className="grid md:grid-cols-2 gap-4">
-                            <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
-                                <div className="flex items-start justify-between mb-2 gap-2">
-                                    <h4 className="text-lg font-bold dark:text-white text-gray-800">Job Recruiter Assistant</h4>
-                                    <a
-                                        href="https://github.com/Raj-Vaghela/job-recruiter-assistant"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
-                                    </a>
-                                </div>
-                                <p className="dark:text-white text-gray-900 text-sm mb-auto">RAG-powered with semantic matching, CV OCR, and SendGrid automation</p>
-                                <div className="flex flex-wrap gap-1.5 mt-3">
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">FastAPI</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Supabase</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">pgvector</span>
-                                </div>
-                            </div>
-
-                            <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
-                                <div className="flex items-start justify-between mb-2 gap-2">
-                                    <h4 className="text-lg font-bold dark:text-white text-gray-800">Medical Screening Assistant</h4>
-                                    <a
-                                        href="https://github.com/Raj-Vaghela/NurseChat"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
-                                    </a>
-                                </div>
-                                <p className="dark:text-white text-gray-900 text-sm mb-auto">AI triage chatbot with RAG+CAG pipeline and multimodal STT/TTS</p>
-                                <div className="flex flex-wrap gap-1.5 mt-3">
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Gemini</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">OpenAI</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Whisper</span>
-                                </div>
-                            </div>
-
-                            <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
-                                <div className="flex items-start justify-between mb-2 gap-2">
-                                    <h4 className="text-lg font-bold dark:text-white text-gray-800">Crypto FM</h4>
-                                    <div className="flex gap-1">
-                                        <a
-                                            href="https://encode2025.vercel.app"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                                            onClick={(e) => e.stopPropagation()}
-                                        >
-                                            <ExternalLink className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
-                                        </a>
-                                        <a
-                                            href="https://github.com/Raj-Vaghela/CryptoFM"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                                            onClick={(e) => e.stopPropagation()}
-                                        >
-                                            <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
-                                        </a>
+                            {projects.map((project) => (
+                                <div key={project.title} className="group p-5 rounded-2xl bg-white/20 dark:bg-white/5 border border-white/40 dark:border-white/10 hover:bg-white/30 dark:hover:bg-white/10 transition-colors flex flex-col h-full">
+                                    <div className="flex items-start justify-between gap-2">
+                                        <h4 className="text-lg font-bold dark:text-white text-gray-800">{project.title}</h4>
+                                        <div className="flex gap-1">
+                                            {project.liveUrl && (
+                                                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={"Open the " + project.title + " demo"} className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20">
+                                                    <ExternalLink className="w-4 h-4 dark:text-white/70 text-gray-700" />
+                                                </a>
+                                            )}
+                                            {project.source && (
+                                                <a href={project.source} target="_blank" rel="noopener noreferrer" aria-label={"View " + project.title + " on GitHub"} className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20">
+                                                    <Github className="w-4 h-4 dark:text-white/70 text-gray-700" />
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <p className="text-xs dark:text-white/70 text-gray-700 mb-2">{project.context}</p>
+                                    <p className="dark:text-white text-gray-900 text-sm mb-auto">{project.description}</p>
+                                    <div className="flex flex-wrap gap-1.5 mt-3">
+                                        {project.tags.slice(0, 3).map((tag) => (
+                                            <span key={tag} className="px-2 py-0.5 rounded-full bg-white/30 dark:bg-white/10 dark:text-white text-gray-800 text-xs border border-white/50 dark:border-transparent">{tag}</span>
+                                        ))}
                                     </div>
                                 </div>
-                                <p className="dark:text-white text-gray-900 text-sm mb-auto">Agentic AI crypto radio with real-time market analysis</p>
-                                <div className="flex flex-wrap gap-1.5 mt-3">
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Node.js</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Gemini</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Google TTS</span>
-                                </div>
-                            </div>
-
-                            <div className="group p-5 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none flex flex-col h-full">
-                                <div className="flex items-start justify-between mb-2 gap-2">
-                                    <h4 className="text-lg font-bold dark:text-white text-gray-800">30-Day Readmission Prediction</h4>
-                                    <a
-                                        href="https://github.com/Raj-Vaghela/Patient-Readmission-Prediction-Google-Colab"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20 transition-all flex-shrink-0"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <Github className="w-4 h-4 dark:text-white/70 text-gray-700 group-hover:dark:text-white group-hover:text-gray-900 transition-colors" />
-                                    </a>
-                                </div>
-                                <p className="dark:text-white text-gray-900 text-sm mb-auto">ML pipeline on 100k+ dataset to flag readmissions</p>
-                                <div className="flex flex-wrap gap-1.5 mt-3">
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">Python</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">scikit-learn</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/10 dark:bg-white/10 bg-white/30 dark:text-white text-gray-800 text-xs border border-transparent dark:border-transparent border-white/50">pandas</span>
-                                </div>
-                            </div>
+                            ))}
                         </div>
 
                         {/* View All Button */}

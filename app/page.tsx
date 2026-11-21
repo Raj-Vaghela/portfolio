@@ -1,5 +1,7 @@
 "use client"
 
+import { profile } from "@/lib/profile"
+
 import { GradientBackground } from "@/components/gradient-background"
 import { Mail, Github, Linkedin, FileText } from "lucide-react"
 import { ContactModal } from "@/components/contact-modal"
@@ -308,7 +310,7 @@ export default function Page() {
               Raj Vaghela
             </h1>
             <p className="text-white/80 text-sm font-medium drop-shadow-md max-w-[280px] leading-relaxed">
-              AI Systems Engineer at Stack8s building AI-powered applications
+              {profile.role} at {profile.employer}
             </p>
           </div>
 

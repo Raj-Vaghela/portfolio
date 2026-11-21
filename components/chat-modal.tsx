@@ -1,5 +1,6 @@
 "use client"
 
+import { profile, projects } from "@/lib/profile"
 import { X, Send, ChevronDown } from "lucide-react"
 import { useState, useRef, useEffect } from "react"
 
@@ -20,13 +21,13 @@ interface ChatModalProps {
     const lowerInput = input.toLowerCase()
 
     if (lowerInput.includes("experience") || lowerInput.includes("work") || lowerInput.includes("job")) {
-      return "Raj is an AI Systems Engineer at Stack8s (January 2026–present), building cloud pricing pipelines, an agentic recommendation assistant and internal tools. His earlier experience includes IBM, Microsoft, Direction Infosystems, and Elsner Technologies. He specializes in AI engineering, RAG systems, and full-stack development with Python, FastAPI, and React/Next.js. Would you like details about a specific role?"
+      return "Raj is an " + profile.role + " at " + profile.employer + " (since " + profile.roleStart + "). He builds frontend and backend features, opens and reviews pull requests, and works with both teams. His earlier work there included cloud pricing pipelines, GPU availability tracking and an AI recommendation assistant."
     } else if (lowerInput.includes("project")) {
-      return "Raj has built several impressive AI projects:\n\n🤖 Job Recruiter Assistant - RAG-powered with CV OCR & SendGrid automation\n💊 Medical Screening Assistant - AI triage with multimodal STT/TTS\n📻 Crypto FM - Agentic AI crypto radio\n📊 Readmission Prediction - ML pipeline on 100k+ dataset\n\nWhich one would you like to explore?"
+      return "Raj’s projects include:\n\n" + projects.map((project) => "• " + project.title + ": " + project.description).join("\n")
     } else if (lowerInput.includes("skill") || lowerInput.includes("tech") || lowerInput.includes("stack")) {
       return "Raj's tech stack includes:\n\n🐍 Python, FastAPI, Node.js\n⚛️ React, Next.js, TypeScript\n🤖 OpenAI, Gemini, Anthropic\n🗄️ Supabase, pgvector, PostgreSQL\n🎯 RAG, embeddings, function calling\n🎤 Whisper STT, ElevenLabs TTS\n\nHe builds production-ready AI applications from backend to frontend!"
     } else if (lowerInput.includes("available") || lowerInput.includes("hire") || lowerInput.includes("looking")) {
-      return "Raj currently works as an AI Systems Engineer at Stack8s and is based in Leicester, UK. Contact him directly to discuss opportunities and availability.\n\n📧 vaghela.raj2581@gmail.com\n\nWould you like me to share his CV or GitHub?"
+      return "Raj works at " + profile.employer + " and is based in " + profile.location + ". Contact him directly to discuss opportunities.\n\n📧 " + profile.email
     } else if (lowerInput.includes("education") || lowerInput.includes("degree") || lowerInput.includes("study")) {
       return "🎓 Education:\n\nMSc Advanced Computer Science\nUniversity of Leicester (Distinction) - 2024-2025\n\nBE Computer Science & Engineering\nS.N. Patel Institute (85.5%) - 2019-2023\n\n🏆 Awards: Huawei Tech Arena Finalist, Cyber4Me CTF 3rd place, Encode AI London '25"
     } else if (lowerInput.includes("contact") || lowerInput.includes("email") || lowerInput.includes("phone") || lowerInput.includes("reach")) {
