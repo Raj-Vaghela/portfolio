@@ -1,8 +1,10 @@
 "use client"
 
-import { ExternalLink } from "lucide-react"
+import Link from "next/link"
+import { ArrowRight, ExternalLink } from "lucide-react"
 import { ProfileLink, ProjectLinks } from "@/components/profile-link"
 import { currentWork, profile, projects } from "@/lib/profile"
+import { raykdi } from "@/lib/freelance"
 
 interface PortfolioContentProps {
     onOpenProjectsModal: () => void
@@ -264,6 +266,19 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                 <div className="max-w-3xl w-full">
                     <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Project Highlights</h2>
                     <div className="space-y-6">
+                        <article className="rounded-2xl border border-white/40 bg-white/25 p-5 dark:border-white/15 dark:bg-white/5">
+                            <p className="text-sm font-medium text-emerald-800 dark:text-emerald-300">Freelance portfolio</p>
+                            <h3 className="mt-1 text-xl font-semibold text-gray-900 dark:text-white">{raykdi.title}</h3>
+                            <p className="mt-2 text-sm leading-relaxed text-gray-800 dark:text-white/80">{raykdi.summary}</p>
+                            <Link
+                                href={"/freelance#" + raykdi.id}
+                                className="mt-4 inline-flex min-h-10 items-center gap-2 rounded-lg border border-slate-900/15 bg-white/40 px-3 py-2 text-sm font-medium text-slate-900 hover:bg-white/75 dark:border-white/25 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
+                            >
+                                View case study
+                                <ArrowRight className="size-4" aria-hidden="true" />
+                            </Link>
+                        </article>
+
                         <div className="grid md:grid-cols-2 gap-4">
                             {projects.map((project) => (
                                 <div key={project.title} className="group p-5 rounded-2xl bg-white/20 dark:bg-white/5 border border-white/40 dark:border-white/10 hover:bg-white/30 dark:hover:bg-white/10 transition-colors flex flex-col h-full">
