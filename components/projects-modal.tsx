@@ -5,7 +5,7 @@ import { X, Home } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Drawer } from "vaul"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { ProjectLinks } from "@/components/profile-link"
+import { ProjectLinks, ProjectSourceStatus } from "@/components/profile-link"
 import { projects } from "@/lib/profile"
 
 interface ProjectsModalProps {
@@ -87,11 +87,14 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                       key={project.title}
                       className="rounded-2xl bg-white/5 backdrop-blur border border-white/10 p-6 hover:bg-white/10 transition-colors shadow-sm"
                     >
-                      <h3 className="text-xl font-bold dark:text-white text-black leading-tight">{project.title}</h3>
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <h3 className="text-xl font-bold dark:text-white text-black leading-tight">{project.title}</h3>
+                        <ProjectLinks project={project} appearance="drawer" />
+                      </div>
 
                       <p className="text-xs dark:text-white/70 text-slate-700 mb-1">{project.context}</p>
                       <p className="dark:text-white/80 text-slate-700 text-sm mb-4 leading-relaxed">{project.description}</p>
-                      <ProjectLinks project={project} />
+                      <ProjectSourceStatus project={project} />
 
                       <div className="mt-4 flex flex-wrap gap-2 mb-4">
                         {project.tags.map((tech) => (
@@ -153,11 +156,14 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
               key={project.title}
               className="rounded-2xl sm:rounded-2xl bg-white/50 dark:bg-white/5 backdrop-blur border border-white/40 dark:border-white/10 p-5 sm:p-6 hover:bg-white/60 dark:hover:bg-white/10 transition-colors shadow-sm"
             >
-              <h3 className="text-lg sm:text-xl font-bold dark:text-white text-black leading-tight">{project.title}</h3>
+              <div className="flex items-start justify-between gap-3 mb-3 sm:mb-2">
+                <h3 className="text-lg sm:text-xl font-bold dark:text-white text-black leading-tight">{project.title}</h3>
+                <ProjectLinks project={project} appearance="dialog" />
+              </div>
 
               <p className="text-xs dark:text-white/70 text-slate-700 mb-1">{project.context}</p>
               <p className="dark:text-white/80 text-slate-700 text-sm sm:text-sm mb-4 leading-relaxed">{project.description}</p>
-              <ProjectLinks project={project} />
+              <ProjectSourceStatus project={project} />
 
               <div className="mt-4 flex flex-wrap gap-2 mb-4">
                 {project.tags.map((tech) => (

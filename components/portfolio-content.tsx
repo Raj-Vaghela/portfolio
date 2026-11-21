@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { ArrowRight, ExternalLink } from "lucide-react"
-import { ProfileLink, ProjectLinks } from "@/components/profile-link"
+import { ProfileLink, ProjectLinks, ProjectSourceStatus } from "@/components/profile-link"
 import { currentWork, profile, projects } from "@/lib/profile"
 import { raykdi } from "@/lib/freelance"
 
@@ -132,7 +132,10 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                         <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">{profile.employer}</h3>
+                                    <div className="mb-1 flex items-center gap-2">
+                                        <h3 className="text-2xl font-bold dark:text-white text-gray-800">{profile.employer}</h3>
+                                        <ProfileLink href="https://uk.linkedin.com/company/kordinlabs" label="LinkedIn" description="View Kordin Labs on LinkedIn" />
+                                    </div>
                                     <p className="dark:text-white text-gray-900 text-lg">{profile.role}</p>
                                 </div>
                                 <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">{profile.roleStart} to present</span>
@@ -146,16 +149,16 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                     </li>
                                 ))}
                             </ul>
-                            <div className="mt-4">
-                                <ProfileLink href="https://uk.linkedin.com/company/kordinlabs" label="LinkedIn" description="View Kordin Labs on LinkedIn" />
-                            </div>
                         </div>
 
                         {/* IBM */}
                         <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                            <div className="flex items-start justify-between mb-3">
+                            <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">IBM</h3>
+                                    <div className="mb-1 flex items-center gap-2">
+                                        <h3 className="text-2xl font-bold dark:text-white text-gray-800">IBM</h3>
+                                        <ProfileLink href="https://www.linkedin.com/company/ibm/" label="LinkedIn" description="View IBM on LinkedIn" />
+                                    </div>
                                     <p className="dark:text-white text-gray-900 text-lg">Virtual Intern</p>
                                 </div>
                                 <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Jun 2023 – Jul 2023</span>
@@ -174,16 +177,16 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                     <span>Automated preprocessing (imputation/encoding/scaling) into reusable snippets for consistency across notebooks.</span>
                                 </li>
                             </ul>
-                            <div className="mt-4">
-                                <ProfileLink href="https://www.linkedin.com/company/ibm/" label="LinkedIn" description="View IBM on LinkedIn" />
-                            </div>
                         </div>
 
                         {/* Microsoft */}
                         <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                            <div className="flex items-start justify-between mb-3">
+                            <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Microsoft</h3>
+                                    <div className="mb-1 flex items-center gap-2">
+                                        <h3 className="text-2xl font-bold dark:text-white text-gray-800">Microsoft</h3>
+                                        <ProfileLink href="https://www.linkedin.com/company/microsoft/" label="LinkedIn" description="View Microsoft on LinkedIn" />
+                                    </div>
                                     <p className="dark:text-white text-gray-900 text-lg">Virtual Intern</p>
                                 </div>
                                 <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Apr 2023 – Jun 2023</span>
@@ -203,16 +206,16 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                     <span>Built mini-demos connecting Azure front ends to simple APIs with notes on cost, latency, reliability trade-offs.</span>
                                 </li>
                             </ul>
-                            <div className="mt-4">
-                                <ProfileLink href="https://www.linkedin.com/company/microsoft/" label="LinkedIn" description="View Microsoft on LinkedIn" />
-                            </div>
                         </div>
 
                         {/* Direction Infosystems */}
                         <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                            <div className="flex items-start justify-between mb-3">
+                            <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Direction Infosystems</h3>
+                                    <div className="mb-1 flex items-center gap-2">
+                                        <h3 className="text-2xl font-bold dark:text-white text-gray-800">Direction Infosystems</h3>
+                                        <ProfileLink href="https://in.linkedin.com/company/direction-infosystems" label="LinkedIn" description="View Direction Infosystems on LinkedIn" />
+                                    </div>
                                     <p className="dark:text-white text-gray-900 text-lg">Intern</p>
                                 </div>
                                 <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Jan 2023 – Apr 2023</span>
@@ -228,16 +231,16 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                     <span>Assisted in UI design and code deployment, ensuring smooth handover and compatibility with in-house tools.</span>
                                 </li>
                             </ul>
-                            <div className="mt-4">
-                                <ProfileLink href="https://in.linkedin.com/company/direction-infosystems" label="LinkedIn" description="View Direction Infosystems on LinkedIn" />
-                            </div>
                         </div>
 
                         {/* Elsner Technologies */}
                         <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                            <div className="flex items-start justify-between mb-3">
+                            <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
-                                    <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Elsner Technologies Pvt. Ltd.</h3>
+                                    <div className="mb-1 flex items-center gap-2">
+                                        <h3 className="text-2xl font-bold dark:text-white text-gray-800">Elsner Technologies Pvt. Ltd.</h3>
+                                        <ProfileLink href="https://uk.linkedin.com/company/elsner-technology-pvt--ltd-" label="LinkedIn" description="View Elsner Technologies on LinkedIn" />
+                                    </div>
                                     <p className="dark:text-white text-gray-900 text-lg">Summer Internship</p>
                                 </div>
                                 <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">Jun 2022 – Jul 2022</span>
@@ -253,9 +256,6 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                     <span>Completed foundational coding tasks while gaining exposure to agile teamwork and app development principles.</span>
                                 </li>
                             </ul>
-                            <div className="mt-4">
-                                <ProfileLink href="https://uk.linkedin.com/company/elsner-technology-pvt--ltd-" label="LinkedIn" description="View Elsner Technologies on LinkedIn" />
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -282,7 +282,10 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                         <div className="grid md:grid-cols-2 gap-4">
                             {projects.map((project) => (
                                 <div key={project.title} className="group p-5 rounded-2xl bg-white/20 dark:bg-white/5 border border-white/40 dark:border-white/10 hover:bg-white/30 dark:hover:bg-white/10 transition-colors flex flex-col h-full">
-                                    <h4 className="text-lg font-bold dark:text-white text-gray-800">{project.title}</h4>
+                                    <div className="flex items-start justify-between gap-2">
+                                        <h4 className="text-lg font-bold dark:text-white text-gray-800">{project.title}</h4>
+                                        <ProjectLinks project={project} />
+                                    </div>
                                     <p className="text-xs dark:text-white/70 text-gray-700 mb-2">{project.context}</p>
                                     <p className="dark:text-white text-gray-900 text-sm mb-auto">{project.description}</p>
                                     <div className="flex flex-wrap gap-1.5 mt-3">
@@ -290,7 +293,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                             <span key={tag} className="px-2 py-0.5 rounded-full bg-white/30 dark:bg-white/10 dark:text-white text-gray-800 text-xs border border-white/50 dark:border-transparent">{tag}</span>
                                         ))}
                                     </div>
-                                    <ProjectLinks project={project} />
+                                    <ProjectSourceStatus project={project} />
                                 </div>
                             ))}
                         </div>
