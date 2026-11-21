@@ -1,11 +1,11 @@
 
 "use client"
 
-import { X, Github, ExternalLink, Home } from "lucide-react"
+import { X, Home } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Drawer } from "vaul"
 import { useIsMobile } from "@/hooks/use-mobile"
-
+import { ProjectLinks } from "@/components/profile-link"
 import { projects } from "@/lib/profile"
 
 interface ProjectsModalProps {
@@ -87,42 +87,13 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                       key={project.title}
                       className="rounded-2xl bg-white/5 backdrop-blur border border-white/10 p-6 hover:bg-white/10 transition-colors shadow-sm"
                     >
-                      <div className="flex items-start justify-between gap-3 mb-2">
-                        <h3 className="text-xl font-bold dark:text-white text-black leading-tight">
-                          {project.title}
-                        </h3>
-                        <div className="flex items-center gap-2 flex-shrink-0">
-                          {project.liveUrl && (
-                            <a
-                              href={project.liveUrl}
-                              aria-label={"Open the " + project.title + " demo"}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 transition-all group"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <ExternalLink className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-400 transition-colors" />
-                            </a>
-                          )}
-                          {project.source && (
-                            <a
-                              href={project.source}
-                              aria-label={"View " + project.title + " on GitHub"}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 transition-all group"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <Github className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-400 transition-colors" />
-                            </a>
-                          )}
-                        </div>
-                      </div>
+                      <h3 className="text-xl font-bold dark:text-white text-black leading-tight">{project.title}</h3>
 
                       <p className="text-xs dark:text-white/70 text-slate-700 mb-1">{project.context}</p>
                       <p className="dark:text-white/80 text-slate-700 text-sm mb-4 leading-relaxed">{project.description}</p>
+                      <ProjectLinks project={project} />
 
-                      <div className="flex flex-wrap gap-2 mb-4">
+                      <div className="mt-4 flex flex-wrap gap-2 mb-4">
                         {project.tags.map((tech) => (
                           <span
                             key={tech}
@@ -182,42 +153,13 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
               key={project.title}
               className="rounded-2xl sm:rounded-2xl bg-white/50 dark:bg-white/5 backdrop-blur border border-white/40 dark:border-white/10 p-5 sm:p-6 hover:bg-white/60 dark:hover:bg-white/10 transition-colors shadow-sm"
             >
-              <div className="flex items-start justify-between gap-3 mb-3 sm:mb-2">
-                <h3 className="text-lg sm:text-xl font-bold dark:text-white text-black leading-tight">
-                  {project.title}
-                </h3>
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  {project.liveUrl && (
-                    <a
-                      href={project.liveUrl}
-                      aria-label={"Open the " + project.title + " demo"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/20 transition-all group"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <ExternalLink className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
-                    </a>
-                  )}
-                  {project.source && (
-                    <a
-                      href={project.source}
-                      aria-label={"View " + project.title + " on GitHub"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/20 transition-all group"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Github className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
-                    </a>
-                  )}
-                </div>
-              </div>
+              <h3 className="text-lg sm:text-xl font-bold dark:text-white text-black leading-tight">{project.title}</h3>
 
               <p className="text-xs dark:text-white/70 text-slate-700 mb-1">{project.context}</p>
               <p className="dark:text-white/80 text-slate-700 text-sm sm:text-sm mb-4 leading-relaxed">{project.description}</p>
+              <ProjectLinks project={project} />
 
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="mt-4 flex flex-wrap gap-2 mb-4">
                 {project.tags.map((tech) => (
                   <span
                     key={tech}
