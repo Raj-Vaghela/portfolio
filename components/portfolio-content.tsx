@@ -127,7 +127,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                     <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Experience</h2>
                     <div className="space-y-6">
                         <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
-                            <div className="flex items-start justify-between mb-3">
+                            <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">{profile.employer}</h3>
                                     <p className="dark:text-white text-gray-900 text-lg">{profile.role}</p>
