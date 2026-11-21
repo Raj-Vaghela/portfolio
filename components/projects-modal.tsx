@@ -6,70 +6,12 @@ import { useEffect, useRef, useState } from "react"
 import { Drawer } from "vaul"
 import { useIsMobile } from "@/hooks/use-mobile"
 
-interface Project {
-  title: string
-  description: string
-  technologies: string[]
-  details: string[]
-  githubUrl: string
-  liveUrl?: string
-}
+import { projects } from "@/lib/profile"
 
 interface ProjectsModalProps {
   isOpen: boolean
   onClose: () => void
 }
-
-const projects: Project[] = [
-  {
-    title: "Job Recruiter Assistant",
-    description: "RAG-powered assistant with semantic matching, CV OCR, and SendGrid outreach automation",
-    technologies: ["FastAPI", "Next.js", "Supabase", "pgvector", "Gemini", "OCR", "SendGrid"],
-    githubUrl: "https://github.com/Raj-Vaghela/job-recruiter-assistant",
-    details: [
-      "Designed a recruiter-facing assistant with RAG over candidate/job data; 5-table schema and a match_candidates RPC to return semantically similar profiles with evidence-linked answers",
-      "Built an ingestion pipeline: CV validation → storage → background OCR → embeddings → index; kept the chat path sub-few-seconds while CV parsing completes asynchronously",
-      "Implemented safe function-calling for outreach (draft → preview → approve) before send via SendGrid; surfaced per-recipient delivery results",
-      "Delivered a full-stack UX (chat + candidate records, auth, Swagger docs) with conservative fallbacks when evidence is thin",
-    ],
-  },
-  {
-    title: "Medical Screening Assistant",
-    description: "AI triage chatbot with RAG+CAG pipeline, multimodal STT/TTS, and NHS documentation OCR",
-    technologies: ["Gemini", "OpenAI", "RAG", "CAG", "Supabase", "FastAPI", "Whisper", "ElevenLabs", "OCR"],
-    githubUrl: "https://github.com/Raj-Vaghela/NurseChat",
-    details: [
-      "Dual pipeline (RAG + constrained knowledge) grounded in NHS/hospital docs; top-k semantic retrieval with similarity thresholding and cache refresh",
-      "Multimodal flow: streaming STT for hands-free triage; natural TTS; OCR of PDFs/JPG/PNG into structured Markdown so the model can cite sections in chat",
-      "Admin & ops: versioned hospital policies; single-active source enforcement; scheduled activations; role-based access so staff can update info safely",
-      "Hierarchical context inclusion (live ward data and user uploads ranked above background medical content) and recency-aware turn selection",
-    ],
-  },
-  {
-    title: "Crypto FM — Agentic AI 'Crypto Radio'",
-    description: "Agentic AI crypto radio with real-time market analysis and voice narration",
-    technologies: ["Node.js", "Express", "Gemini", "Google Cloud TTS", "CoinGecko", "Whale Alert", "CryptoPanic"],
-    githubUrl: "https://github.com/Raj-Vaghela/CryptoFM",
-    liveUrl: "https://encode2025.vercel.app",
-    details: [
-      "Orchestrated data collectors → analyst agent → voice pipeline to narrate market signals; refreshed scripts every ~60s",
-      "Implemented segment queue + resilient autoplay with retry/backoff to keep playback smooth during spikes and network hiccups",
-      "Production-lean: quota-aware collectors, structured logs, graceful shutdown and auto-restart",
-      "Stable live demo; teammates could clone-and-run in minutes",
-    ],
-  },
-  {
-    title: "30-Day Readmission Prediction (Diabetes)",
-    description: "Risk-scoring pipeline on a 100k+ multi-hospital dataset to flag likely 30-day readmissions",
-    technologies: ["Python", "pandas", "scikit-learn", "NumPy", "Matplotlib"],
-    githubUrl: "https://github.com/Raj-Vaghela/Patient-Readmission-Prediction-Google-Colab",
-    details: [
-      "Risk-scoring pipeline on a 100k+ multi-hospital dataset to flag likely 30-day readmissions",
-      "Addressed severe class imbalance; added simple patient segmentation (K-means → logistic regression)",
-      "Lifted precision from ~0.40 to ~0.70 with improved AUC; reproducible notebooks and tidy feature pipeline",
-    ],
-  },
-]
 
 export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -140,9 +82,9 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                 </div>
 
                 <div className="space-y-6">
-                  {projects.map((project, index) => (
+                  {projects.map((project) => (
                     <div
-                      key={index}
+                      key={project.title}
                       className="rounded-2xl bg-white/5 backdrop-blur border border-white/10 p-6 hover:bg-white/10 transition-colors shadow-sm"
                     >
                       <div className="flex items-start justify-between gap-3 mb-2">
@@ -153,6 +95,7 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                           {project.liveUrl && (
                             <a
                               href={project.liveUrl}
+                              aria-label={"Open the " + project.title + " demo"}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 transition-all group"
@@ -161,22 +104,26 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                               <ExternalLink className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-400 transition-colors" />
                             </a>
                           )}
-                          <a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 transition-all group"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Github className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-400 transition-colors" />
-                          </a>
+                          {project.source && (
+                            <a
+                              href={project.source}
+                              aria-label={"View " + project.title + " on GitHub"}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 transition-all group"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <Github className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-400 transition-colors" />
+                            </a>
+                          )}
                         </div>
                       </div>
 
+                      <p className="text-xs dark:text-white/70 text-slate-700 mb-1">{project.context}</p>
                       <p className="dark:text-white/80 text-slate-700 text-sm mb-4 leading-relaxed">{project.description}</p>
 
                       <div className="flex flex-wrap gap-2 mb-4">
-                        {project.technologies.map((tech) => (
+                        {project.tags.map((tech) => (
                           <span
                             key={tech}
                             className="px-3 py-1 rounded-full bg-white/10 dark:text-white text-slate-800 text-xs font-medium border border-white/20"
@@ -230,9 +177,9 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
 
         {/* Content */}
         <div className="p-4 sm:p-6 space-y-4 sm:space-y-6 pb-24 sm:pb-6">
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <div
-              key={index}
+              key={project.title}
               className="rounded-2xl sm:rounded-2xl bg-white/50 dark:bg-white/5 backdrop-blur border border-white/40 dark:border-white/10 p-5 sm:p-6 hover:bg-white/60 dark:hover:bg-white/10 transition-colors shadow-sm"
             >
               <div className="flex items-start justify-between gap-3 mb-3 sm:mb-2">
@@ -243,6 +190,7 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                   {project.liveUrl && (
                     <a
                       href={project.liveUrl}
+                      aria-label={"Open the " + project.title + " demo"}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/20 transition-all group"
@@ -251,22 +199,26 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
                       <ExternalLink className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
                     </a>
                   )}
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/20 transition-all group"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Github className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
-                  </a>
+                  {project.source && (
+                    <a
+                      href={project.source}
+                      aria-label={"View " + project.title + " on GitHub"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 border border-black/10 dark:border-white/20 transition-all group"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Github className="w-5 h-5 dark:text-white/70 text-slate-700 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
+                    </a>
+                  )}
                 </div>
               </div>
 
+              <p className="text-xs dark:text-white/70 text-slate-700 mb-1">{project.context}</p>
               <p className="dark:text-white/80 text-slate-700 text-sm sm:text-sm mb-4 leading-relaxed">{project.description}</p>
 
               <div className="flex flex-wrap gap-2 mb-4">
-                {project.technologies.map((tech) => (
+                {project.tags.map((tech) => (
                   <span
                     key={tech}
                     className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/10 dark:text-white text-slate-800 text-xs font-medium border border-black/5 dark:border-white/20"
