@@ -18,19 +18,21 @@ export const currentWork = [
   "Built model metadata pipelines for Hugging Face and NVIDIA NIMs, developed internal pricing and analytics dashboards, and supported Supabase authentication, databases and storage.",
 ] as const
 
-type Project = {
+export type Project = {
   title: string
   context: string
   description: string
   details: string[]
   tags: string[]
   source?: string
+  privateSource?: boolean
   liveUrl?: string
 }
 
 export const projects: Project[] = [
   {
     title: "Pattivo",
+    privateSource: true,
     context: "Personal SaaS · In development",
     description: "A shift calendar and earnings tracker for people on rotating schedules.",
     details: [
@@ -41,6 +43,7 @@ export const projects: Project[] = [
   },
   {
     title: "Vaani",
+    privateSource: true,
     context: "Personal project · Prototype",
     description: "A mobile-first AI speaking coach for English conversation, pronunciation and interview practice.",
     details: [
@@ -51,6 +54,7 @@ export const projects: Project[] = [
   },
   {
     title: "Bureaucrab",
+    privateSource: true,
     context: "Personal project · Developer preview",
     description: "A local-first AI assistant for tracking projects, tasks and decisions across coding tools.",
     details: [

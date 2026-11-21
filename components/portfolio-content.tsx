@@ -1,6 +1,7 @@
 "use client"
 
-import { Github, ExternalLink } from "lucide-react"
+import { ExternalLink } from "lucide-react"
+import { ProfileLink, ProjectLinks } from "@/components/profile-link"
 import { currentWork, profile, projects } from "@/lib/profile"
 
 interface PortfolioContentProps {
@@ -143,6 +144,9 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                     </li>
                                 ))}
                             </ul>
+                            <div className="mt-4">
+                                <ProfileLink href="https://uk.linkedin.com/company/kordinlabs" label="LinkedIn" description="View Kordin Labs on LinkedIn" />
+                            </div>
                         </div>
 
                         {/* IBM */}
@@ -168,6 +172,9 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                     <span>Automated preprocessing (imputation/encoding/scaling) into reusable snippets for consistency across notebooks.</span>
                                 </li>
                             </ul>
+                            <div className="mt-4">
+                                <ProfileLink href="https://www.linkedin.com/company/ibm/" label="LinkedIn" description="View IBM on LinkedIn" />
+                            </div>
                         </div>
 
                         {/* Microsoft */}
@@ -194,6 +201,9 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                     <span>Built mini-demos connecting Azure front ends to simple APIs with notes on cost, latency, reliability trade-offs.</span>
                                 </li>
                             </ul>
+                            <div className="mt-4">
+                                <ProfileLink href="https://www.linkedin.com/company/microsoft/" label="LinkedIn" description="View Microsoft on LinkedIn" />
+                            </div>
                         </div>
 
                         {/* Direction Infosystems */}
@@ -216,6 +226,9 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                     <span>Assisted in UI design and code deployment, ensuring smooth handover and compatibility with in-house tools.</span>
                                 </li>
                             </ul>
+                            <div className="mt-4">
+                                <ProfileLink href="https://in.linkedin.com/company/direction-infosystems" label="LinkedIn" description="View Direction Infosystems on LinkedIn" />
+                            </div>
                         </div>
 
                         {/* Elsner Technologies */}
@@ -238,6 +251,9 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                     <span>Completed foundational coding tasks while gaining exposure to agile teamwork and app development principles.</span>
                                 </li>
                             </ul>
+                            <div className="mt-4">
+                                <ProfileLink href="https://uk.linkedin.com/company/elsner-technology-pvt--ltd-" label="LinkedIn" description="View Elsner Technologies on LinkedIn" />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -251,21 +267,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                         <div className="grid md:grid-cols-2 gap-4">
                             {projects.map((project) => (
                                 <div key={project.title} className="group p-5 rounded-2xl bg-white/20 dark:bg-white/5 border border-white/40 dark:border-white/10 hover:bg-white/30 dark:hover:bg-white/10 transition-colors flex flex-col h-full">
-                                    <div className="flex items-start justify-between gap-2">
-                                        <h4 className="text-lg font-bold dark:text-white text-gray-800">{project.title}</h4>
-                                        <div className="flex gap-1">
-                                            {project.liveUrl && (
-                                                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" aria-label={"Open the " + project.title + " demo"} className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20">
-                                                    <ExternalLink className="w-4 h-4 dark:text-white/70 text-gray-700" />
-                                                </a>
-                                            )}
-                                            {project.source && (
-                                                <a href={project.source} target="_blank" rel="noopener noreferrer" aria-label={"View " + project.title + " on GitHub"} className="p-1.5 rounded-lg bg-white/5 hover:bg-white/15 border border-white/20">
-                                                    <Github className="w-4 h-4 dark:text-white/70 text-gray-700" />
-                                                </a>
-                                            )}
-                                        </div>
-                                    </div>
+                                    <h4 className="text-lg font-bold dark:text-white text-gray-800">{project.title}</h4>
                                     <p className="text-xs dark:text-white/70 text-gray-700 mb-2">{project.context}</p>
                                     <p className="dark:text-white text-gray-900 text-sm mb-auto">{project.description}</p>
                                     <div className="flex flex-wrap gap-1.5 mt-3">
@@ -273,6 +275,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                                             <span key={tag} className="px-2 py-0.5 rounded-full bg-white/30 dark:bg-white/10 dark:text-white text-gray-800 text-xs border border-white/50 dark:border-transparent">{tag}</span>
                                         ))}
                                     </div>
+                                    <ProjectLinks project={project} />
                                 </div>
                             ))}
                         </div>
