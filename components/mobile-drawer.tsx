@@ -3,6 +3,7 @@
 import { ArrowLeft, ChevronUp, X } from "lucide-react"
 import { useEffect, useRef, useState, type PointerEvent } from "react"
 import { Drawer } from "vaul"
+import { DrawerRim } from "./drawer-rim"
 import { GlassOptics } from "./glass-optics"
 import { PortfolioContent } from "./portfolio-content"
 import { ProjectDetails } from "./projects-modal"
@@ -126,9 +127,7 @@ export function MobileDrawer() {
             if (!keyboardNavigation.current) event.preventDefault()
           }}
         >
-          <div className="portfolio-drawer-rim glass-lens-host" aria-hidden="true">
-            <GlassOptics surface="drawerRim" backdropSelector="#portfolio-mobile-photo" />
-          </div>
+          <DrawerRim />
           <div className="portfolio-drawer-header">
             <Drawer.Handle className="portfolio-drawer-handle" />
             <div className="portfolio-drawer-toolbar">
