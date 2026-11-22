@@ -15,6 +15,7 @@ export function MobileDrawer() {
   const [linkedSection, setLinkedSection] = useState<string | null>(null)
   const start = useRef<{ x: number; y: number } | null>(null)
   const didSwipe = useRef(false)
+  const keyboardNavigation = useRef(false)
   const scroll = useRef<HTMLDivElement>(null)
   const projectsTrigger = useRef<HTMLButtonElement | null>(null)
   const projectsHeading = useRef<HTMLHeadingElement>(null)
@@ -63,6 +64,7 @@ export function MobileDrawer() {
   function startGesture(event: PointerEvent<HTMLElement>) {
     if (!event.isPrimary || event.button !== 0) return
     didSwipe.current = false
+    keyboardNavigation.current = false
     start.current = { x: event.clientX, y: event.clientY }
     event.currentTarget.setPointerCapture(event.pointerId)
   }
@@ -99,6 +101,7 @@ export function MobileDrawer() {
         onPointerUp={finishGesture}
         onPointerCancel={cancelGesture}
         onClick={(event) => {
+          keyboardNavigation.current = event.detail === 0
           if (event.detail > 0 && didSwipe.current) event.preventDefault()
         }}
       >
@@ -107,22 +110,38 @@ export function MobileDrawer() {
       </Drawer.Trigger>
 
       <Drawer.Portal>
-        <Drawer.Overlay className="portfolio-notification-overlay" />
-        <Drawer.Content className="portfolio-notification-drawer">
+        <Drawer.Overlay
+          className="portfolio-notification-overlay"
+          onPointerDown={() => { keyboardNavigation.current = false }}
+        />
+        <Drawer.Content
+          className="portfolio-notification-drawer glass-lens-host"
+          onPointerDownCapture={() => { keyboardNavigation.current = false }}
+          onKeyDownCapture={() => { keyboardNavigation.current = true }}
+          onOpenAutoFocus={(event) => {
+            event.preventDefault()
+            projectsHeading.current?.focus({ preventScroll: true })
+          }}
+          onCloseAutoFocus={(event) => {
+            if (!keyboardNavigation.current) event.preventDefault()
+          }}
+        >
+          <GlassOptics surface="drawer" backdropSelector="#portfolio-mobile-portrait" />
           <div className="portfolio-drawer-header">
             <Drawer.Handle className="portfolio-drawer-handle" />
-            <div className="portfolio-drawer-toolbar glass-lens-host">
-              <GlassOptics surface="portrait" backdropSelector="#portfolio-mobile-portrait" />
+            <div className="portfolio-drawer-toolbar">
               <Drawer.Title ref={projectsHeading} tabIndex={-1}>{showProjects ? "All projects" : "Portfolio"}</Drawer.Title>
               {showProjects && (
                 <button
                   className="portfolio-drawer-back"
                   aria-label="Back to portfolio"
-                  onClick={() => {
+                  onClick={(event) => {
+                    const returnToTrigger = event.detail === 0
                     setShowProjects(false)
                     requestAnimationFrame(() => {
                       scroll.current?.scrollTo(0, savedScroll.current)
-                      projectsTrigger.current?.focus({ preventScroll: true })
+                      const focusTarget = returnToTrigger ? projectsTrigger.current : projectsHeading.current
+                      focusTarget?.focus({ preventScroll: true })
                     })
                   }}
                 >
