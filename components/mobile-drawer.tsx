@@ -3,6 +3,7 @@
 import { Drawer } from "vaul"
 import { useState, useRef } from "react"
 import { ScrollIndicator } from "./scroll-indicator"
+import { GlassOptics } from "./glass-optics"
 
 interface MobileDrawerProps {
     children: React.ReactNode
@@ -73,7 +74,8 @@ export function MobileDrawer({ children, isAnyModalOpen = false }: MobileDrawerP
 
                 <Drawer.Portal>
                     <Drawer.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-                    <Drawer.Content className="liquid-glass liquid-glass-modal flex flex-col rounded-t-[2rem] h-[96%] mt-24 fixed bottom-0 left-0 right-0 z-50 outline-none">
+                    <Drawer.Content className="glass-lens-host glass-sheet-rim flex flex-col rounded-t-[2rem] h-[96%] mt-24 fixed bottom-0 left-0 right-0 z-50 outline-none">
+                        <GlassOptics surface="sheet" />
                         <div className="p-4 bg-transparent rounded-t-[2rem] flex-1 flex flex-col min-h-0">
                             <Drawer.Title className="sr-only">Mobile Menu</Drawer.Title>
                             <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-white/30 mb-8" />

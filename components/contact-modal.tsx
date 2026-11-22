@@ -1,6 +1,7 @@
 "use client"
 
 import { X, Mail, Phone, MapPin, Linkedin, Github } from "lucide-react"
+import { GlassOptics } from "@/components/glass-optics"
 import { Button } from "@/components/ui/button"
 
 interface ContactModalProps {
@@ -19,9 +20,10 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
 
       <div
-        className="relative w-full max-w-md liquid-glass liquid-glass-modal rounded-3xl p-6 sm:p-8 animate-in zoom-in-95 duration-200"
+        className="relative w-full max-w-md glass-lens-host glass-sheet-rim rounded-3xl p-6 sm:p-8 animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
+        <GlassOptics surface="sheet" />
         <Button
           onClick={onClose}
           variant="ghost"

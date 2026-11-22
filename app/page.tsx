@@ -2,6 +2,7 @@
 
 import { profile } from "@/lib/profile"
 
+import { GlassOptics } from "@/components/glass-optics"
 import { GradientBackground } from "@/components/gradient-background"
 import { Mail, Github, Linkedin, FileText } from "lucide-react"
 import { ContactModal } from "@/components/contact-modal"
@@ -124,19 +125,20 @@ export default function Page() {
   }, [isDragging])
 
   return (
-    <main className="relative h-[100dvh] w-full flex items-center justify-start overflow-hidden overscroll-none p-0 lg:p-12 xl:p-16">
+    <main className="relative isolate h-[100dvh] w-full flex items-center justify-start overflow-hidden overscroll-none p-0 lg:p-12 xl:p-16">
       <GradientBackground />
-      <div className="absolute inset-0 -z-10 bg-black/20 dark:bg-black/20" />
 
       {/* Theme Toggle - Top Right on desktop, aligned with action buttons on mobile */}
       <div className="fixed top-4 lg:top-12 xl:top-16 right-4 lg:right-12 xl:right-16 z-50">
-        <ThemeToggle />
+        <ThemeToggle optical />
       </div>
 
-      {/* Main desktop glass panel - everything lives inside */}
-      <div className="hidden lg:block fixed inset-4 lg:inset-12 xl:inset-16 liquid-glass liquid-glass-window rounded-[2rem] lg:rounded-[3rem] overflow-hidden p-4 lg:p-8 transition-colors duration-300 flex flex-col lg:block">
+      {/* Main desktop glass panel */}
+      <div className="hidden lg:block fixed inset-4 lg:inset-12 xl:inset-16 glass-lens-host glass-window-rim rounded-[2rem] lg:rounded-[3rem] overflow-hidden p-4 lg:p-8 transition-colors duration-300 flex flex-col lg:block">
 
-        {/* Image card - positioned inside frosted glass with proper spacing */}
+        <GlassOptics surface="window" />
+
+        {/* Image card */}
         <div className="relative lg:absolute lg:left-8 lg:top-8 lg:bottom-8 w-full lg:max-w-[280px] h-[300px] lg:h-auto shrink-0 mb-4 lg:mb-0 rounded-3xl border border-white/20 dark:border-white/20 border-white/50 shadow-2xl overflow-hidden transition-colors duration-300 bg-zinc-800">
           <ProfileImage
             src={imageUrl}
@@ -288,7 +290,7 @@ export default function Page() {
       {/* Mobile Drawer View */}
       <div className="lg:hidden">
         {/* Full screen background image */}
-        <div className="fixed inset-0 z-0 bg-zinc-900">
+        <div id="portfolio-mobile-photo" className="fixed inset-0 z-0 bg-zinc-900">
           <ProfileImage
             src={imageUrl}
             alt="Raj Vaghela"
@@ -342,7 +344,8 @@ export default function Page() {
               onClick={() => setIsChatModalOpen(true)}
               className="flex flex-col items-center gap-0.5 group"
             >
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:scale-105 transition-all active:scale-90 shadow-lg shadow-purple-500/30">
+              <div className="glass-lens-host glass-pill-rim glass-on-image relative flex size-10 items-center justify-center rounded-full transition-transform active:scale-95">
+                <GlassOptics surface="pill" backdropSelector="#portfolio-mobile-photo" />
                 <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                 </svg>

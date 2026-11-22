@@ -1,6 +1,7 @@
 "use client"
 
 import { MessageCircle } from "lucide-react"
+import { GlassOptics } from "@/components/glass-optics"
 
 interface ChatButtonProps {
   onClick: () => void
@@ -10,9 +11,10 @@ export function ChatButton({ onClick }: ChatButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="h-8 px-3 rounded-lg liquid-glass-control liquid-glass-on-photo flex items-center gap-1.5 hover:bg-white/20 dark:hover:bg-white/20 transition-all group relative overflow-hidden"
+      className="h-8 px-3 rounded-full glass-lens-host glass-pill-rim glass-on-image flex items-center gap-1.5 hover:bg-white/20 dark:hover:bg-white/20 transition-all group relative overflow-hidden"
       title="Chat with AI Assistant"
     >
+      <GlassOptics surface="pill" />
       <MessageCircle className="w-3.5 h-3.5 text-white dark:text-white transition-transform group-hover:scale-110" />
       <span className="text-white dark:text-white text-[11px] font-medium whitespace-nowrap">Chat with AI</span>
       

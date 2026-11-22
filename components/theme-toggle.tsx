@@ -3,8 +3,9 @@
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useMounted } from "@/lib/use-mounted"
+import { GlassOptics } from "@/components/glass-optics"
 
-export function ThemeToggle() {
+export function ThemeToggle({ optical = false }: { optical?: boolean }) {
   const mounted = useMounted()
   const { theme, setTheme } = useTheme()
 
@@ -18,9 +19,10 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="group relative w-10 h-10 rounded-full liquid-glass-control hover:bg-white/20 dark:hover:bg-white/20 transition-all flex items-center justify-center overflow-hidden"
+      className={"group relative flex size-10 items-center justify-center overflow-hidden rounded-full transition-all " + (optical ? "glass-lens-host glass-pill-rim" : "liquid-glass-control")}
       aria-label="Toggle theme"
     >
+      {optical && <GlassOptics surface="pill" />}
       <Sun className="w-5 h-5 text-amber-500 absolute transition-all duration-300 rotate-0 scale-100 dark:-rotate-90 dark:scale-0" />
       <Moon className="w-5 h-5 text-blue-300 absolute transition-all duration-300 rotate-90 scale-0 dark:rotate-0 dark:scale-100" />
     </button>
