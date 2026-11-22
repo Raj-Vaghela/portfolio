@@ -5,6 +5,7 @@ import { ArrowUp, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import type { FormEvent } from "react"
 import { chatLimits, type ChatTurn } from "@/lib/chat"
+import { GlassOptics } from "@/components/glass-optics"
 
 interface ChatModalProps {
   isOpen: boolean
@@ -62,14 +63,15 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => { if (!open) onClose() }}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[90] bg-slate-950/45 backdrop-blur-sm" />
+        <Dialog.Overlay className="fixed inset-0 z-[90] bg-slate-950/45" />
         <Dialog.Content
-          className="liquid-glass liquid-glass-modal fixed inset-x-3 top-1/2 z-[100] mx-auto flex h-[min(38rem,calc(100dvh-1.5rem))] max-w-xl -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] text-slate-900 dark:text-slate-50"
+          className="glass-lens-host glass-sheet-rim fixed inset-x-3 top-1/2 z-[100] mx-auto flex h-[min(38rem,calc(100dvh-1.5rem))] max-w-xl -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] text-slate-900 dark:text-slate-50"
           onOpenAutoFocus={(event) => {
             event.preventDefault()
             inputRef.current?.focus()
           }}
         >
+          <GlassOptics surface="sheet" />
           <header className="flex items-start justify-between gap-4 border-b border-slate-500/15 px-5 py-4 sm:px-7 dark:border-white/10">
             <div>
               <Dialog.Title className="font-semibold tracking-tight">Chat with AI</Dialog.Title>
@@ -103,7 +105,8 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
 
           <div className="px-4 pb-4 pt-2 sm:px-6 sm:pb-6">
             {error && <p className="mb-2 px-2 text-sm text-rose-800 dark:text-rose-200" role="alert">{error}</p>}
-            <form onSubmit={sendMessage} className="liquid-glass-control flex items-center gap-2 rounded-full p-1.5 pl-4">
+            <form onSubmit={sendMessage} className="glass-lens-host glass-pill-rim relative flex items-center gap-2 rounded-full p-1.5 pl-4 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-sky-500">
+              <GlassOptics surface="pill" />
               <input
                 ref={inputRef}
                 aria-label="Ask about Raj"

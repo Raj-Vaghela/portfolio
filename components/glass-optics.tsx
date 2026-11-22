@@ -1,0 +1,80 @@
+"use client"
+
+import { memo, useEffect, useState } from "react"
+import type { CSSProperties } from "react"
+import { useTheme } from "next-themes"
+import LiquidGlass from "simple-liquid-glass"
+
+const surfaces = {
+  window: {
+    radius: 48,
+    displacement: 74,
+    dark: "rgba(8, 21, 39, 0.34)",
+    light: "rgba(245, 251, 255, 0.47)",
+  },
+  sheet: {
+    radius: 32,
+    displacement: 52,
+    dark: "rgba(8, 20, 36, 0.72)",
+    light: "rgba(246, 251, 255, 0.77)",
+  },
+  pill: {
+    radius: 32,
+    displacement: 20,
+    dark: "rgba(16, 32, 54, 0.34)",
+    light: "rgba(245, 251, 255, 0.35)",
+  },
+}
+
+const rim = { depth: .26, curvature: .57, bend: .46, bendWidth: .18, sheen: 1, specular: 1 }
+
+const layerStyle: CSSProperties = { position: "absolute", inset: 0, width: "100%", height: "100%", minHeight: 0 }
+
+interface GlassOpticsProps {
+  surface: keyof typeof surfaces
+  backdropSelector?: string
+}
+
+export const GlassOptics = memo(function GlassOptics({
+  surface,
+  backdropSelector = "#portfolio-glass-backdrop",
+}: GlassOpticsProps) {
+  const { resolvedTheme } = useTheme()
+  const [reducedTransparency, setReducedTransparency] = useState(false)
+
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-transparency: reduce)")
+    const update = () => setReducedTransparency(query.matches)
+    query.addEventListener("change", update)
+    update()
+    return () => query.removeEventListener("change", update)
+  }, [])
+
+  const dark = resolvedTheme !== "light"
+  const design = surfaces[surface]
+
+  return (
+    <div className="glass-optics" aria-hidden="true" data-portfolio-optics={surface}>
+      <LiquidGlass
+        material="clear"
+        refraction="lens"
+        lensOptions={rim}
+        radius={design.radius}
+        displacementScale={design.displacement}
+        aberrationIntensity={.22}
+        blur={0}
+        frost={0}
+        iosBlurMode="off"
+        maxScale={1}
+        backdropSelector={backdropSelector}
+        backdropVersion={dark ? "dark" : "light"}
+        glassColor={dark ? design.dark : design.light}
+        borderColor={dark ? "rgba(218, 238, 255, 0.34)" : "rgba(255, 255, 255, 0.8)"}
+        effectMode={reducedTransparency ? "off" : "auto"}
+        reveal="immediate"
+        className="absolute inset-0 size-full"
+        style={layerStyle}
+      />
+    </div>
+  )
+})

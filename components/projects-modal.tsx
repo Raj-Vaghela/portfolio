@@ -5,6 +5,7 @@ import { X, Home } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Drawer } from "vaul"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { GlassOptics } from "@/components/glass-optics"
 import { ProjectLinks, ProjectSourceStatus } from "@/components/profile-link"
 import { projects } from "@/lib/profile"
 
@@ -65,7 +66,8 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
       <Drawer.Root shouldScaleBackground open={isOpen} onOpenChange={(open) => !open && onClose()}>
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]" onClick={onClose} />
-          <Drawer.Content className="liquid-glass liquid-glass-modal flex flex-col rounded-t-[2rem] h-[96%] mt-24 fixed bottom-0 left-0 right-0 z-[110] outline-none">
+          <Drawer.Content className="glass-lens-host glass-sheet-rim flex flex-col rounded-t-[2rem] h-[96%] mt-24 fixed bottom-0 left-0 right-0 z-[110] outline-none">
+            <GlassOptics surface="sheet" />
             <div className="p-4 bg-transparent rounded-t-[2rem] flex-1 flex flex-col min-h-0">
               {/* Handle / Scroll Indicator */}
               <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-white/30 mb-8" />
