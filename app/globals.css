@@ -592,7 +592,7 @@
   --portfolio-line: rgb(255 255 255 / 24%);
   position: fixed;
   z-index: 50;
-  inset: max(8.6rem, 23dvh) 0 0;
+  inset: clamp(3.5rem, 9dvh, 5.5rem) 0 0;
   display: flex;
   flex-direction: column;
   color: var(--portfolio-ink);
