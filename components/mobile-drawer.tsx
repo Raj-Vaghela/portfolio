@@ -7,9 +7,12 @@ import { GlassOptics } from "./glass-optics"
 import { PortfolioContent } from "./portfolio-content"
 import { ProjectDetails } from "./projects-modal"
 
+const sectionLinks = new Set(["experience", "projects", "education"])
+
 export function MobileDrawer() {
   const [isOpen, setIsOpen] = useState(false)
   const [showProjects, setShowProjects] = useState(false)
+  const [linkedSection, setLinkedSection] = useState<string | null>(null)
   const start = useRef<{ x: number; y: number } | null>(null)
   const scroll = useRef<HTMLDivElement>(null)
   const projectsTrigger = useRef<HTMLButtonElement | null>(null)
@@ -18,14 +21,40 @@ export function MobileDrawer() {
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 64rem)")
-    const closeOnDesktop = () => {
-      if (media.matches) setIsOpen(false)
+    function openLinkedSection() {
+      if (media.matches) return
+      const section = window.location.hash.slice(1)
+      if (!sectionLinks.has(section)) return
+      setLinkedSection(section)
+      setShowProjects(false)
+      setIsOpen(true)
     }
-    media.addEventListener("change", closeOnDesktop)
-    return () => media.removeEventListener("change", closeOnDesktop)
+    function handleLayoutChange() {
+      if (media.matches) setIsOpen(false)
+      else openLinkedSection()
+    }
+    const frame = requestAnimationFrame(openLinkedSection)
+    window.addEventListener("hashchange", openLinkedSection)
+    media.addEventListener("change", handleLayoutChange)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener("hashchange", openLinkedSection)
+      media.removeEventListener("change", handleLayoutChange)
+    }
   }, [])
 
+  useEffect(() => {
+    if (!isOpen || !linkedSection || showProjects) return
+    const frame = requestAnimationFrame(() => {
+      const section = document.getElementById("mobile-" + linkedSection)
+      section?.scrollIntoView({ block: "start" })
+      setLinkedSection(null)
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [isOpen, linkedSection, showProjects])
+
   function openPortfolio() {
+    setLinkedSection(null)
     setShowProjects(false)
     setIsOpen(true)
   }
@@ -84,7 +113,7 @@ export function MobileDrawer() {
 
           <div ref={scroll} className="portfolio-notification-scroll">
             {showProjects ? (
-              <ProjectDetails />
+              <ProjectDetails wallpaper />
             ) : (
               <PortfolioContent
                 mobile

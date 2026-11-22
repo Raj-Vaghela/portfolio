@@ -2,6 +2,7 @@
 
 import * as Dialog from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
+import { PortfolioCard } from "@/components/portfolio-card"
 import { ProjectLinks, ProjectSourceStatus } from "@/components/profile-link"
 import { projects } from "@/lib/profile"
 
@@ -10,11 +11,11 @@ interface ProjectsModalProps {
   onClose: () => void
 }
 
-export function ProjectDetails() {
+export function ProjectDetails({ wallpaper = false }: { wallpaper?: boolean }) {
   return (
     <div className="portfolio-project-details">
       {projects.map((project) => (
-        <article key={project.title} className="portfolio-card">
+        <PortfolioCard key={project.title} wallpaper={wallpaper}>
           <div className="flex items-start justify-between gap-3">
             <h3 className="text-xl font-semibold tracking-tight">{project.title}</h3>
             <ProjectLinks project={project} />
@@ -28,7 +29,7 @@ export function ProjectDetails() {
           <ul className="mt-4 list-disc space-y-2 border-t border-current/15 pt-4 pl-4 text-sm leading-relaxed">
             {project.details.map((detail) => <li key={detail}>{detail}</li>)}
           </ul>
-        </article>
+        </PortfolioCard>
       ))}
     </div>
   )

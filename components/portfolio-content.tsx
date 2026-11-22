@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { ArrowRight, BriefcaseBusiness, ExternalLink, GraduationCap, LayoutGrid, UserRound } from "lucide-react"
 import type { Ref } from "react"
+import { PortfolioCard } from "@/components/portfolio-card"
 import { ProfileLink, ProjectLinks, ProjectSourceStatus } from "@/components/profile-link"
 import { currentWork, profile, projects } from "@/lib/profile"
 import { raykdi } from "@/lib/freelance"
@@ -25,7 +26,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                         <UserRound aria-hidden="true" />
                         About
                     </h2>
-                    <div className="portfolio-card portfolio-about space-y-4">
+                    <PortfolioCard wallpaper={mobile} className="portfolio-about space-y-4">
                         <p className="dark:text-white text-gray-800 text-lg leading-relaxed">
                             I&apos;m an <span className="dark:text-white text-black font-semibold">{profile.role} at {profile.employer}</span> and an MSc Advanced Computer Science graduate from the University of Leicester (Distinction),
                             specializing in applied AI and Large Language Models.
@@ -53,7 +54,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </PortfolioCard>
                 </div>
             </section>
 
@@ -65,7 +66,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                         Experience
                     </h2>
                     <div className="portfolio-content-stack">
-                        <div className="portfolio-card">
+                        <PortfolioCard wallpaper={mobile}>
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
@@ -85,10 +86,10 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                     </li>
                                 ))}
                             </ul>
-                        </div>
+                        </PortfolioCard>
 
                         {/* IBM */}
-                        <div className="portfolio-card">
+                        <PortfolioCard wallpaper={mobile}>
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
@@ -113,10 +114,10 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                     <span>Automated preprocessing (imputation/encoding/scaling) into reusable snippets for consistency across notebooks.</span>
                                 </li>
                             </ul>
-                        </div>
+                        </PortfolioCard>
 
                         {/* Microsoft */}
-                        <div className="portfolio-card">
+                        <PortfolioCard wallpaper={mobile}>
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
@@ -142,10 +143,10 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                     <span>Built mini-demos connecting Azure front ends to simple APIs with notes on cost, latency, reliability trade-offs.</span>
                                 </li>
                             </ul>
-                        </div>
+                        </PortfolioCard>
 
                         {/* Direction Infosystems */}
-                        <div className="portfolio-card">
+                        <PortfolioCard wallpaper={mobile}>
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
@@ -167,10 +168,10 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                     <span>Assisted in UI design and code deployment, ensuring smooth handover and compatibility with in-house tools.</span>
                                 </li>
                             </ul>
-                        </div>
+                        </PortfolioCard>
 
                         {/* Elsner Technologies */}
-                        <div className="portfolio-card">
+                        <PortfolioCard wallpaper={mobile}>
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
@@ -192,7 +193,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                     <span>Completed foundational coding tasks while gaining exposure to agile teamwork and app development principles.</span>
                                 </li>
                             </ul>
-                        </div>
+                        </PortfolioCard>
                     </div>
                 </div>
             </section>
@@ -205,7 +206,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                         Project highlights
                     </h2>
                     <div className="portfolio-content-stack">
-                        <article className="portfolio-card portfolio-freelance-feature">
+                        <PortfolioCard wallpaper={mobile} className="portfolio-freelance-feature">
                             <p className="portfolio-card-accent text-sm font-medium">Freelance portfolio</p>
                             <h3 className="mt-1 text-xl font-semibold text-gray-900 dark:text-white">{raykdi.title}</h3>
                             <p className="mt-2 text-sm leading-relaxed text-gray-800 dark:text-white/80">{raykdi.summary}</p>
@@ -216,11 +217,11 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                 View case study
                                 <ArrowRight className="size-4" aria-hidden="true" />
                             </Link>
-                        </article>
+                        </PortfolioCard>
 
                         <div className="portfolio-project-grid">
                             {projects.map((project) => (
-                                <div key={project.title} className="portfolio-card flex h-full flex-col">
+                                <PortfolioCard wallpaper={mobile} key={project.title} className="flex h-full flex-col">
                                     <div className="flex items-start justify-between gap-2">
                                         <h4 className="text-lg font-bold dark:text-white text-gray-800">{project.title}</h4>
                                         <ProjectLinks project={project} />
@@ -233,7 +234,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                         ))}
                                     </div>
                                     <ProjectSourceStatus project={project} />
-                                </div>
+                                </PortfolioCard>
                             ))}
                         </div>
 
@@ -261,7 +262,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                     </h2>
                     <div className="portfolio-content-stack">
                         {/* Master's Degree */}
-                        <div className="portfolio-card">
+                        <PortfolioCard wallpaper={mobile}>
                             <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
                                 <div>
                                     <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Master of Science (M.Sc.)</h3>
@@ -278,10 +279,10 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                     <span className="dark:text-white text-black font-medium">Key modules:</span> Big Data & Predictive Analytics, C++, Cybersecurity, Technology & Innovation Management
                                 </p>
                             </div>
-                        </div>
+                        </PortfolioCard>
 
                         {/* Bachelor's Degree */}
-                        <div className="portfolio-card">
+                        <PortfolioCard wallpaper={mobile}>
                             <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
                                 <div>
                                     <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Bachelor of Engineering (B.E.)</h3>
@@ -298,10 +299,10 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                     <span className="dark:text-white text-black font-medium">Key modules:</span> Artificial Intelligence, Computer Networks, Data Mining, Machine Learning, Software Engineering
                                 </p>
                             </div>
-                        </div>
+                        </PortfolioCard>
 
                         {/* Highlights & Awards */}
-                        <div className="portfolio-card">
+                        <PortfolioCard wallpaper={mobile}>
                             <h4 className="text-lg font-bold dark:text-white text-gray-800 mb-4">Highlights & Awards</h4>
                             <div className="grid gap-3">
                                 <div className="flex gap-3">
@@ -325,7 +326,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                     <p className="dark:text-white text-gray-900 text-sm"><span className="font-medium dark:text-white text-black">Scholarships:</span> MYSY Merit Scholarship, State Aptitude Test Winner</p>
                                 </div>
                             </div>
-                        </div>
+                        </PortfolioCard>
                     </div>
                 </div>
             </section>
