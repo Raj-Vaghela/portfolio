@@ -10,9 +10,10 @@ interface ProfileImageProps {
   alt: string
   className?: string
   priority?: boolean
+  sizes?: string
 }
 
-export function ProfileImage({ src, id, alt, className, priority = false }: ProfileImageProps) {
+export function ProfileImage({ src, id, alt, className, priority = false, sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" }: ProfileImageProps) {
   const [loadedSrc, setLoadedSrc] = useState("")
   const [failedSrc, setFailedSrc] = useState("")
   const idMatch = src.includes("drive.google.com") ? src.match(/\/d\/([^/]+)|id=([^&]+)/) : null
@@ -51,7 +52,7 @@ export function ProfileImage({ src, id, alt, className, priority = false }: Prof
           src={imageSrc}
           alt={alt}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes={sizes}
           className={cn(
             "object-cover transition-opacity duration-500",
             isLoading ? "opacity-0" : "opacity-100"

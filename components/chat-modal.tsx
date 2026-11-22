@@ -63,15 +63,14 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => { if (!open) onClose() }}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[90] bg-slate-950/45" />
+        <Dialog.Overlay className="portfolio-dialog-overlay" />
         <Dialog.Content
-          className="glass-lens-host glass-sheet-rim fixed inset-x-3 top-1/2 z-[100] mx-auto flex h-[min(38rem,calc(100dvh-1.5rem))] max-w-xl -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] text-slate-900 dark:text-slate-50"
+          className="portfolio-modal fixed inset-x-3 top-1/2 z-[100] mx-auto flex h-[min(38rem,calc(100dvh-1.5rem))] max-w-xl -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] text-slate-900 dark:text-slate-50"
           onOpenAutoFocus={(event) => {
             event.preventDefault()
             inputRef.current?.focus()
           }}
         >
-          <GlassOptics surface="sheet" />
           <header className="flex items-start justify-between gap-4 border-b border-slate-500/15 px-5 py-4 sm:px-7 dark:border-white/10">
             <div>
               <Dialog.Title className="font-semibold tracking-tight">Chat with AI</Dialog.Title>
