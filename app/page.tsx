@@ -21,8 +21,7 @@ const imageUrl = process.env.NEXT_PUBLIC_IMAGE_URL || process.env.NEXT_PUBLIC_GO
 
 function WallpaperGlassIcon({ children }: { children: ReactNode }) {
   return (
-    <span className="portfolio-glass-button wallpaper-glass-icon" aria-hidden="true">
-      <GlassOptics surface="photoButton" backdropSelector="#portfolio-mobile-portrait" />
+    <span className="portfolio-glass-button portfolio-wallpaper-control wallpaper-glass-icon" aria-hidden="true">
       {children}
     </span>
   )
@@ -90,7 +89,7 @@ export default function Page() {
           <h1>Raj Vaghela</h1>
         </div>
 
-        <div className="portfolio-wallpaper-theme"><ThemeToggle optical backdropSelector="#portfolio-mobile-portrait" /></div>
+        <div className="portfolio-wallpaper-theme"><ThemeToggle optical="wallpaper" /></div>
 
         <div className="portfolio-wallpaper-actions" aria-label="Quick actions">
           <button onClick={() => setContactOpen(true)}><WallpaperGlassIcon><Mail size={20} /></WallpaperGlassIcon><span>Contact</span></button>
