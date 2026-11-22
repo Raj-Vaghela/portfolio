@@ -115,7 +115,7 @@ export function MobileDrawer() {
           onPointerDown={() => { keyboardNavigation.current = false }}
         />
         <Drawer.Content
-          className="portfolio-notification-drawer glass-lens-host"
+          className="portfolio-notification-drawer"
           onPointerDownCapture={() => { keyboardNavigation.current = false }}
           onKeyDownCapture={() => { keyboardNavigation.current = true }}
           onOpenAutoFocus={(event) => {
@@ -126,14 +126,13 @@ export function MobileDrawer() {
             if (!keyboardNavigation.current) event.preventDefault()
           }}
         >
-          <GlassOptics surface="drawer" backdropSelector="#portfolio-mobile-portrait" />
           <div className="portfolio-drawer-header">
             <Drawer.Handle className="portfolio-drawer-handle" />
             <div className="portfolio-drawer-toolbar">
               <Drawer.Title ref={projectsHeading} tabIndex={-1}>{showProjects ? "All projects" : "Portfolio"}</Drawer.Title>
               {showProjects && (
                 <button
-                  className="portfolio-drawer-back"
+                  className="portfolio-drawer-back portfolio-glass-button"
                   aria-label="Back to portfolio"
                   onClick={(event) => {
                     const returnToTrigger = event.detail === 0
@@ -145,10 +144,14 @@ export function MobileDrawer() {
                     })
                   }}
                 >
+                  <GlassOptics surface="photoButton" backdropSelector="#portfolio-mobile-portrait" />
                   <ArrowLeft size={19} aria-hidden="true" />
                 </button>
               )}
-              <Drawer.Close className="portfolio-drawer-close" aria-label="Close portfolio"><X size={18} aria-hidden="true" /></Drawer.Close>
+              <Drawer.Close className="portfolio-drawer-close portfolio-glass-button" aria-label="Close portfolio">
+                <GlassOptics surface="photoButton" backdropSelector="#portfolio-mobile-portrait" />
+                <X size={18} aria-hidden="true" />
+              </Drawer.Close>
             </div>
             <Drawer.Description className="sr-only">Raj Vaghela’s work, projects, education and background.</Drawer.Description>
           </div>
