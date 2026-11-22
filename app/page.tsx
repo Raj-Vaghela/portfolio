@@ -89,8 +89,6 @@ export default function Page() {
           <h1>Raj Vaghela</h1>
         </div>
 
-        <div className="portfolio-wallpaper-theme"><ThemeToggle optical="wallpaper" /></div>
-
         <div className="portfolio-wallpaper-actions" aria-label="Quick actions">
           <button onClick={() => setContactOpen(true)}><WallpaperGlassIcon><Mail size={20} /></WallpaperGlassIcon><span>Contact</span></button>
           <button onClick={() => setChatOpen(true)}><WallpaperGlassIcon><Sparkles size={20} /></WallpaperGlassIcon><span>Chat with AI</span></button>

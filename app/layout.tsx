@@ -1,12 +1,12 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Instrument_Serif, Press_Start_2P } from "next/font/google"
 import { Suspense } from "react"
-import { ThemeProvider } from "next-themes"
+import { PortfolioTheme } from "@/components/portfolio-theme"
 import { profile } from "@/lib/profile"
 import "./globals.css"
 
@@ -40,6 +40,10 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: "Raj Vaghela | AI Systems Engineer", description: "LLM applications, data pipelines and full stack delivery." },
 }
 
+export const viewport: Viewport = {
+  themeColor: [{ media: "(width < 64rem)", color: "#101116" }],
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -48,7 +52,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${instrumentSerif.variable} ${pressStart2P.variable} antialiased`} suppressHydrationWarning>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+        <PortfolioTheme>
         <Suspense fallback={null}>{children}</Suspense>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
           "@context": "https://schema.org",
@@ -62,7 +66,7 @@ export default function RootLayout({
         }).replace(/</g, "\\u003c") }} />
         <Analytics />
         <SpeedInsights />
-        </ThemeProvider>
+        </PortfolioTheme>
       </body>
     </html>
   )

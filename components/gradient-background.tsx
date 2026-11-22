@@ -5,14 +5,14 @@ import { useTheme } from "next-themes"
 
 export function GradientBackground({ desktopArtwork = false }: { desktopArtwork?: boolean }) {
   const surface = useRef<HTMLCanvasElement>(null)
-  const { resolvedTheme } = useTheme()
+  const { forcedTheme, resolvedTheme } = useTheme()
+  const dark = (forcedTheme ?? resolvedTheme) !== "light"
 
   useEffect(() => {
     const canvas = surface.current
     const context = canvas?.getContext("2d")
     if (!canvas || !context) return
 
-    const dark = resolvedTheme !== "light"
     const desktop = window.matchMedia("(min-width: 64rem)")
     const artwork = desktopArtwork ? new Image() : null
 
@@ -76,7 +76,7 @@ export function GradientBackground({ desktopArtwork = false }: { desktopArtwork?
       artwork?.removeEventListener("load", draw)
       if (desktopArtwork) desktop.removeEventListener("change", loadArtwork)
     }
-  }, [desktopArtwork, resolvedTheme])
+  }, [dark, desktopArtwork])
 
   return <canvas ref={surface} id="portfolio-glass-backdrop" aria-hidden="true" className="portfolio-backdrop" />
 }

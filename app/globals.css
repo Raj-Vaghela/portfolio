@@ -74,6 +74,11 @@
   --sidebar-ring: oklch(0.439 0 0);
 }
 
+@media (width < 64rem) {
+  :root { color-scheme: dark !important; }
+  body { background-color: #101116; }
+}
+
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -545,8 +550,6 @@
   text-shadow: 0 2px 21px rgb(0 0 0 / 78%);
 }
 .portfolio-wallpaper-heading h1 { margin-top: .4rem; font-size: clamp(2.75rem, 11vw, 6.6rem); font-weight: 660; line-height: .92; letter-spacing: -.082em; }
-.portfolio-wallpaper-theme { position: absolute; z-index: 2; top: max(1rem, env(safe-area-inset-top)); right: max(1rem, env(safe-area-inset-right)); }
-.portfolio-wallpaper-theme button svg { color: #fff; }
 .portfolio-wallpaper-actions {
   position: absolute;
   z-index: 2;
@@ -614,7 +617,8 @@
   0%, 100% { transform: translateY(0); opacity: 1; }
   48% { transform: translateY(-.32rem); opacity: .66; }
 }
-.portfolio-wallpaper:has(.portfolio-wallpaper-hint[aria-expanded="true"]) :is(.portfolio-wallpaper-heading, .portfolio-wallpaper-actions, .portfolio-wallpaper-theme, .portfolio-wallpaper-hint) { visibility: hidden; }
+.portfolio-wallpaper:has(.portfolio-wallpaper-hint[aria-expanded="true"]) :is(.portfolio-wallpaper-heading, .portfolio-wallpaper-actions) { visibility: hidden; }
+.portfolio-wallpaper-hint[aria-expanded="true"] { opacity: 0; }
 
 /* The overlay catches taps outside the drawer without dimming the portrait. */
 .portfolio-notification-overlay { position: fixed; inset: 0; z-index: 40; }
@@ -635,14 +639,34 @@
   color: var(--portfolio-ink);
   outline: none;
 }
+.portfolio-notification-drawer[data-pull-phase] {
+  --portfolio-pull-position: max(0px, calc(100% - var(--portfolio-pull-distance, 0px)));
+}
+.portfolio-notification-drawer[data-pull-phase="tracking"][data-state="open"] {
+  animation: none !important;
+  transition: none !important;
+  transform: translate3d(0, var(--portfolio-pull-position), 0);
+}
+.portfolio-notification-drawer[data-pull-phase="settling"][data-state="open"] {
+  animation-name: portfolio-pull-open !important;
+}
+.portfolio-notification-drawer[data-pull-phase="returning"][data-state="closed"] {
+  animation-name: portfolio-pull-close !important;
+}
+@keyframes portfolio-pull-open {
+  from { transform: translate3d(0, var(--portfolio-pull-position), 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+@keyframes portfolio-pull-close {
+  from { transform: translate3d(0, var(--portfolio-pull-position), 0); }
+  to { transform: translate3d(0, 100%, 0); }
+}
 .portfolio-drawer-rim {
   position: absolute;
   inset: 0 0 auto;
   height: 3.45rem;
   border-radius: inherit;
   overflow: hidden;
-  -webkit-backdrop-filter: brightness(1.14);
-  backdrop-filter: brightness(1.14);
   -webkit-mask-image: linear-gradient(#000 24%, rgb(0 0 0 / 72%) 49%, transparent 96%);
   mask-image: linear-gradient(#000 24%, rgb(0 0 0 / 72%) 49%, transparent 96%);
   pointer-events: none;
@@ -651,19 +675,6 @@
   display: block;
   width: 100%;
   height: 100%;
-  filter: brightness(1.12) contrast(1.08);
-  opacity: .94;
-}
-.portfolio-drawer-rim::after {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  box-shadow:
-    inset 0 1px 1px rgb(255 255 255 / 90%),
-    inset 2px 3px 3px rgb(232 243 255 / 56%),
-    inset -2px 2px 4px rgb(228 239 255 / 42%),
-    inset 0 7px 11px rgb(4 10 20 / 42%);
-  content: "";
 }
 .portfolio-drawer-header {
   z-index: 1;
@@ -897,7 +908,7 @@
   .portfolio-toolbar, .portfolio-modal, .portfolio-project-dialog > header, .portfolio-glass-button, .portfolio-glass-button:hover { background: var(--portfolio-panel); }
   .portfolio-card::after { background: var(--portfolio-panel); }
   .portfolio-wallpaper .portfolio-glass-button, .portfolio-notification-drawer .portfolio-glass-button, .portfolio-notification-drawer .portfolio-section-heading { background: #22252c; }
-  .portfolio-wallpaper .portfolio-wallpaper-control, .portfolio-drawer-rim { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .portfolio-wallpaper .portfolio-wallpaper-control { -webkit-backdrop-filter: none; backdrop-filter: none; }
   .portfolio-drawer-rim canvas { display: none; }
   .portfolio-welcome { background: #1a2030; -webkit-backdrop-filter: none; backdrop-filter: none; }
   .portfolio-glass-button.portfolio-glass-button--blue, .portfolio-glass-button.portfolio-glass-button--blue:hover { background: #064eaa; }
