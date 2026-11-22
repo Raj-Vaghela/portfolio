@@ -18,6 +18,12 @@ const surfaces = {
     dark: "rgba(8, 20, 36, 0.72)",
     light: "rgba(246, 251, 255, 0.77)",
   },
+  portrait: {
+    radius: 32,
+    displacement: 24,
+    dark: "rgba(8, 16, 27, 0.39)",
+    light: "rgba(245, 249, 255, 0.72)",
+  },
   pill: {
     radius: 32,
     displacement: 20,
@@ -27,6 +33,8 @@ const surfaces = {
 }
 
 const rim = { depth: .26, curvature: .57, bend: .46, bendWidth: .18, sheen: 1, specular: 1 }
+
+const portraitRim = { depth: .14, curvature: .22, bend: .24, bendWidth: .13, sheen: .62, specular: .7 }
 
 const layerStyle: CSSProperties = { position: "absolute", inset: 0, width: "100%", height: "100%", minHeight: 0 }
 
@@ -52,16 +60,18 @@ export const GlassOptics = memo(function GlassOptics({
 
   const dark = resolvedTheme !== "light"
   const design = surfaces[surface]
+  const isPortrait = surface === "portrait"
 
   return (
     <div className="glass-optics" aria-hidden="true" data-portfolio-optics={surface}>
       <LiquidGlass
         material="clear"
         refraction="lens"
-        lensOptions={rim}
+        renderer={isPortrait ? "webgl" : "auto"}
+        lensOptions={isPortrait ? portraitRim : rim}
         radius={design.radius}
         displacementScale={design.displacement}
-        aberrationIntensity={.22}
+        aberrationIntensity={isPortrait ? .015 : .22}
         blur={0}
         frost={0}
         iosBlurMode="off"

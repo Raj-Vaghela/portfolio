@@ -292,6 +292,7 @@ export default function Page() {
         {/* Full screen background image */}
         <div id="portfolio-mobile-photo" className="fixed inset-0 z-0 bg-zinc-900">
           <ProfileImage
+            id="portfolio-mobile-portrait"
             src={imageUrl}
             alt="Raj Vaghela"
             className="w-full h-full"
