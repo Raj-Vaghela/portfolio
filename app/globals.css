@@ -548,34 +548,46 @@
   place-items: center;
   border-radius: 50%;
 }
-.portfolio-wallpaper-open {
+.portfolio-wallpaper-hint {
   position: absolute;
   z-index: 2;
   bottom: calc(max(.8rem, env(safe-area-inset-bottom)) + .95rem);
   left: 50%;
   display: grid;
   min-height: 2.75rem;
+  place-content: center;
   justify-items: center;
-  align-content: center;
   gap: .1rem;
   transform: translateX(-50%);
-  border-radius: 999px;
+  touch-action: none;
+  border-radius: .8rem;
   color: #fff;
-  font-size: .875rem;
-  font-weight: 600;
-  text-shadow: 0 1px 8px #000;
+  font-size: .78rem;
+  font-weight: 550;
+  text-shadow: 0 1px 5px #000, 0 2px 14px #000;
   padding: .35rem 1rem;
   cursor: pointer;
 }
-.portfolio-wallpaper-open::after {
+.portfolio-wallpaper-hint svg {
+  filter: drop-shadow(0 1px 4px #000);
+  animation: portfolio-swipe-nudge 1.15s ease-in-out 2.25s 3;
+}
+.portfolio-wallpaper-hint::after {
   position: absolute;
-  inset: auto 17% -.65rem;
-  height: .23rem;
+  bottom: -.6rem;
+  left: 50%;
+  width: 2.35rem;
+  height: .22rem;
+  transform: translateX(-50%);
   border-radius: 999px;
   background: rgb(255 255 255 / 73%);
   content: "";
 }
-.portfolio-wallpaper:has(.portfolio-wallpaper-open[aria-expanded="true"]) :is(.portfolio-wallpaper-actions, .portfolio-wallpaper-theme, .portfolio-wallpaper-open) { visibility: hidden; }
+@keyframes portfolio-swipe-nudge {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  48% { transform: translateY(-.32rem); opacity: .66; }
+}
+.portfolio-wallpaper:has(.portfolio-wallpaper-hint[aria-expanded="true"]) :is(.portfolio-wallpaper-actions, .portfolio-wallpaper-theme, .portfolio-wallpaper-hint) { visibility: hidden; }
 
 /* Independently tinted cards keep the live portrait visible between notifications. */
 .portfolio-notification-overlay { position: fixed; inset: 0; z-index: 40; background: rgb(9 11 17 / 37%); }
@@ -727,11 +739,12 @@
 .portfolio-project-dialog .portfolio-project-details { padding: 1rem; }
 
 .portfolio-welcome {
-  --welcome-top: #f8fbff;
+  --welcome-top: #f5fbff;
   --welcome-glint: #fff;
-  --welcome-core: #dce8fa;
-  --welcome-bottom: #879ebd;
-  --welcome-edge: rgb(76 107 147 / 60%);
+  --welcome-core: #b5cce9;
+  --welcome-bottom: #819ec5;
+  --welcome-edge: rgb(67 96 140 / 62%);
+  --welcome-depth: rgb(58 84 126 / 35%);
   position: fixed;
   z-index: 150;
   inset: 0;
@@ -742,7 +755,9 @@
   animation: portfolio-welcome-reveal .38s ease 1.72s both;
 }
 .dark .portfolio-welcome {
-  --welcome-edge: rgb(179 213 251 / 27%);
+  --welcome-core: #c4daf3;
+  --welcome-edge: rgb(187 219 255 / 29%);
+  --welcome-depth: rgb(40 65 106 / 78%);
   background: radial-gradient(ellipse at 50% 54%, rgb(61 88 133 / 32%), transparent 67%), var(--portfolio-paper);
 }
 .portfolio-welcome svg { width: 100%; height: auto; filter: drop-shadow(0 2px 6px rgb(82 119 177 / 37%)); }
@@ -804,7 +819,6 @@
 }
 .portfolio-glass-button:hover { background: var(--button-face); }
 :is(a, button).portfolio-glass-button:active, .portfolio-wallpaper-actions > :active > .wallpaper-glass-icon { scale: .96; }
-.portfolio-wallpaper-open.portfolio-glass-button { position: absolute; gap: .38rem; display: flex; padding-inline: 1rem 1.15rem; }
 .portfolio-wallpaper-actions > *:focus-visible { outline-offset: 2px; border-radius: 1rem; }
 
 .portfolio-chat {
@@ -828,6 +842,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .portfolio-welcome { display: none; }
+  .portfolio-wallpaper-hint svg { animation: none; }
   .portfolio-glass-button { transition: none; }
   .portfolio-notification-drawer, .portfolio-notification-overlay { animation-duration: 1ms !important; transition-duration: 1ms !important; }
 }
@@ -836,7 +851,7 @@
   .portfolio-wallpaper-heading { top: 2.25rem; }
   .portfolio-wallpaper-heading h1 { font-size: clamp(2rem, 8vw, 3.5rem); }
   .portfolio-wallpaper-actions { bottom: calc(max(.5rem, env(safe-area-inset-bottom)) + 3.85rem); }
-  .portfolio-wallpaper-open { bottom: calc(max(.5rem, env(safe-area-inset-bottom)) + .6rem); }
+  .portfolio-wallpaper-hint { bottom: calc(max(.5rem, env(safe-area-inset-bottom)) + .6rem); }
   .portfolio-notification-drawer { top: 1rem; }
 }
 
