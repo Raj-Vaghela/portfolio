@@ -1,91 +1,107 @@
 "use client"
 
+import { ArrowLeft, ChevronUp, X } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 import { Drawer } from "vaul"
-import { useState, useRef } from "react"
-import { ScrollIndicator } from "./scroll-indicator"
 import { GlassOptics } from "./glass-optics"
+import { PortfolioContent } from "./portfolio-content"
+import { ProjectDetails } from "./projects-modal"
 
-interface MobileDrawerProps {
-    children: React.ReactNode
-    isAnyModalOpen?: boolean
-}
+export function MobileDrawer() {
+  const [isOpen, setIsOpen] = useState(false)
+  const [showProjects, setShowProjects] = useState(false)
+  const start = useRef<{ x: number; y: number } | null>(null)
+  const scroll = useRef<HTMLDivElement>(null)
+  const projectsTrigger = useRef<HTMLButtonElement | null>(null)
+  const projectsHeading = useRef<HTMLHeadingElement>(null)
+  const savedScroll = useRef(0)
 
-export function MobileDrawer({ children, isAnyModalOpen = false }: MobileDrawerProps) {
-    const [isOpen, setIsOpen] = useState(false)
-    const touchStart = useRef<number | null>(null)
-
-    const minSwipeDistance = 50
-
-    const onTouchStart = (e: React.TouchEvent) => {
-        touchStart.current = e.targetTouches[0].clientY
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 64rem)")
+    const closeOnDesktop = () => {
+      if (media.matches) setIsOpen(false)
     }
+    media.addEventListener("change", closeOnDesktop)
+    return () => media.removeEventListener("change", closeOnDesktop)
+  }, [])
 
-    const onTouchEnd = (e: React.TouchEvent) => {
-        if (!touchStart.current) return
+  function openPortfolio() {
+    setShowProjects(false)
+    setIsOpen(true)
+  }
 
-        const touchEndY = e.changedTouches[0].clientY
-        const distance = touchStart.current - touchEndY
-        const isUpSwipe = distance > minSwipeDistance
+  return (
+    <Drawer.Root open={isOpen} onOpenChange={(open) => open ? openPortfolio() : setIsOpen(false)} autoFocus>
+      <div
+        className="absolute inset-0 touch-none"
+        aria-hidden="true"
+        onPointerDown={(event) => {
+          start.current = { x: event.clientX, y: event.clientY }
+          event.currentTarget.setPointerCapture(event.pointerId)
+        }}
+        onPointerUp={(event) => {
+          if (start.current) {
+            const distance = start.current.y - event.clientY
+            if (distance > 50 && distance > Math.abs(start.current.x - event.clientX)) openPortfolio()
+          }
+          start.current = null
+        }}
+        onPointerCancel={() => { start.current = null }}
+      />
 
-        if (isUpSwipe) {
-            setIsOpen(true)
-        }
-    }
+      <Drawer.Trigger className="portfolio-wallpaper-open">
+        <ChevronUp size={20} aria-hidden="true" />
+        <span>Explore portfolio</span>
+      </Drawer.Trigger>
 
-    const onMouseDown = (e: React.MouseEvent) => {
-        touchStart.current = e.clientY
-    }
+      <Drawer.Portal>
+        <Drawer.Overlay className="portfolio-notification-overlay" />
+        <Drawer.Content className="portfolio-notification-drawer">
+          <div className="portfolio-drawer-header">
+            <Drawer.Handle className="portfolio-drawer-handle" />
+            <div className="portfolio-drawer-toolbar glass-lens-host">
+              <GlassOptics surface="portrait" backdropSelector="#portfolio-mobile-portrait" />
+              <Drawer.Title ref={projectsHeading} tabIndex={-1}>{showProjects ? "All projects" : "Portfolio"}</Drawer.Title>
+              {showProjects && (
+                <button
+                  className="portfolio-drawer-back"
+                  aria-label="Back to portfolio"
+                  onClick={() => {
+                    setShowProjects(false)
+                    requestAnimationFrame(() => {
+                      scroll.current?.scrollTo(0, savedScroll.current)
+                      projectsTrigger.current?.focus({ preventScroll: true })
+                    })
+                  }}
+                >
+                  <ArrowLeft size={19} aria-hidden="true" />
+                </button>
+              )}
+              <Drawer.Close className="portfolio-drawer-close" aria-label="Close portfolio"><X size={18} aria-hidden="true" /></Drawer.Close>
+            </div>
+            <Drawer.Description className="sr-only">Raj Vaghela’s work, projects, education and background.</Drawer.Description>
+          </div>
 
-    const onMouseUp = (e: React.MouseEvent) => {
-        if (!touchStart.current) return
-
-        const touchEndY = e.clientY
-        const distance = touchStart.current - touchEndY
-        const isUpSwipe = distance > minSwipeDistance
-
-        if (isUpSwipe) {
-            setIsOpen(true)
-        }
-        touchStart.current = null
-    }
-
-    return (
-        <>
-            {/* Full-screen swipe area */}
-            <div
-                className="fixed inset-0 z-0"
-                onTouchStart={onTouchStart}
-                onTouchEnd={onTouchEnd}
-                onMouseDown={onMouseDown}
-                onMouseUp={onMouseUp}
-            />
-
-            <Drawer.Root open={isOpen} onOpenChange={setIsOpen}>
-                {/* Scroll indicator - only show when drawer and modals are closed */}
-                {!isOpen && !isAnyModalOpen && (
-                    <div className="fixed bottom-2 left-1/2 -translate-x-1/2 w-12 h-12 flex items-center justify-center z-[100] pointer-events-none">
-                        <ScrollIndicator />
-                    </div>
-                )}
-
-                <Drawer.Trigger asChild>
-                    <button className="sr-only">Open drawer</button>
-                </Drawer.Trigger>
-
-                <Drawer.Portal>
-                    <Drawer.Overlay className="fixed inset-0 bg-black/25" />
-                    <Drawer.Content className="glass-lens-host glass-sheet-rim flex flex-col rounded-t-[2rem] h-[96%] mt-24 fixed bottom-0 left-0 right-0 z-50 outline-none">
-                        <GlassOptics surface="portrait" backdropSelector="#portfolio-mobile-portrait" />
-                        <div className="p-4 bg-transparent rounded-t-[2rem] flex-1 flex flex-col min-h-0">
-                            <Drawer.Title className="sr-only">Mobile Menu</Drawer.Title>
-                            <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-white/30 mb-8" />
-                            <div className="max-w-md mx-auto w-full flex-1 overflow-y-auto pb-20">
-                                {children}
-                            </div>
-                        </div>
-                    </Drawer.Content>
-                </Drawer.Portal>
-            </Drawer.Root>
-        </>
-    )
+          <div ref={scroll} className="portfolio-notification-scroll">
+            {showProjects ? (
+              <ProjectDetails />
+            ) : (
+              <PortfolioContent
+                mobile
+                projectsButtonRef={projectsTrigger}
+                onOpenProjectsModal={() => {
+                  savedScroll.current = scroll.current?.scrollTop ?? 0
+                  setShowProjects(true)
+                  requestAnimationFrame(() => {
+                    scroll.current?.scrollTo(0, 0)
+                    projectsHeading.current?.focus({ preventScroll: true })
+                  })
+                }}
+              />
+            )}
+          </div>
+        </Drawer.Content>
+      </Drawer.Portal>
+    </Drawer.Root>
+  )
 }

@@ -20,7 +20,7 @@ export default function FreelancePage() {
   const inquiry = "mailto:" + profile.email + "?subject=" + encodeURIComponent("Freelance website enquiry")
 
   return (
-    <main className="h-dvh overflow-y-auto overscroll-contain bg-gradient-to-b from-sky-50 to-white text-slate-900 dark:from-slate-950 dark:to-slate-900 dark:text-white">
+    <main className="portfolio-freelance-page h-dvh overflow-y-auto overscroll-contain">
       <div className="mx-auto max-w-4xl px-5 pb-14 pt-6 sm:px-10 sm:pt-10">
         <header className="flex items-center justify-between gap-4">
           <Link href="/" className="inline-flex min-h-10 items-center gap-2 text-sm font-medium text-slate-700 hover:underline dark:text-slate-200">
@@ -31,13 +31,13 @@ export default function FreelancePage() {
         </header>
 
         <div className="mb-9 mt-12 sm:mt-16">
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">Freelance portfolio</h1>
+          <h1 className="text-5xl font-semibold tracking-[-.075em] sm:text-7xl">Freelance portfolio</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg dark:text-slate-300">
             I design and build websites for small businesses. Here’s an example of how I approach a hospitality website, from the first impression to the menu.
           </p>
         </div>
 
-        <article id={raykdi.id} aria-labelledby="raykdi-title" className="scroll-mt-6 liquid-glass-card rounded-3xl p-6 sm:p-9">
+        <article id={raykdi.id} aria-labelledby="raykdi-title" className="portfolio-card portfolio-freelance-feature scroll-mt-6">
           <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">{raykdi.status}</p>
           <h2 id="raykdi-title" className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">{raykdi.title}</h2>
           <p className="mt-3 max-w-xl leading-relaxed text-slate-600 dark:text-slate-300">{raykdi.summary}</p>
@@ -59,7 +59,7 @@ export default function FreelancePage() {
             ))}
           </ul>
 
-          <a href={inquiry} className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 font-medium text-white transition-colors hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">
+          <a href={inquiry} className="portfolio-primary mt-6">
             <Mail className="size-4" aria-hidden="true" />
             Discuss a project or request a walkthrough
           </a>
