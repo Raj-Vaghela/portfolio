@@ -20,6 +20,7 @@ export function MobileDrawer() {
   const start = useRef<PullGesture | null>(null)
   const pullDistance = useRef(0)
   const drawer = useRef<HTMLDivElement | null>(null)
+  const gestureSurface = useRef<HTMLDivElement>(null)
   const didSwipe = useRef(false)
   const keyboardNavigation = useRef(false)
   const scroll = useRef<HTMLDivElement>(null)
@@ -93,11 +94,13 @@ export function MobileDrawer() {
       if (distance < 8 || distance <= Math.abs(gesture.x - event.clientX)) return
       gesture.tracking = true
       didSwipe.current = true
-      pullDistance.current = Math.max(0, distance - 5)
       openPortfolio("tracking")
     }
     pullDistance.current = Math.max(0, distance - 5)
     drawer.current?.style.setProperty("--portfolio-pull-distance", `${pullDistance.current}px`)
+    const exitDistance = Math.max(120, Math.min(240, window.innerHeight * .33))
+    const progress = Math.min(1, pullDistance.current / exitDistance)
+    gestureSurface.current?.parentElement?.style.setProperty("--portfolio-pull-progress", String(progress))
   }
 
   function finishGesture(event: PointerEvent<HTMLElement>) {
@@ -129,6 +132,7 @@ export function MobileDrawer() {
   return (
     <Drawer.Root open={isOpen} onOpenChange={(open) => open ? openPortfolio() : setIsOpen(false)} autoFocus>
       <div
+        ref={gestureSurface}
         className="absolute inset-0 touch-none"
         aria-hidden="true"
         onPointerDown={startGesture}
@@ -140,6 +144,7 @@ export function MobileDrawer() {
 
       <Drawer.Trigger
         className="portfolio-wallpaper-hint"
+        data-pull-tracking={pullPhase === "tracking" || undefined}
         onPointerDown={startGesture}
         onPointerMove={followGesture}
         onPointerUp={finishGesture}

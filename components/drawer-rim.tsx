@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef } from "react"
+import { wallpaperShadeStops } from "@/lib/wallpaper"
 
 function lensOffset(x: number, y: number, width: number, radius: number) {
   const centerX = Math.max(radius, Math.min(x, width - radius))
@@ -11,6 +12,28 @@ function lensOffset(x: number, y: number, width: number, radius: number) {
   const depth = y >= radius ? Math.min(x, width - x) : radius - length
   const strength = Math.min(25, radius * .85) * (1 - Math.max(0, Math.min(1, depth / radius)))
   return length ? [strength * normalX / length, strength * normalY / length] : [0, 0]
+}
+
+function drawRimHighlights(context: CanvasRenderingContext2D, width: number, radius: number) {
+  const light = context.createLinearGradient(0, 0, width, 0)
+  light.addColorStop(0, "rgba(225, 241, 255, .25)")
+  light.addColorStop(.075, "rgba(246, 251, 255, .79)")
+  light.addColorStop(.4, "rgba(228, 240, 255, .18)")
+  light.addColorStop(.84, "rgba(228, 240, 255, .28)")
+  light.addColorStop(.955, "rgba(248, 252, 255, .7)")
+  light.addColorStop(1, "rgba(225, 241, 255, .22)")
+
+  for (const inset of [1, 3.6]) {
+    context.beginPath()
+    context.moveTo(inset, radius + 8)
+    context.arcTo(inset, inset, radius, inset, radius - inset)
+    context.arcTo(width - inset, inset, width - inset, radius, radius - inset)
+    context.lineTo(width - inset, radius + 8)
+    context.strokeStyle = light
+    context.globalAlpha = inset === 1 ? 1 : .23
+    context.lineWidth = inset === 1 ? 1.1 : 2.2
+    context.stroke()
+  }
 }
 
 export function DrawerRim() {
@@ -80,6 +103,20 @@ export function DrawerRim() {
           drawBand(width - end, width - edge, row, band)
         }
       }
+
+      context.save()
+      context.scale(pixelRatio, pixelRatio)
+      // Apply the same lighting as the wallpaper so the lens reads as clear glass.
+      const shade = context.createLinearGradient(0, backdrop.top - rim.top, 0, backdrop.bottom - rim.top)
+      for (const [position, opacity] of wallpaperShadeStops) {
+        shade.addColorStop(position, `rgba(0, 0, 0, ${opacity})`)
+      }
+      context.globalCompositeOperation = "source-atop"
+      context.fillStyle = shade
+      context.fillRect(0, 0, rim.width, rim.height)
+      context.globalCompositeOperation = "source-over"
+      drawRimHighlights(context, rim.width, radius)
+      context.restore()
     }
 
     function updateTransparency() {

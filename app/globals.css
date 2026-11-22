@@ -538,7 +538,6 @@
 .portfolio-wallpaper-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgb(0 0 0 / 51%), rgb(0 0 0 / 13%) 28%, transparent 48%, rgb(0 0 0 / 63%) 77%, rgb(0 0 0 / 83%));
   pointer-events: none;
 }
 .portfolio-wallpaper-heading {
@@ -617,8 +616,30 @@
   0%, 100% { transform: translateY(0); opacity: 1; }
   48% { transform: translateY(-.32rem); opacity: .66; }
 }
-.portfolio-wallpaper:has(.portfolio-wallpaper-hint[aria-expanded="true"]) :is(.portfolio-wallpaper-heading, .portfolio-wallpaper-actions) { visibility: hidden; }
-.portfolio-wallpaper-hint[aria-expanded="true"] { opacity: 0; }
+.portfolio-wallpaper { --landing-exit: 0; }
+.portfolio-wallpaper:has(.portfolio-wallpaper-hint[aria-expanded="true"]) { --landing-exit: 1; }
+.portfolio-wallpaper:has(.portfolio-wallpaper-hint[data-pull-tracking]) { --landing-exit: var(--portfolio-pull-progress, 0); }
+.portfolio-wallpaper-heading > *,
+.portfolio-wallpaper-actions > *,
+.portfolio-wallpaper-hint {
+  --leave-progress: clamp(0, calc((var(--landing-exit) - var(--leave-delay, 0)) * 1.35), 1);
+  opacity: calc(1 - var(--leave-progress));
+  translate: 0 calc(var(--leave-progress) * var(--leave-travel, -1.4rem));
+  scale: calc(1 - var(--leave-progress) * var(--leave-scale, .03));
+  transition: opacity .24s ease, translate .34s cubic-bezier(.22, .72, .25, 1), scale .34s cubic-bezier(.22, .72, .25, 1);
+}
+.portfolio-wallpaper-heading h1 { --leave-delay: .09; --leave-travel: -2rem; }
+.portfolio-wallpaper-actions > * { --leave-travel: -.95rem; --leave-scale: .15; }
+.portfolio-wallpaper-actions > :nth-child(2) { --leave-delay: .05; }
+.portfolio-wallpaper-actions > :nth-child(3) { --leave-delay: .1; }
+.portfolio-wallpaper-actions > :nth-child(4) { --leave-delay: .15; }
+.portfolio-wallpaper-hint { --leave-travel: -.7rem; }
+.portfolio-wallpaper:has(.portfolio-wallpaper-hint[aria-expanded="true"]) :is(.portfolio-wallpaper-heading > *, .portfolio-wallpaper-actions > *, .portfolio-wallpaper-hint) {
+  transition-delay: calc(var(--leave-delay, 0) * 280ms);
+}
+.portfolio-wallpaper:has(.portfolio-wallpaper-hint[data-pull-tracking]) :is(.portfolio-wallpaper-heading > *, .portfolio-wallpaper-actions > *, .portfolio-wallpaper-hint) {
+  transition: none;
+}
 
 /* The overlay catches taps outside the drawer without dimming the portrait. */
 .portfolio-notification-overlay { position: fixed; inset: 0; z-index: 40; }
@@ -822,12 +843,29 @@
 }
 .portfolio-welcome svg { width: 100%; height: auto; filter: drop-shadow(0 2px 6px rgb(82 119 177 / 37%)); }
 .portfolio-welcome-trace { stroke-dasharray: 1; animation: portfolio-welcome-write 1.57s cubic-bezier(.23,.1,.36,1) both; }
-.portfolio-welcome-dot { transform-box: fill-box; transform-origin: center; animation: portfolio-welcome-dot .4s cubic-bezier(.2,.8,.3,1) .92s both; }
+.portfolio-welcome-coin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: portfolio-welcome-coin-drop .64s .86s both;
+}
+.portfolio-welcome-coin-face {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: portfolio-welcome-coin-turn .64s .86s both;
+}
 @keyframes portfolio-welcome-write { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
-@keyframes portfolio-welcome-dot {
-  0% { opacity: 0; transform: translateY(-10px) scale(.3); }
-  63% { opacity: 1; transform: translateY(1px) scale(1.16); }
+@keyframes portfolio-welcome-coin-drop {
+  0% { opacity: 0; transform: translateY(-25px) rotate(-16deg) scale(.78); }
+  38% { opacity: 1; transform: translateY(0) rotate(8deg) scale(1.06, .91); }
+  62% { transform: translateY(-6px) rotate(-5deg); }
+  82% { transform: translateY(0) rotate(2deg) scale(1.025, .97); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes portfolio-welcome-coin-turn {
+  0% { transform: scaleX(.18); }
+  43% { transform: scaleX(1); }
+  66% { transform: scaleX(.58); }
+  100% { transform: scaleX(1); }
 }
 @keyframes portfolio-welcome-reveal { from { opacity: 1; } to { opacity: 0; } }
 
@@ -917,6 +955,11 @@
 @media (prefers-reduced-motion: reduce) {
   .portfolio-welcome { display: none; }
   .portfolio-wallpaper-hint svg { animation: none; }
+  .portfolio-wallpaper-heading > *, .portfolio-wallpaper-actions > *, .portfolio-wallpaper-hint {
+    transition: none !important;
+    translate: none;
+    scale: none;
+  }
   .portfolio-glass-button { transition: none; }
   .portfolio-notification-drawer, .portfolio-notification-overlay { animation-duration: 1ms !important; transition-duration: 1ms !important; }
 }

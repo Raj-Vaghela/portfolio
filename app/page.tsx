@@ -14,6 +14,7 @@ import { ProfileImage } from "@/components/profile-image"
 import { ProjectsModal } from "@/components/projects-modal"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { profile } from "@/lib/profile"
+import { wallpaperShade } from "@/lib/wallpaper"
 
 const github = "https://github.com/Raj-Vaghela"
 const linkedin = "https://linkedin.com/in/raj-vaghela"
@@ -81,7 +82,7 @@ export default function Page() {
       <div className="portfolio-wallpaper lg:hidden">
         <div id="portfolio-mobile-photo" className="absolute inset-0">
           <ProfileImage id="portfolio-mobile-portrait" src={imageUrl} alt="" className="size-full" priority sizes="(max-width: 1023px) 100vw, 1px" />
-          <div className="portfolio-wallpaper-shade" aria-hidden="true" />
+          <div className="portfolio-wallpaper-shade" style={{ backgroundImage: wallpaperShade }} aria-hidden="true" />
         </div>
 
         <div className="portfolio-wallpaper-heading">
