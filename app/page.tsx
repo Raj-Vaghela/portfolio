@@ -35,7 +35,7 @@ export default function Page() {
 
   return (
     <main className="portfolio-home">
-      <GradientBackground />
+      <GradientBackground desktopArtwork />
       <PortfolioWelcome />
 
       <div className="portfolio-desktop-shell hidden lg:block">
