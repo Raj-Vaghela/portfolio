@@ -6,12 +6,13 @@ import Image from "next/image"
 
 interface ProfileImageProps {
   src: string
+  id?: string
   alt: string
   className?: string
   priority?: boolean
 }
 
-export function ProfileImage({ src, alt, className, priority = false }: ProfileImageProps) {
+export function ProfileImage({ src, id, alt, className, priority = false }: ProfileImageProps) {
   const [loadedSrc, setLoadedSrc] = useState("")
   const [failedSrc, setFailedSrc] = useState("")
   const idMatch = src.includes("drive.google.com") ? src.match(/\/d\/([^/]+)|id=([^&]+)/) : null
@@ -21,7 +22,7 @@ export function ProfileImage({ src, alt, className, priority = false }: ProfileI
   const isLoading = !!imageSrc && loadedSrc !== imageSrc && !hasError
 
   return (
-    <div className={cn("relative overflow-hidden bg-zinc-100 dark:bg-zinc-800", className)}>
+    <div id={id} className={cn("relative overflow-hidden bg-zinc-100 dark:bg-zinc-800", className)}>
       {/* Placeholder / Fallback - Modern mesh gradient with shimmer */}
       {(isLoading || hasError) && (
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 z-10">
