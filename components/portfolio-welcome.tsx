@@ -100,10 +100,10 @@ export function PortfolioWelcome() {
               fill="freeze"
             />
           </linearGradient>
-          <radialGradient id={id + "-dot"} cx="36%" cy="24%" r="81%">
-            <stop stopColor="#fff" />
-            <stop offset=".48" stopColor="var(--welcome-core)" />
-            <stop offset="1" stopColor="var(--welcome-bottom)" />
+          <radialGradient id={id + "-coin"} cx="34%" cy="24%" r="80%">
+            <stop stopColor="#fff8c6" />
+            <stop offset=".54" stopColor="#f3c252" />
+            <stop offset="1" stopColor="#c87917" />
           </radialGradient>
           <path id={id + "-stroke"} d={stroke} />
           <mask id={id + "-draw"} maskUnits="userSpaceOnUse" x={left} y="12" width={viewWidth} height="132">
@@ -117,7 +117,16 @@ export function PortfolioWelcome() {
           <use href={"#" + id + "-stroke"} stroke={`url(#${id}-shine)`} strokeWidth="1.7" transform="translate(0,-2.25)" />
           <use href={"#" + id + "-stroke"} stroke={`url(#${id}-sweep)`} strokeWidth="2.1" transform="translate(0,-1.9)" />
         </g>
-        <circle className="portfolio-welcome-dot" cx="166" cy="40" r="3.8" fill={`url(#${id}-dot)`} stroke="var(--welcome-edge)" strokeWidth="1" />
+        <g transform="translate(166 39)">
+          <g className="portfolio-welcome-coin">
+            <g className="portfolio-welcome-coin-face">
+              <circle cy="1.05" r="9.1" fill="#8e4a16" />
+              <circle r="9.1" fill={`url(#${id}-coin)`} stroke="#fff1aa" strokeWidth=".85" />
+              <circle r="7.05" stroke="#a76b22" strokeOpacity=".55" strokeWidth=".6" />
+              <text y=".4" dominantBaseline="central" textAnchor="middle" fill="#63380e" fontSize="11.7" fontWeight="750">£</text>
+            </g>
+          </g>
+        </g>
       </svg>
     </div>
   )
