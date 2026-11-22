@@ -37,7 +37,7 @@ export default function FreelancePage() {
           </p>
         </div>
 
-        <article id={raykdi.id} aria-labelledby="raykdi-title" className="scroll-mt-6 rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-sm sm:p-9 dark:border-white/15 dark:bg-white/5">
+        <article id={raykdi.id} aria-labelledby="raykdi-title" className="scroll-mt-6 liquid-glass-card rounded-3xl p-6 sm:p-9">
           <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">{raykdi.status}</p>
           <h2 id="raykdi-title" className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">{raykdi.title}</h2>
           <p className="mt-3 max-w-xl leading-relaxed text-slate-600 dark:text-slate-300">{raykdi.summary}</p>

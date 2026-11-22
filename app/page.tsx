@@ -133,8 +133,8 @@ export default function Page() {
         <ThemeToggle />
       </div>
 
-      {/* Large frosted glass background container - everything lives inside */}
-      <div className="hidden lg:block fixed inset-4 lg:inset-12 xl:inset-16 bg-black/30 dark:bg-black/30 bg-transparent backdrop-blur-xl dark:backdrop-blur-xl backdrop-blur-none rounded-[2rem] lg:rounded-[3rem] border border-white/10 dark:border-white/10 border-white/30 shadow-2xl overflow-hidden p-4 lg:p-8 transition-colors duration-300 flex flex-col lg:block">
+      {/* Main desktop glass panel - everything lives inside */}
+      <div className="hidden lg:block fixed inset-4 lg:inset-12 xl:inset-16 liquid-glass liquid-glass-window rounded-[2rem] lg:rounded-[3rem] overflow-hidden p-4 lg:p-8 transition-colors duration-300 flex flex-col lg:block">
 
         {/* Image card - positioned inside frosted glass with proper spacing */}
         <div className="relative lg:absolute lg:left-8 lg:top-8 lg:bottom-8 w-full lg:max-w-[280px] h-[300px] lg:h-auto shrink-0 mb-4 lg:mb-0 rounded-3xl border border-white/20 dark:border-white/20 border-white/50 shadow-2xl overflow-hidden transition-colors duration-300 bg-zinc-800">
@@ -150,7 +150,7 @@ export default function Page() {
 
           {/* Open to conversations badge - top right */}
           <div className="absolute top-6 right-6 z-10">
-            <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20">
+            <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full liquid-glass-control liquid-glass-on-photo">
               <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-[pulse_2s_ease-in-out_infinite]" />
               <span className="text-white dark:text-white text-[10px] font-medium">Open to conversations</span>
             </div>
@@ -168,7 +168,7 @@ export default function Page() {
                 href="https://github.com/Raj-Vaghela"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+                className="w-8 h-8 rounded-lg liquid-glass-control liquid-glass-on-photo flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
               >
                 <Github className="w-3.5 h-3.5 text-white dark:text-white" />
               </a>
@@ -176,13 +176,13 @@ export default function Page() {
                 href="https://linkedin.com/in/raj-vaghela"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+                className="w-8 h-8 rounded-lg liquid-glass-control liquid-glass-on-photo flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
               >
                 <Linkedin className="w-3.5 h-3.5 text-white dark:text-white" />
               </a>
               <button
                 onClick={() => setIsContactModalOpen(true)}
-                className="w-8 h-8 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+                className="w-8 h-8 rounded-lg liquid-glass-control liquid-glass-on-photo flex items-center justify-center hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
                 aria-label="Get in touch"
                 title="Get in touch"
               >
@@ -196,7 +196,7 @@ export default function Page() {
                 href={resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-8 px-3 rounded-lg bg-white/10 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/20 flex items-center gap-1.5 hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
+                className="h-8 px-3 rounded-lg liquid-glass-control liquid-glass-on-photo flex items-center gap-1.5 hover:bg-white/20 dark:hover:bg-white/20 transition-colors"
               >
                 <FileText className="w-3.5 h-3.5 text-white dark:text-white" />
                 <span className="text-white dark:text-white text-[11px] font-medium whitespace-nowrap">Download CV</span>
@@ -283,7 +283,7 @@ export default function Page() {
         </div>
 
       </div>
-      {/* End of frosted glass container */}
+      {/* End of desktop glass panel */}
 
       {/* Mobile Drawer View */}
       <div className="lg:hidden">
@@ -322,7 +322,7 @@ export default function Page() {
               rel="noopener noreferrer"
               className="flex flex-col items-center gap-0.5 group"
             >
-              <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
+              <div className="w-10 h-10 rounded-full liquid-glass-control liquid-glass-on-photo flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
                 <Linkedin className="w-4 h-4 text-white" />
               </div>
               <span className="text-white text-[9px] font-medium drop-shadow-lg">LinkedIn</span>
@@ -332,7 +332,7 @@ export default function Page() {
               onClick={() => setIsContactModalOpen(true)}
               className="flex flex-col items-center gap-0.5 group"
             >
-              <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
+              <div className="w-10 h-10 rounded-full liquid-glass-control liquid-glass-on-photo flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
                 <Mail className="w-4 h-4 text-white" />
               </div>
               <span className="text-white text-[9px] font-medium drop-shadow-lg">Contact</span>
@@ -356,7 +356,7 @@ export default function Page() {
               rel="noopener noreferrer"
               className="flex flex-col items-center gap-0.5 group"
             >
-              <div className="w-10 h-10 rounded-full bg-zinc-800/50 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
+              <div className="w-10 h-10 rounded-full liquid-glass-control liquid-glass-on-photo flex items-center justify-center hover:bg-zinc-700/50 transition-all active:scale-90">
                 <FileText className="w-4 h-4 text-white" />
               </div>
               <span className="text-white text-[9px] font-medium drop-shadow-lg">Resume</span>

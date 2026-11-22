@@ -55,7 +55,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                     <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Education</h2>
                     <div className="space-y-6">
                         {/* Master's Degree */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
+                        <div className="p-6 rounded-2xl liquid-glass-card">
                             <div className="flex items-start justify-between mb-3">
                                 <div>
                                     <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Master of Science (M.Sc.)</h3>
@@ -75,7 +75,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                         </div>
 
                         {/* Bachelor's Degree */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
+                        <div className="p-6 rounded-2xl liquid-glass-card">
                             <div className="flex items-start justify-between mb-3">
                                 <div>
                                     <h3 className="text-2xl font-bold dark:text-white text-gray-800 mb-1">Bachelor of Engineering (B.E.)</h3>
@@ -129,7 +129,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                 <div className="max-w-3xl w-full">
                     <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Experience</h2>
                     <div className="space-y-6">
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
+                        <div className="p-6 rounded-2xl liquid-glass-card">
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
@@ -152,7 +152,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                         </div>
 
                         {/* IBM */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
+                        <div className="p-6 rounded-2xl liquid-glass-card">
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
@@ -180,7 +180,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                         </div>
 
                         {/* Microsoft */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
+                        <div className="p-6 rounded-2xl liquid-glass-card">
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
@@ -209,7 +209,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                         </div>
 
                         {/* Direction Infosystems */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
+                        <div className="p-6 rounded-2xl liquid-glass-card">
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
@@ -234,7 +234,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                         </div>
 
                         {/* Elsner Technologies */}
-                        <div className="p-6 rounded-2xl bg-white/5 dark:bg-white/5 bg-white/20 border border-white/10 dark:border-white/10 border-white/40 hover:bg-white/10 dark:hover:bg-white/10 hover:bg-white/30 transition-colors backdrop-blur-none">
+                        <div className="p-6 rounded-2xl liquid-glass-card">
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
@@ -266,7 +266,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
                 <div className="max-w-3xl w-full">
                     <h2 className="text-5xl font-bold dark:text-white text-gray-800 mb-8">Project Highlights</h2>
                     <div className="space-y-6">
-                        <article className="rounded-2xl border border-white/40 bg-white/25 p-5 dark:border-white/15 dark:bg-white/5">
+                        <article className="liquid-glass-card rounded-2xl p-5">
                             <p className="text-sm font-medium text-emerald-800 dark:text-emerald-300">Freelance portfolio</p>
                             <h3 className="mt-1 text-xl font-semibold text-gray-900 dark:text-white">{raykdi.title}</h3>
                             <p className="mt-2 text-sm leading-relaxed text-gray-800 dark:text-white/80">{raykdi.summary}</p>
@@ -281,7 +281,7 @@ export function PortfolioContent({ onOpenProjectsModal }: PortfolioContentProps)
 
                         <div className="grid md:grid-cols-2 gap-4">
                             {projects.map((project) => (
-                                <div key={project.title} className="group p-5 rounded-2xl bg-white/20 dark:bg-white/5 border border-white/40 dark:border-white/10 hover:bg-white/30 dark:hover:bg-white/10 transition-colors flex flex-col h-full">
+                                <div key={project.title} className="group p-5 rounded-2xl liquid-glass-card flex flex-col h-full">
                                     <div className="flex items-start justify-between gap-2">
                                         <h4 className="text-lg font-bold dark:text-white text-gray-800">{project.title}</h4>
                                         <ProjectLinks project={project} />

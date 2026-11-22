@@ -65,7 +65,7 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
       <Drawer.Root shouldScaleBackground open={isOpen} onOpenChange={(open) => !open && onClose()}>
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]" onClick={onClose} />
-          <Drawer.Content className="bg-black/20 dark:bg-black/20 backdrop-blur-xl border-t border-white/10 flex flex-col rounded-t-[2rem] h-[96%] mt-24 fixed bottom-0 left-0 right-0 z-[110] outline-none">
+          <Drawer.Content className="liquid-glass liquid-glass-modal flex flex-col rounded-t-[2rem] h-[96%] mt-24 fixed bottom-0 left-0 right-0 z-[110] outline-none">
             <div className="p-4 bg-transparent rounded-t-[2rem] flex-1 flex flex-col min-h-0">
               {/* Handle / Scroll Indicator */}
               <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-white/30 mb-8" />
@@ -134,12 +134,12 @@ export function ProjectsModal({ isOpen, onClose }: ProjectsModalProps) {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <div
         ref={scrollContainerRef}
-        className="relative w-full h-full sm:h-auto sm:max-h-[85vh] max-w-4xl overflow-y-scroll scrollbar-hide bg-[hsl(200,50%,95%)] dark:bg-[hsl(210,25%,18%)] sm:rounded-3xl dark:bg-opacity-95 bg-opacity-95 backdrop-blur-md border-none sm:border dark:border-white/30 border-white/40 shadow-2xl animate-in slide-in-from-bottom-10 sm:zoom-in-95 duration-300"
+        className="relative w-full h-full sm:h-auto sm:max-h-[85vh] max-w-4xl overflow-y-scroll scrollbar-hide liquid-glass liquid-glass-modal sm:rounded-3xl animate-in slide-in-from-bottom-10 sm:zoom-in-95 duration-300"
         onClick={(e) => e.stopPropagation()}
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-6 bg-gradient-to-b from-[hsl(200,50%,95%)] dark:from-[hsl(210,25%,18%)] via-[hsl(200,50%,95%)]/95 dark:via-[hsl(210,25%,18%)]/95 to-transparent pb-6">
+        <div className="sticky top-0 z-10 flex items-center justify-between p-4 sm:p-6 bg-gradient-to-b from-sky-50 via-sky-50/95 to-transparent dark:from-slate-900 dark:via-slate-900/95 pb-6">
           <h2 className="text-xl sm:text-2xl font-bold dark:text-white text-black">Featured Projects</h2>
           <button
             onClick={onClose}
