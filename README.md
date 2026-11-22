@@ -11,6 +11,12 @@ npm run dev
 
 Open http://localhost:3000. Run `npm run lint`, `npx tsc --noEmit` and `npm run build` before publishing.
 
+## Portfolio chat
+
+The chat calls Vercel AI Gateway from the server. Vercel deployments can use project OIDC. For local development, use a Vercel development token or set `AI_GATEWAY_API_KEY` in `.env.local`. The optional `PORTFOLIO_CHAT_MODEL` setting overrides the default Gateway model, `google/gemini-2.5-flash-lite`.
+
+The model receives recent chat turns and public portfolio facts. Chat history lives in the open page, and the app does not save it. The server bounds input, output and model calls per warm instance.
+
 ## Content
 
 - `lib/profile.ts`: current professional facts and selected projects. Used by the project views and profile guide.

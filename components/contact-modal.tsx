@@ -19,7 +19,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
 
       <div
-        className="relative w-full max-w-md dark:bg-[hsl(210,25%,18%)] bg-[hsl(200,50%,70%)] dark:bg-opacity-95 bg-opacity-95 backdrop-blur-md border dark:border-white/30 border-white/40 rounded-3xl shadow-2xl p-6 sm:p-8 animate-in zoom-in-95 duration-200 before:absolute before:inset-0 before:rounded-3xl before:bg-gradient-to-br dark:before:from-white/10 before:from-white/15 before:via-transparent before:to-transparent before:pointer-events-none"
+        className="relative w-full max-w-md liquid-glass liquid-glass-modal rounded-3xl p-6 sm:p-8 animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         <Button

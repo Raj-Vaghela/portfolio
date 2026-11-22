@@ -1,251 +1,130 @@
 "use client"
 
-import { profile, projects } from "@/lib/profile"
-import { X, Send, ChevronDown } from "lucide-react"
-import { useState, useRef, useEffect } from "react"
-
-interface Message {
-  id: string
-  text: string
-  sender: "user" | "bot"
-  timestamp: Date
-}
+import * as Dialog from "@radix-ui/react-dialog"
+import { ArrowUp, X } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import type { FormEvent } from "react"
+import { chatLimits, type ChatTurn } from "@/lib/chat"
 
 interface ChatModalProps {
   isOpen: boolean
   onClose: () => void
 }
 
-  // Smart bot response logic
-  const getBotResponse = (input: string): string => {
-    const lowerInput = input.toLowerCase()
-
-    if (lowerInput.includes("experience") || lowerInput.includes("work") || lowerInput.includes("job")) {
-      return "Raj is an " + profile.role + " at " + profile.employer + " (since " + profile.roleStart + "). He builds frontend and backend features, opens and reviews pull requests, and works with both teams. His earlier work there included cloud pricing pipelines, GPU availability tracking and an AI recommendation assistant."
-    } else if (lowerInput.includes("project")) {
-      return "Raj’s projects include:\n\n" + projects.map((project) => "• " + project.title + ": " + project.description).join("\n")
-    } else if (lowerInput.includes("skill") || lowerInput.includes("tech") || lowerInput.includes("stack")) {
-      return "Raj's tech stack includes:\n\n🐍 Python, FastAPI, Node.js\n⚛️ React, Next.js, TypeScript\n🤖 OpenAI, Gemini, Anthropic\n🗄️ Supabase, pgvector, PostgreSQL\n🎯 RAG, embeddings, function calling\n🎤 Whisper STT, ElevenLabs TTS\n\nHe builds production-ready AI applications from backend to frontend!"
-    } else if (lowerInput.includes("available") || lowerInput.includes("hire") || lowerInput.includes("looking")) {
-      return "Raj works at " + profile.employer + " and is based in " + profile.location + ". Contact him directly to discuss opportunities.\n\n📧 " + profile.email
-    } else if (lowerInput.includes("education") || lowerInput.includes("degree") || lowerInput.includes("study")) {
-      return "🎓 Education:\n\nMSc Advanced Computer Science\nUniversity of Leicester (Distinction) - 2024-2025\n\nBE Computer Science & Engineering\nS.N. Patel Institute (85.5%) - 2019-2023\n\n🏆 Awards: Huawei Tech Arena Finalist, Cyber4Me CTF 3rd place, Encode AI London '25"
-    } else if (lowerInput.includes("contact") || lowerInput.includes("email") || lowerInput.includes("phone") || lowerInput.includes("reach")) {
-      return "📬 Contact Raj:\n\n📧 Email: vaghela.raj2581@gmail.com\n📍 Location: Leicester, UK\n\n💼 LinkedIn: linkedin.com/in/raj-vaghela\n💻 GitHub: github.com/Raj-Vaghela\n\nFeel free to reach out anytime!"
-    } else if (lowerInput.includes("hello") || lowerInput.includes("hi") || lowerInput.includes("hey")) {
-      return "Hello! 👋 Great to meet you! I'm here to help you learn more about Raj's background and expertise. What would you like to know about?"
-    } else if (lowerInput.includes("rag") || lowerInput.includes("retrieval")) {
-      return "Raj has extensive RAG (Retrieval Augmented Generation) experience!\n\nHe's built:\n• Semantic search with pgvector\n• Document OCR & chunking pipelines\n• Evidence-linked chat responses\n• Multi-source RAG systems\n\nCheck out his Job Recruiter Assistant and Medical Screening projects for real implementations!"
-    } else if (lowerInput.includes("llm") || lowerInput.includes("ai") || lowerInput.includes("gpt")) {
-      return "Raj works extensively with LLMs including OpenAI (GPT-4), Google Gemini, and Anthropic Claude. He builds:\n\n🔧 Function calling systems\n💬 Streaming chat interfaces\n🎯 Prompt engineering pipelines\n🔄 Agentic workflows\n\nHis projects showcase production-ready LLM integration!"
-    } else {
-      return "That's a great question! I can help you learn about:\n\n💼 Experience & work history\n🚀 AI/ML projects\n🛠️ Technical skills\n🎓 Education & awards\n📧 Contact information\n💼 Job availability\n\nWhat would you like to explore?"
-    }
-  }
-
 export function ChatModal({ isOpen, onClose }: ChatModalProps) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "1",
-      text: "Hey there! Ask me anything about Raj.",
-      sender: "bot",
-      timestamp: new Date(),
-    },
-  ])
-  const [inputValue, setInputValue] = useState("")
-  const [isTyping, setIsTyping] = useState(false)
-  const [showScrollIndicator, setShowScrollIndicator] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-  const messagesContainerRef = useRef<HTMLDivElement>(null)
+  const [messages, setMessages] = useState<ChatTurn[]>([])
+  const [input, setInput] = useState("")
+  const [pending, setPending] = useState(false)
+  const [error, setError] = useState("")
+  const inFlight = useRef(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
-  // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
+    const viewport = scrollRef.current
+    if (isOpen && viewport) viewport.scrollTop = viewport.scrollHeight
+  }, [isOpen, messages, pending, error])
 
-  // Handle scroll indicator visibility
-  useEffect(() => {
-    const container = messagesContainerRef.current
-    if (!container) return
+  async function sendMessage(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const question = input.trim()
+    if (inFlight.current || !question) return
 
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = container
-      const isNearBottom = scrollHeight - scrollTop - clientHeight < 100
-      setShowScrollIndicator(!isNearBottom)
-    }
+    inFlight.current = true
+    setPending(true)
+    setError("")
+    const userTurn: ChatTurn = { role: "user", content: question }
+    const nextMessages = [...messages, userTurn]
+    setMessages(nextMessages)
+    setInput("")
 
-    container.addEventListener('scroll', handleScroll)
-    handleScroll() // Check initial state
-
-    return () => container.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Focus input when chat opens
-  useEffect(() => {
-    if (isOpen) {
-      inputRef.current?.focus()
-    }
-  }, [isOpen])
-
-  const handleSendMessage = async () => {
-    if (!inputValue.trim()) return
-
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      text: inputValue,
-      sender: "user",
-      timestamp: new Date(),
-    }
-
-    setMessages((prev) => [...prev, userMessage])
-    setInputValue("")
-    setIsTyping(true)
-
-    // Simulate bot response (replace with actual API call)
-    setTimeout(() => {
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        text: getBotResponse(inputValue),
-        sender: "bot",
-        timestamp: new Date(),
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: nextMessages.slice(-chatLimits.turns) }),
+      })
+      const result = await response.json().catch(() => null)
+      if (!response.ok || typeof result?.answer !== "string" || !result.answer.trim()) {
+        throw new Error(typeof result?.error === "string" ? result.error : "The reply couldn’t load. Try again.")
       }
-      setMessages((prev) => [...prev, botMessage])
-      setIsTyping(false)
-    }, 800 + Math.random() * 800)
-  }
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault()
-      handleSendMessage()
+      setMessages([...nextMessages, { role: "assistant", content: result.answer }])
+    } catch (failure) {
+      setMessages(messages)
+      setInput((current) => current || question)
+      setError(failure instanceof Error ? failure.message : "The reply couldn’t load. Try again.")
+    } finally {
+      inFlight.current = false
+      setPending(false)
     }
   }
-
-  if (!isOpen) return null
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in duration-300"
-      onClick={onClose}
-    >
-      {/* Balanced blurred backdrop */}
-      <div className="absolute inset-0 bg-black/40 dark:bg-black/35" style={{ backdropFilter: 'blur(20px) saturate(115%)' }} />
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.8' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '180px 180px',
-        }}
-      />
-
-      <div
-        className="relative w-full max-w-2xl h-[600px] flex flex-col rounded-[2rem] dark:bg-[hsl(210,25%,8%)] bg-[hsl(200,50%,70%)] dark:bg-opacity-95 bg-opacity-85 border dark:border-white/5 border-white/60 animate-in zoom-in-95 slide-in-from-bottom-8 duration-300 overflow-hidden"
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          backdropFilter: 'blur(40px) saturate(150%)',
-          boxShadow: '0 30px 120px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.12) inset',
-        }}
-      >
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br dark:from-white/[0.08] from-white/25 dark:via-white/[0.02] via-white/10 to-transparent pointer-events-none rounded-[2rem]" />
-
-        {/* Grain texture overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.18] dark:opacity-[0.1] pointer-events-none mix-blend-overlay rounded-[2rem]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='4.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-            backgroundRepeat: 'repeat',
-            backgroundSize: '140px 140px',
+    <Dialog.Root open={isOpen} onOpenChange={(open) => { if (!open) onClose() }}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-[90] bg-slate-950/45 backdrop-blur-sm" />
+        <Dialog.Content
+          className="liquid-glass liquid-glass-modal fixed inset-x-3 top-1/2 z-[100] mx-auto flex h-[min(38rem,calc(100dvh-1.5rem))] max-w-xl -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] text-slate-900 dark:text-slate-50"
+          onOpenAutoFocus={(event) => {
+            event.preventDefault()
+            inputRef.current?.focus()
           }}
-        />
-
-
-        {/* Simple Close Button */}
-        <div className="absolute top-4 right-4 z-30">
-          <button
-            onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/8 border dark:border-white/10 border-white/40 flex items-center justify-center transition-all hover:scale-110 active:scale-90 backdrop-blur-md"
-          >
-            <X className="w-3.5 h-3.5 dark:text-white/60 text-slate-600" />
-          </button>
-        </div>
-
-        {/* Pure Conversation */}
-        <div
-          ref={messagesContainerRef}
-          className="flex-1 overflow-y-auto px-8 py-16 space-y-6 relative z-10 scrollbar-hide"
         >
-          {messages.map((message, index) => (
-            <div
-              key={message.id}
-              className={`animate-in fade-in slide-in-from-bottom-2 duration-300 ${message.sender === "user" ? "text-right" : ""
-                }`}
-              style={{ animationDelay: `${index * 80}ms` }}
-            >
-              <div className={`inline-block max-w-[80%] ${message.sender === "user" ? "text-right" : ""}`}>
-                <div className={`inline-block px-4 py-3 rounded-xl ${message.sender === "bot"
-                  ? "bg-white/5 dark:bg-white/2 border border-white/10 dark:border-white/5"
-                  : "bg-white/15 dark:bg-white/5 border border-white/20 dark:border-white/8"
-                  }`}>
-                  <p className={`text-sm leading-relaxed whitespace-pre-line ${message.sender === "bot"
-                    ? "dark:text-white/85 text-black/85"
-                    : "dark:text-white/95 text-black/95"
-                    }`}>
-                    {message.text}
-                  </p>
-                </div>
-              </div>
+          <header className="flex items-start justify-between gap-4 border-b border-slate-500/15 px-5 py-4 sm:px-7 dark:border-white/10">
+            <div>
+              <Dialog.Title className="font-semibold tracking-tight">Chat with AI</Dialog.Title>
+              <Dialog.Description className="mt-1 text-xs text-slate-600 dark:text-slate-300">
+                Ask about Raj’s experience, projects or freelance work.
+              </Dialog.Description>
             </div>
-          ))}
+            <Dialog.Close className="liquid-glass-control flex size-8 shrink-0 items-center justify-center rounded-full" aria-label="Close chat">
+              <X className="size-4" aria-hidden="true" />
+            </Dialog.Close>
+          </header>
 
-          {isTyping && (
-            <div className="animate-in fade-in duration-200">
-              <div className="inline-block">
-                <div className="flex gap-1">
-                  <div className="w-1.5 h-1.5 rounded-full dark:bg-white/40 bg-black/40 animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <div className="w-1.5 h-1.5 rounded-full dark:bg-white/40 bg-black/40 animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <div className="w-1.5 h-1.5 rounded-full dark:bg-white/40 bg-black/40 animate-bounce" style={{ animationDelay: "300ms" }} />
-                </div>
+          <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 sm:px-7" role="log" aria-label="Chat messages">
+            <p className="mb-4 max-w-[90%] rounded-2xl rounded-bl-md bg-white/45 px-4 py-3 text-sm dark:bg-white/8">
+              Hi, I’m Raj’s portfolio assistant. What would you like to know?
+            </p>
+            {messages.map((message, index) => (
+              <div key={index} className={"mb-3 flex " + (message.role === "user" ? "justify-end" : "justify-start")}>
+                <p className={"max-w-[90%] whitespace-pre-wrap break-words rounded-2xl px-4 py-3 text-sm leading-relaxed " + (
+                  message.role === "user"
+                    ? "rounded-br-md bg-sky-950/10 dark:bg-sky-300/15"
+                    : "rounded-bl-md bg-white/45 dark:bg-white/8"
+                )}>
+                  <span className="sr-only">{message.role === "user" ? "You: " : "AI assistant: "}</span>
+                  {message.content}
+                </p>
               </div>
-            </div>
-          )}
-          <div ref={messagesEndRef} />
-
-          {/* Scroll Indicator */}
-          {showScrollIndicator && (
-            <div className="absolute bottom-24 right-6 z-20 animate-in fade-in duration-200">
-              <div className="w-10 h-10 rounded-full bg-white/15 dark:bg-white/10 backdrop-blur-md border border-white/30 dark:border-white/20 flex items-center justify-center shadow-lg hover:scale-105 transition-transform cursor-pointer">
-                <ChevronDown className="w-5 h-5 text-white dark:text-white opacity-90" />
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Floating Pill Input */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 w-full max-w-md px-4">
-          <div className="relative">
-            <input
-              ref={inputRef}
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Type your message..."
-              className="w-full pl-5 pr-14 py-4 rounded-full bg-white/20 dark:bg-white/5 backdrop-blur-xl border border-white/40 dark:border-white/10 dark:text-white text-black placeholder:dark:text-white/40 placeholder:text-slate-600 focus:outline-none focus:border-white/50 dark:focus:border-white/20 transition-all shadow-lg hover:shadow-xl"
-              style={{ fontSize: '14px' }}
-            />
-            <button
-              onClick={handleSendMessage}
-              disabled={!inputValue.trim()}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/50 dark:bg-white/20 backdrop-blur-md border border-white/70 dark:border-white/35 hover:bg-white/60 dark:hover:bg-white/25 hover:scale-110 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all flex items-center justify-center shadow-xl"
-            >
-              <Send className="w-4 h-4 text-white dark:text-white" />
-            </button>
+            ))}
+            {pending && <p className="text-sm text-slate-600 dark:text-slate-300" role="status">Thinking…</p>}
           </div>
-        </div>
-      </div>
-    </div>
+
+          <div className="px-4 pb-4 pt-2 sm:px-6 sm:pb-6">
+            {error && <p className="mb-2 px-2 text-sm text-rose-800 dark:text-rose-200" role="alert">{error}</p>}
+            <form onSubmit={sendMessage} className="liquid-glass-control flex items-center gap-2 rounded-full p-1.5 pl-4">
+              <input
+                ref={inputRef}
+                aria-label="Ask about Raj"
+                placeholder="Ask about Raj…"
+                value={input}
+                maxLength={chatLimits.questionCharacters}
+                onChange={(event) => setInput(event.target.value)}
+                className="min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-slate-600 sm:text-sm dark:placeholder:text-slate-300"
+              />
+              <button
+                type="submit"
+                aria-label="Send message"
+                disabled={pending || !input.trim()}
+                className="flex size-9 shrink-0 items-center justify-center rounded-full bg-slate-900 text-white transition-colors hover:bg-slate-700 disabled:opacity-35 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white"
+              >
+                <ArrowUp className="size-5" aria-hidden="true" />
+              </button>
+            </form>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   )
 }
