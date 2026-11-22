@@ -126,6 +126,9 @@ export function MobileDrawer() {
             if (!keyboardNavigation.current) event.preventDefault()
           }}
         >
+          <div className="portfolio-drawer-rim glass-lens-host" aria-hidden="true">
+            <GlassOptics surface="drawerRim" backdropSelector="#portfolio-mobile-photo" />
+          </div>
           <div className="portfolio-drawer-header">
             <Drawer.Handle className="portfolio-drawer-handle" />
             <div className="portfolio-drawer-toolbar">
