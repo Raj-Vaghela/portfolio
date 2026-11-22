@@ -616,8 +616,8 @@
 }
 .portfolio-wallpaper:has(.portfolio-wallpaper-hint[aria-expanded="true"]) :is(.portfolio-wallpaper-heading, .portfolio-wallpaper-actions, .portfolio-wallpaper-theme, .portfolio-wallpaper-hint) { visibility: hidden; }
 
-/* Independently tinted cards keep the live portrait visible between notifications. */
-.portfolio-notification-overlay { position: fixed; inset: 0; z-index: 40; background: rgb(9 11 17 / 37%); }
+/* The overlay catches taps outside the drawer without dimming the portrait. */
+.portfolio-notification-overlay { position: fixed; inset: 0; z-index: 40; }
 .portfolio-notification-drawer {
   --portfolio-ink: #fff;
   --portfolio-muted: #e5e5eb;
@@ -631,30 +631,14 @@
   width: min(100%, 36rem);
   margin-inline: auto;
   flex-direction: column;
-  border: 1px solid rgb(226 239 255 / 27%);
-  border-bottom: 0;
   border-radius: 1.85rem 1.85rem 0 0;
-  background: rgb(12 17 27 / 20%);
-  box-shadow: 0 -8px 28px rgb(0 0 0 / 23%);
   color: var(--portfolio-ink);
   outline: none;
-}
-.portfolio-notification-drawer > .glass-optics { overflow: hidden; }
-.portfolio-notification-drawer::before {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(180deg, rgb(18 23 34 / 65%) 0, rgb(18 23 34 / 48%) 3rem, transparent 12rem);
-  box-shadow: inset 0 1px 1px rgb(236 247 255 / 50%);
-  pointer-events: none;
-  content: "";
 }
 .portfolio-drawer-header {
   z-index: 1;
   flex-shrink: 0;
   padding: .55rem .9rem .25rem;
-  border-bottom: 1px solid rgb(221 237 255 / 12%);
 }
 .portfolio-drawer-handle {
   width: 2.5rem !important;
@@ -672,6 +656,7 @@
   font-size: 1rem;
   font-weight: 650;
   letter-spacing: -.02em;
+  text-shadow: 0 1px 5px #000, 0 2px 14px #000;
 }
 .portfolio-drawer-back, .portfolio-drawer-close, .portfolio-dialog-close {
   position: absolute;
@@ -684,9 +669,6 @@
 }
 .portfolio-drawer-back { left: 0; }
 .portfolio-drawer-close { right: 0; }
-@media (hover: hover) {
-  .portfolio-drawer-back:hover, .portfolio-drawer-close:hover { background: rgb(255 255 255 / 13%); }
-}
 .portfolio-wallpaper-hint, .portfolio-notification-drawer button { -webkit-tap-highlight-color: transparent; }
 .portfolio-notification-scroll {
   flex: 1;
@@ -822,13 +804,17 @@
   box-shadow: 0 4px 11px var(--button-shadow);
   transition: scale .18s ease, box-shadow .18s ease;
 }
-.dark .portfolio-glass-button, .portfolio-wallpaper .portfolio-glass-button {
+.dark .portfolio-glass-button, .portfolio-wallpaper .portfolio-glass-button, .portfolio-notification-drawer .portfolio-glass-button {
   --button-face: rgb(11 20 37 / 35%);
   --button-shade: rgb(4 9 20 / 49%);
   --button-glisten: rgb(239 249 255 / 73%);
   --button-glare: rgb(185 216 252 / 28%);
   --button-edge: rgb(203 226 253 / 30%);
   --button-shadow: rgb(0 0 0 / 38%);
+}
+.portfolio-notification-drawer :is(.portfolio-drawer-back, .portfolio-drawer-close).portfolio-glass-button {
+  position: absolute;
+  --button-face: rgb(11 20 37 / 61%);
 }
 .portfolio-glass-button.portfolio-glass-button--blue {
   --button-face: rgb(7 79 169 / 96%);
@@ -873,8 +859,7 @@
 @media (prefers-reduced-transparency: reduce) {
   .portfolio-toolbar, .portfolio-modal, .portfolio-project-dialog > header, .portfolio-glass-button, .portfolio-glass-button:hover { background: var(--portfolio-panel); }
   .portfolio-card::after { background: var(--portfolio-panel); }
-  .portfolio-wallpaper .portfolio-glass-button, .portfolio-notification-drawer .portfolio-section-heading { background: #22252c; }
-  .portfolio-notification-drawer.glass-lens-host { background: #22252c; }
+  .portfolio-wallpaper .portfolio-glass-button, .portfolio-notification-drawer .portfolio-glass-button, .portfolio-notification-drawer .portfolio-section-heading { background: #22252c; }
   .portfolio-welcome { background: #1a2030; -webkit-backdrop-filter: none; backdrop-filter: none; }
   .portfolio-glass-button.portfolio-glass-button--blue, .portfolio-glass-button.portfolio-glass-button--blue:hover { background: #064eaa; }
 }

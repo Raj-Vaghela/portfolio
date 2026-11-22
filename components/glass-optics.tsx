@@ -18,12 +18,6 @@ const surfaces = {
     dark: "rgba(8, 20, 36, 0.72)",
     light: "rgba(246, 251, 255, 0.77)",
   },
-  drawer: {
-    radius: 30,
-    displacement: 18,
-    dark: "rgba(14, 19, 30, 0.11)",
-    light: "rgba(14, 19, 30, 0.11)",
-  },
   card: {
     radius: 28,
     displacement: 34,
@@ -58,7 +52,6 @@ const surfaces = {
 
 const rim = { depth: .26, curvature: .57, bend: .46, bendWidth: .18, sheen: 1, specular: 1 }
 
-const portraitRim = { depth: .14, curvature: .22, bend: .24, bendWidth: .13, sheen: .62, specular: .7 }
 
 const readingRim = { depth: .12, curvature: .28, bend: .47, bendWidth: .08, sheen: .88, specular: 1 }
 const buttonRim = { depth: .28, curvature: .52, bend: .56, bendWidth: .19, sheen: 1, specular: 1 }
@@ -87,10 +80,9 @@ export const GlassOptics = memo(function GlassOptics({
 
   const dark = resolvedTheme !== "light"
   const design = surfaces[surface]
-  const isDrawer = surface === "drawer"
   const isReadingSurface = surface === "card" || surface === "portraitCard"
   const isButton = surface === "button" || surface === "photoButton"
-  const lensOptions = isReadingSurface ? readingRim : isDrawer ? portraitRim : isButton ? buttonRim : rim
+  const lensOptions = isReadingSurface ? readingRim : isButton ? buttonRim : rim
 
   return (
     <div className="glass-optics" aria-hidden="true" data-portfolio-optics={surface}>
@@ -101,7 +93,7 @@ export const GlassOptics = memo(function GlassOptics({
         lensOptions={lensOptions}
         radius={design.radius}
         displacementScale={design.displacement}
-        aberrationIntensity={isReadingSurface || isDrawer ? 0 : isButton ? .015 : .22}
+        aberrationIntensity={isReadingSurface ? 0 : isButton ? .015 : .22}
         blur={0}
         frost={0}
         iosBlurMode="off"
@@ -109,7 +101,7 @@ export const GlassOptics = memo(function GlassOptics({
         backdropSelector={backdropSelector}
         backdropVersion={dark ? "dark" : "light"}
         glassColor={dark ? design.dark : design.light}
-        borderColor={isReadingSurface || isButton || isDrawer ? "transparent" : dark ? "rgba(218, 238, 255, 0.34)" : "rgba(255, 255, 255, 0.8)"}
+        borderColor={isReadingSurface || isButton ? "transparent" : dark ? "rgba(218, 238, 255, 0.34)" : "rgba(255, 255, 255, 0.8)"}
         effectMode={reducedTransparency ? "off" : "auto"}
         reveal="immediate"
         className="absolute inset-0 size-full"
