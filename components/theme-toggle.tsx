@@ -19,10 +19,10 @@ export function ThemeToggle({ optical = false, backdropSelector }: { optical?: b
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className={"group relative flex size-10 items-center justify-center overflow-hidden rounded-full transition-all " + (optical ? "glass-lens-host glass-pill-rim" : "liquid-glass-control")}
+      className={"group relative flex size-10 items-center justify-center overflow-hidden rounded-full transition-all " + (optical ? "portfolio-glass-button" : "liquid-glass-control")}
       aria-label="Toggle theme"
     >
-      {optical && <GlassOptics surface="pill" backdropSelector={backdropSelector} />}
+      {optical && <GlassOptics surface={backdropSelector ? "photoButton" : "button"} backdropSelector={backdropSelector} />}
       <Sun className="w-5 h-5 text-amber-500 absolute transition-all duration-300 rotate-0 scale-100 dark:-rotate-90 dark:scale-0" />
       <Moon className="w-5 h-5 text-blue-300 absolute transition-all duration-300 rotate-90 scale-0 dark:rotate-0 dark:scale-100" />
     </button>

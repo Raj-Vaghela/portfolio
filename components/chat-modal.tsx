@@ -29,6 +29,41 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
+  const [dialog, setDialog] = useState<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    const viewport = window.visualViewport
+    if (!dialog || !viewport) return
+
+    let frame = 0
+    function updateViewport() {
+      if (!dialog || !viewport) return
+      const thread = scrollRef.current
+      const followingLatest = thread && thread.scrollHeight - thread.scrollTop - thread.clientHeight < 48
+
+      // The keyboard shrinks the visible viewport and can pan it to the focused field.
+      dialog.style.setProperty("--chat-viewport-top", viewport.offsetTop + "px")
+      dialog.style.setProperty("--chat-viewport-height", viewport.height + "px")
+      dialog.toggleAttribute("data-compact", viewport.height < 430)
+
+      if (followingLatest) thread.scrollTop = thread.scrollHeight
+    }
+    function scheduleUpdate() {
+      window.cancelAnimationFrame(frame)
+      frame = window.requestAnimationFrame(updateViewport)
+    }
+
+    updateViewport()
+    viewport.addEventListener("resize", scheduleUpdate)
+    viewport.addEventListener("scroll", scheduleUpdate)
+    window.addEventListener("resize", scheduleUpdate)
+    return () => {
+      window.cancelAnimationFrame(frame)
+      viewport.removeEventListener("resize", scheduleUpdate)
+      viewport.removeEventListener("scroll", scheduleUpdate)
+      window.removeEventListener("resize", scheduleUpdate)
+    }
+  }, [dialog])
 
   useEffect(() => {
     const viewport = scrollRef.current
@@ -78,21 +113,22 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
       <Dialog.Portal>
         <Dialog.Overlay className="portfolio-dialog-overlay" />
         <Dialog.Content
-          className="portfolio-modal fixed inset-x-3 top-1/2 z-[100] mx-auto flex h-[min(38rem,calc(100dvh-1.5rem))] max-w-xl -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] text-slate-900 dark:text-slate-50"
+          ref={setDialog}
+          className="portfolio-modal portfolio-chat fixed inset-x-3 z-[100] mx-auto flex max-w-xl -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] text-slate-900 dark:text-slate-50"
           onOpenAutoFocus={(event) => {
             event.preventDefault()
-            if (window.matchMedia("(pointer: coarse)").matches) titleRef.current?.focus()
-            else inputRef.current?.focus()
+            if (window.matchMedia("(pointer: coarse)").matches) titleRef.current?.focus({ preventScroll: true })
+            else inputRef.current?.focus({ preventScroll: true })
           }}
         >
-          <header className="flex items-start justify-between gap-4 border-b border-slate-500/15 px-5 py-4 sm:px-7 dark:border-white/10">
+          <header className="portfolio-chat-header flex shrink-0 items-start justify-between gap-4 border-b border-slate-500/15 px-5 py-4 sm:px-7 dark:border-white/10">
             <div>
               <Dialog.Title ref={titleRef} tabIndex={-1} className="font-semibold tracking-tight focus:outline-none">Chat with AI</Dialog.Title>
               <Dialog.Description className="mt-1 text-xs text-slate-600 dark:text-slate-300">
                 Ask about Raj’s experience, projects or freelance work.
               </Dialog.Description>
             </div>
-            <Dialog.Close className="liquid-glass-control flex size-8 shrink-0 items-center justify-center rounded-full" aria-label="Close chat">
+            <Dialog.Close className="portfolio-glass-button flex size-9 shrink-0 items-center justify-center rounded-full" aria-label="Close chat">
               <X className="size-4" aria-hidden="true" />
             </Dialog.Close>
           </header>
@@ -147,10 +183,10 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
             {pending && <p className="text-sm text-slate-600 dark:text-slate-300" role="status">Thinking…</p>}
           </div>
 
-          <div className="px-4 pb-4 pt-2 sm:px-6 sm:pb-6">
+          <div className="portfolio-chat-composer shrink-0 px-4 pb-4 pt-2 sm:px-6 sm:pb-6">
             {error && <p className="mb-2 px-2 text-sm text-rose-800 dark:text-rose-200" role="alert">{error}</p>}
-            <form onSubmit={handleSubmit} className="glass-lens-host glass-pill-rim relative flex items-center gap-2 rounded-full p-1.5 pl-4 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-sky-500">
-              <GlassOptics surface="pill" />
+            <form onSubmit={handleSubmit} className="portfolio-glass-button portfolio-chat-form flex items-center gap-2 rounded-full p-1.5 pl-4 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-sky-500">
+              <GlassOptics surface="button" />
               <input
                 ref={inputRef}
                 aria-label="Ask about Raj"
