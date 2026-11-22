@@ -1,7 +1,7 @@
 "use client"
 
 import { ArrowLeft, ChevronUp, X } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, type PointerEvent } from "react"
 import { Drawer } from "vaul"
 import { GlassOptics } from "./glass-optics"
 import { PortfolioContent } from "./portfolio-content"
@@ -14,6 +14,7 @@ export function MobileDrawer() {
   const [showProjects, setShowProjects] = useState(false)
   const [linkedSection, setLinkedSection] = useState<string | null>(null)
   const start = useRef<{ x: number; y: number } | null>(null)
+  const didSwipe = useRef(false)
   const scroll = useRef<HTMLDivElement>(null)
   const projectsTrigger = useRef<HTMLButtonElement | null>(null)
   const projectsHeading = useRef<HTMLHeadingElement>(null)
@@ -59,29 +60,50 @@ export function MobileDrawer() {
     setIsOpen(true)
   }
 
+  function startGesture(event: PointerEvent<HTMLElement>) {
+    if (!event.isPrimary || event.button !== 0) return
+    didSwipe.current = false
+    start.current = { x: event.clientX, y: event.clientY }
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+
+  function finishGesture(event: PointerEvent<HTMLElement>) {
+    if (!event.isPrimary || !start.current) return
+    const distance = start.current.y - event.clientY
+    const horizontalDistance = Math.abs(start.current.x - event.clientX)
+    start.current = null
+
+    if (distance > 50 && distance > horizontalDistance) {
+      didSwipe.current = true
+      openPortfolio()
+    }
+  }
+
+  function cancelGesture() {
+    start.current = null
+  }
+
   return (
     <Drawer.Root open={isOpen} onOpenChange={(open) => open ? openPortfolio() : setIsOpen(false)} autoFocus>
       <div
         className="absolute inset-0 touch-none"
         aria-hidden="true"
-        onPointerDown={(event) => {
-          start.current = { x: event.clientX, y: event.clientY }
-          event.currentTarget.setPointerCapture(event.pointerId)
-        }}
-        onPointerUp={(event) => {
-          if (start.current) {
-            const distance = start.current.y - event.clientY
-            if (distance > 50 && distance > Math.abs(start.current.x - event.clientX)) openPortfolio()
-          }
-          start.current = null
-        }}
-        onPointerCancel={() => { start.current = null }}
+        onPointerDown={startGesture}
+        onPointerUp={finishGesture}
+        onPointerCancel={cancelGesture}
       />
 
-      <Drawer.Trigger className="portfolio-wallpaper-open portfolio-glass-button">
-        <GlassOptics surface="photoButton" backdropSelector="#portfolio-mobile-portrait" />
-        <ChevronUp size={20} aria-hidden="true" />
-        <span>Explore portfolio</span>
+      <Drawer.Trigger
+        className="portfolio-wallpaper-hint"
+        onPointerDown={startGesture}
+        onPointerUp={finishGesture}
+        onPointerCancel={cancelGesture}
+        onClick={(event) => {
+          if (event.detail > 0 && didSwipe.current) event.preventDefault()
+        }}
+      >
+        <ChevronUp size={19} aria-hidden="true" />
+        <span>Swipe up to explore<span className="sr-only"> the portfolio</span></span>
       </Drawer.Trigger>
 
       <Drawer.Portal>

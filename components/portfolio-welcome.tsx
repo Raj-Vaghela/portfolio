@@ -77,25 +77,47 @@ export function PortfolioWelcome() {
         <defs>
           <linearGradient id={id + "-glass"} gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="36" y2="119">
             <stop offset="0" stopColor="var(--welcome-top)" />
-            <stop offset=".4" stopColor="var(--welcome-core)" />
-            <stop offset=".65" stopColor="var(--welcome-glint)" />
+            <stop offset=".34" stopColor="var(--welcome-core)" />
+            <stop offset=".57" stopColor="var(--welcome-glint)" />
+            <stop offset=".72" stopColor="var(--welcome-core)" />
             <stop offset="1" stopColor="var(--welcome-bottom)" />
           </linearGradient>
           <linearGradient id={id + "-shine"} x1="0%" x2="0%" y1="0%" y2="100%">
             <stop stopColor="var(--welcome-glint)" stopOpacity=".92" />
             <stop offset="1" stopColor="var(--welcome-glint)" stopOpacity=".2" />
           </linearGradient>
+          <linearGradient id={id + "-sweep"} gradientUnits="userSpaceOnUse" x1="-56" x2="56">
+            <stop stopColor="#fff" stopOpacity="0" />
+            <stop offset=".5" stopColor="#fff" stopOpacity=".88" />
+            <stop offset="1" stopColor="#fff" stopOpacity="0" />
+            <animateTransform
+              attributeName="gradientTransform"
+              type="translate"
+              from={`${left - 56} 0`}
+              to={`${right + 56} 0`}
+              begin="0.18s"
+              dur="1.47s"
+              fill="freeze"
+            />
+          </linearGradient>
+          <radialGradient id={id + "-dot"} cx="36%" cy="24%" r="81%">
+            <stop stopColor="#fff" />
+            <stop offset=".48" stopColor="var(--welcome-core)" />
+            <stop offset="1" stopColor="var(--welcome-bottom)" />
+          </radialGradient>
           <path id={id + "-stroke"} d={stroke} />
           <mask id={id + "-draw"} maskUnits="userSpaceOnUse" x={left} y="12" width={viewWidth} height="132">
-            <path d={stroke} pathLength="1" className="portfolio-welcome-trace" stroke="white" strokeWidth="10" />
+            <path d={stroke} pathLength="1" className="portfolio-welcome-trace" stroke="white" strokeWidth="16" />
           </mask>
         </defs>
         <g mask={`url(#${id}-draw)`}>
-          <use href={"#" + id + "-stroke"} stroke="var(--welcome-edge)" strokeWidth="6.4" />
-          <use href={"#" + id + "-stroke"} stroke={`url(#${id}-glass)`} strokeWidth="4.7" />
-          <use href={"#" + id + "-stroke"} stroke={`url(#${id}-shine)`} strokeWidth="1.25" transform="translate(0,-1.15)" />
+          <use href={"#" + id + "-stroke"} stroke="var(--welcome-depth)" strokeWidth="11" transform="translate(0,1.5)" />
+          <use href={"#" + id + "-stroke"} stroke="var(--welcome-edge)" strokeWidth="10.6" />
+          <use href={"#" + id + "-stroke"} stroke={`url(#${id}-glass)`} strokeWidth="7.8" />
+          <use href={"#" + id + "-stroke"} stroke={`url(#${id}-shine)`} strokeWidth="1.7" transform="translate(0,-2.25)" />
+          <use href={"#" + id + "-stroke"} stroke={`url(#${id}-sweep)`} strokeWidth="2.1" transform="translate(0,-1.9)" />
         </g>
-        <circle className="portfolio-welcome-dot" cx="166" cy="42" r="2.9" fill={`url(#${id}-glass)`} stroke="var(--welcome-edge)" strokeWidth="1" />
+        <circle className="portfolio-welcome-dot" cx="166" cy="40" r="3.8" fill={`url(#${id}-dot)`} stroke="var(--welcome-edge)" strokeWidth="1" />
       </svg>
     </div>
   )
