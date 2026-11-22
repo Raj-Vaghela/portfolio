@@ -18,12 +18,6 @@ const surfaces = {
     dark: "rgba(8, 20, 36, 0.72)",
     light: "rgba(246, 251, 255, 0.77)",
   },
-  drawerRim: {
-    radius: 30,
-    displacement: 82,
-    dark: "rgba(255, 255, 255, 0.025)",
-    light: "rgba(255, 255, 255, 0.025)",
-  },
   card: {
     radius: 28,
     displacement: 34,
@@ -61,7 +55,6 @@ const rim = { depth: .26, curvature: .57, bend: .46, bendWidth: .18, sheen: 1, s
 
 const readingRim = { depth: .12, curvature: .28, bend: .47, bendWidth: .08, sheen: .88, specular: 1 }
 const buttonRim = { depth: .28, curvature: .52, bend: .56, bendWidth: .19, sheen: 1, specular: 1 }
-const drawerRim = { depth: .56, curvature: .65, bend: .7, bendWidth: .18, sheen: 1.25, specular: 1.35 }
 
 const layerStyle: CSSProperties = { position: "absolute", inset: 0, width: "100%", height: "100%", minHeight: 0 }
 
@@ -89,21 +82,18 @@ export const GlassOptics = memo(function GlassOptics({
   const design = surfaces[surface]
   const isReadingSurface = surface === "card" || surface === "portraitCard"
   const isButton = surface === "button" || surface === "photoButton"
-  const isDrawerRim = surface === "drawerRim"
-  const lensOptions = isDrawerRim ? drawerRim : isReadingSurface ? readingRim : isButton ? buttonRim : rim
+  const lensOptions = isReadingSurface ? readingRim : isButton ? buttonRim : rim
 
   return (
     <div className="glass-optics" aria-hidden="true" data-portfolio-optics={surface}>
       <LiquidGlass
         material="clear"
         refraction="lens"
-        renderer={isDrawerRim ? "webgl" : "auto"}
-        webglScene={isDrawerRim ? "off" : "auto"}
-        quality={isDrawerRim ? "standard" : "low"}
+        renderer="auto"
         lensOptions={lensOptions}
         radius={design.radius}
         displacementScale={design.displacement}
-        aberrationIntensity={isReadingSurface || isDrawerRim ? 0 : isButton ? .015 : .22}
+        aberrationIntensity={isReadingSurface ? 0 : isButton ? .015 : .22}
         blur={0}
         frost={0}
         iosBlurMode="off"
@@ -111,7 +101,7 @@ export const GlassOptics = memo(function GlassOptics({
         backdropSelector={backdropSelector}
         backdropVersion={dark ? "dark" : "light"}
         glassColor={dark ? design.dark : design.light}
-        borderColor={isReadingSurface || isButton || isDrawerRim ? "transparent" : dark ? "rgba(218, 238, 255, 0.34)" : "rgba(255, 255, 255, 0.8)"}
+        borderColor={isReadingSurface || isButton ? "transparent" : dark ? "rgba(218, 238, 255, 0.34)" : "rgba(255, 255, 255, 0.8)"}
         effectMode={reducedTransparency ? "off" : "auto"}
         reveal="immediate"
         className="absolute inset-0 size-full"
