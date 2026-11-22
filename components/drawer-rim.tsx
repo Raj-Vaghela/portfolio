@@ -9,7 +9,7 @@ function lensOffset(x: number, y: number, width: number, radius: number) {
   const length = Math.hypot(normalX, normalY)
   // Follow the inward normal of the top edge and its rounded corners.
   const depth = y >= radius ? Math.min(x, width - x) : radius - length
-  const strength = 25 * (1 - Math.max(0, Math.min(1, depth / 38)))
+  const strength = Math.min(25, radius * .85) * (1 - Math.max(0, Math.min(1, depth / radius)))
   return length ? [strength * normalX / length, strength * normalY / length] : [0, 0]
 }
 
