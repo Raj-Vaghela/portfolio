@@ -332,7 +332,7 @@
   --portfolio-accent: #a6ccff;
   --portfolio-glass: rgb(29 31 41 / 87%);
   --portfolio-card-tint: rgb(24 27 37 / 77%);
-  --portfolio-card-rim: rgb(213 223 255 / 31%);
+  --portfolio-card-rim: rgb(219 234 255 / 54%);
   --portfolio-card-shadow: rgb(0 0 0 / 25%);
 }
 
@@ -370,7 +370,7 @@
   background: var(--portfolio-glass);
   -webkit-backdrop-filter: blur(22px) saturate(145%);
   backdrop-filter: blur(22px) saturate(145%);
-  box-shadow: inset 0 1px rgb(255 255 255 / 13%), 0 8px 30px rgb(0 0 0 / 8%);
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / 48%), inset 0 -1px 2px rgb(10 17 31 / 17%), 0 8px 30px rgb(0 0 0 / 12%);
   overflow: hidden;
 }
 
@@ -475,7 +475,7 @@
   inset: 0;
   border-radius: inherit;
   background: var(--portfolio-card-tint);
-  box-shadow: inset 0 1px 1px var(--portfolio-card-rim), inset 0 -1px 1px rgb(255 255 255 / 10%);
+  box-shadow: inset 0 1px 1px var(--portfolio-card-rim), inset 0 3px 7px rgb(255 255 255 / 6%), inset 0 -2px 3px rgb(4 8 18 / 14%);
   pointer-events: none;
   content: "";
 }
@@ -519,7 +519,6 @@
 }
 .portfolio-wallpaper-heading h1 { margin-top: .4rem; font-size: clamp(2.75rem, 11vw, 6.6rem); font-weight: 660; line-height: .92; letter-spacing: -.082em; }
 .portfolio-wallpaper-theme { position: absolute; z-index: 2; top: max(1rem, env(safe-area-inset-top)); right: max(1rem, env(safe-area-inset-right)); }
-.portfolio-wallpaper-theme button { background: rgb(22 24 30 / 61%); }
 .portfolio-wallpaper-theme button svg { color: #fff; }
 .portfolio-wallpaper-actions {
   position: absolute;
@@ -542,15 +541,12 @@
   text-shadow: 0 1px 8px #000;
   cursor: pointer;
 }
-.portfolio-wallpaper-actions svg {
-  box-sizing: content-box;
-  padding: .67rem;
-  border: 1px solid rgb(255 255 255 / 31%);
+.wallpaper-glass-icon {
+  display: grid;
+  width: 3.15rem;
+  height: 3.15rem;
+  place-items: center;
   border-radius: 50%;
-  background: rgb(32 35 42 / 46%);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  box-shadow: inset 0 1px rgb(255 255 255 / 25%), 0 6px 18px rgb(0 0 0 / 24%);
 }
 .portfolio-wallpaper-open {
   position: absolute;
@@ -579,7 +575,6 @@
   background: rgb(255 255 255 / 73%);
   content: "";
 }
-.portfolio-wallpaper-open:hover { background: rgb(255 255 255 / 9%); }
 .portfolio-wallpaper:has(.portfolio-wallpaper-open[aria-expanded="true"]) :is(.portfolio-wallpaper-actions, .portfolio-wallpaper-theme, .portfolio-wallpaper-open) { visibility: hidden; }
 
 /* Independently tinted cards keep the live portrait visible between notifications. */
@@ -620,7 +615,7 @@
   overflow: hidden;
   border: 1px solid var(--portfolio-line);
   border-radius: 999px;
-  box-shadow: inset 0 1px rgb(255 255 255 / 23%), 0 6px 22px rgb(0 0 0 / 25%);
+  box-shadow: inset 0 1px 1px rgb(246 251 255 / 62%), inset 0 -2px 3px rgb(6 9 17 / 50%), 0 6px 22px rgb(0 0 0 / 25%);
   font-size: 1rem;
   font-weight: 650;
   letter-spacing: -.02em;
@@ -629,7 +624,7 @@
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: rgb(18 20 26 / 76%);
+  background: radial-gradient(ellipse 65% 85% at 30% 0%, rgb(210 229 253 / 17%), transparent 67%), rgb(18 20 26 / 76%);
   content: "";
 }
 .portfolio-drawer-back, .portfolio-drawer-close, .portfolio-dialog-close {
@@ -675,7 +670,7 @@
   padding: 1rem;
   border-radius: 1.42rem;
   --portfolio-card-tint: rgb(24 26 34 / 75%);
-  --portfolio-card-rim: rgb(255 255 255 / 33%);
+  --portfolio-card-rim: rgb(242 249 255 / 56%);
   --portfolio-card-shadow: rgb(0 0 0 / 21%);
 }
 .portfolio-notification-drawer .portfolio-card :is(h3, h4) { color: #fff; font-size: 1.1rem; }
@@ -732,32 +727,108 @@
 .portfolio-project-dialog .portfolio-project-details { padding: 1rem; }
 
 .portfolio-welcome {
+  --welcome-top: #f8fbff;
+  --welcome-glint: #fff;
+  --welcome-core: #dce8fa;
+  --welcome-bottom: #879ebd;
+  --welcome-edge: rgb(76 107 147 / 60%);
   position: fixed;
   z-index: 150;
   inset: 0;
   display: grid;
   place-items: center;
   pointer-events: none;
-  background: var(--portfolio-paper);
-  color: var(--portfolio-ink);
-  animation: portfolio-welcome-reveal .36s ease 1.55s both;
+  background: radial-gradient(ellipse at 50% 54%, rgb(166 189 230 / 28%), transparent 67%), var(--portfolio-paper);
+  animation: portfolio-welcome-reveal .38s ease 1.72s both;
 }
-.portfolio-welcome svg { width: 100%; height: auto; }
-.portfolio-welcome [pathLength] {
-  stroke-dasharray: 1;
-  animation: portfolio-welcome-write 1.4s cubic-bezier(.22,.07,.43,1) both;
+.dark .portfolio-welcome {
+  --welcome-edge: rgb(179 213 251 / 27%);
+  background: radial-gradient(ellipse at 50% 54%, rgb(61 88 133 / 32%), transparent 67%), var(--portfolio-paper);
 }
+.portfolio-welcome svg { width: 100%; height: auto; filter: drop-shadow(0 2px 6px rgb(82 119 177 / 37%)); }
+.portfolio-welcome-trace { stroke-dasharray: 1; animation: portfolio-welcome-write 1.57s cubic-bezier(.23,.1,.36,1) both; }
+.portfolio-welcome-dot { transform-box: fill-box; transform-origin: center; animation: portfolio-welcome-dot .4s cubic-bezier(.2,.8,.3,1) .92s both; }
 @keyframes portfolio-welcome-write { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes portfolio-welcome-dot {
+  0% { opacity: 0; transform: translateY(-10px) scale(.3); }
+  63% { opacity: 1; transform: translateY(1px) scale(1.16); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
 @keyframes portfolio-welcome-reveal { from { opacity: 1; } to { opacity: 0; } }
 
+.portfolio-glass-button {
+  --button-face: rgb(235 243 255 / 35%);
+  --button-shade: rgb(72 97 144 / 16%);
+  --button-glisten: rgb(255 255 255 / 60%);
+  --button-glare: rgb(255 255 255 / 31%);
+  --button-edge: rgb(103 131 172 / 34%);
+  --button-shadow: rgb(53 79 120 / 24%);
+  position: relative;
+  isolation: isolate;
+  border: 1px solid var(--button-edge);
+  background: var(--button-face);
+  box-shadow: 0 4px 11px var(--button-shadow);
+  transition: scale .18s ease, box-shadow .18s ease;
+}
+.dark .portfolio-glass-button, .portfolio-wallpaper .portfolio-glass-button {
+  --button-face: rgb(11 20 37 / 35%);
+  --button-shade: rgb(4 9 20 / 49%);
+  --button-glisten: rgb(239 249 255 / 73%);
+  --button-glare: rgb(185 216 252 / 28%);
+  --button-edge: rgb(203 226 253 / 30%);
+  --button-shadow: rgb(0 0 0 / 38%);
+}
+.portfolio-glass-button.portfolio-glass-button--blue {
+  --button-face: rgb(7 79 169 / 96%);
+  --button-shade: rgb(2 36 94 / 65%);
+  --button-glare: rgb(110 189 255 / 47%);
+  --button-edge: rgb(164 215 255 / 62%);
+  --button-shadow: rgb(0 63 154 / 36%);
+  color: #fff;
+}
+.portfolio-glass-button > .glass-optics { overflow: hidden; }
+.portfolio-glass-button::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 75% 90% at 32% -23%, var(--button-glare), transparent 69%),
+    linear-gradient(180deg, transparent 35%, var(--button-shade));
+  box-shadow:
+    inset 0 1px 1px var(--button-glisten),
+    inset 1px 0 2px rgb(238 249 255 / 24%),
+    inset -1px -1px 2px var(--button-shade);
+  pointer-events: none;
+  content: "";
+}
+.portfolio-glass-button:hover { background: var(--button-face); }
+:is(a, button).portfolio-glass-button:active, .portfolio-wallpaper-actions > :active > .wallpaper-glass-icon { scale: .96; }
+.portfolio-wallpaper-open.portfolio-glass-button { position: absolute; gap: .38rem; display: flex; padding-inline: 1rem 1.15rem; }
+.portfolio-wallpaper-actions > *:focus-visible { outline-offset: 2px; border-radius: 1rem; }
+
+.portfolio-chat {
+  --chat-viewport-top: 0px;
+  --chat-viewport-height: 100dvh;
+  top: calc(var(--chat-viewport-top) + var(--chat-viewport-height) / 2);
+  height: min(38rem, calc(var(--chat-viewport-height) - 1.5rem));
+}
+.portfolio-chat[data-compact] { border-radius: 1.4rem; }
+.portfolio-chat[data-compact] .portfolio-chat-header { align-items: center; padding-block: .45rem; }
+.portfolio-chat[data-compact] .portfolio-chat-header p { display: none; }
+.portfolio-chat[data-compact] [role="log"] { padding-block: .625rem; }
+.portfolio-chat[data-compact] .portfolio-chat-composer { padding-block: .35rem .55rem; }
+
 @media (prefers-reduced-transparency: reduce) {
-  .portfolio-toolbar, .portfolio-modal, .portfolio-project-dialog > header { background: var(--portfolio-panel); }
+  .portfolio-toolbar, .portfolio-modal, .portfolio-project-dialog > header, .portfolio-glass-button, .portfolio-glass-button:hover { background: var(--portfolio-panel); }
   .portfolio-card::after { background: var(--portfolio-panel); }
-  .portfolio-wallpaper-actions svg, .portfolio-drawer-toolbar::before, .portfolio-notification-drawer .portfolio-section-heading { background: #22252c; }
+  .portfolio-wallpaper .portfolio-glass-button, .portfolio-drawer-toolbar::before, .portfolio-notification-drawer .portfolio-section-heading { background: #22252c; }
+  .portfolio-glass-button.portfolio-glass-button--blue, .portfolio-glass-button.portfolio-glass-button--blue:hover { background: #064eaa; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .portfolio-welcome { display: none; }
+  .portfolio-glass-button { transition: none; }
   .portfolio-notification-drawer, .portfolio-notification-overlay { animation-duration: 1ms !important; transition-duration: 1ms !important; }
 }
 

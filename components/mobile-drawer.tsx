@@ -78,7 +78,8 @@ export function MobileDrawer() {
         onPointerCancel={() => { start.current = null }}
       />
 
-      <Drawer.Trigger className="portfolio-wallpaper-open">
+      <Drawer.Trigger className="portfolio-wallpaper-open portfolio-glass-button">
+        <GlassOptics surface="photoButton" backdropSelector="#portfolio-mobile-portrait" />
         <ChevronUp size={20} aria-hidden="true" />
         <span>Explore portfolio</span>
       </Drawer.Trigger>
