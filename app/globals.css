@@ -439,6 +439,33 @@
   box-shadow: 0 21px 64px rgb(0 0 0 / 16%);
 }
 .portfolio-portrait-frame img { object-position: 50% 42%; }
+
+@media (min-width: 64rem) {
+  .portfolio-desktop, .portfolio-toolbar { width: min(87rem, calc(100% - clamp(4rem, 9vw, 11rem))); }
+  .portfolio-hero {
+    min-height: clamp(38rem, 76svh, 58rem);
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+    gap: clamp(2rem, 5vw, 5.5rem);
+  }
+  .portfolio-name { font-size: clamp(4rem, 7.5vw, 8rem); }
+  .portfolio-portrait-frame {
+    position: relative;
+    justify-self: end;
+    width: min(100%, 32rem);
+    height: clamp(27rem, 58svh, 39rem);
+    border-color: rgb(123 153 205 / 40%);
+    box-shadow: 0 28px 72px rgb(13 24 45 / 31%);
+  }
+  .portfolio-portrait-frame::after {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 1px 1px rgb(221 238 255 / 48%);
+    pointer-events: none;
+    content: "";
+  }
+}
+
 .desktop-portfolio-content .portfolio-content-section { scroll-margin-top: 6rem; }
 .desktop-portfolio-content {
   display: grid;
