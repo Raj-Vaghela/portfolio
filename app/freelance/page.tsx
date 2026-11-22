@@ -30,7 +30,7 @@ export default function FreelancePage() {
             <ArrowLeft className="size-4" aria-hidden="true" />
             Raj Vaghela
           </Link>
-          <ThemeToggle />
+          <div className="hidden lg:block"><ThemeToggle /></div>
         </header>
 
         <div className="mb-9 mt-12 sm:mt-16">
