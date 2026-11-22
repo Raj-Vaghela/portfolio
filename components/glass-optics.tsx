@@ -83,7 +83,7 @@ export const GlassOptics = memo(function GlassOptics({
       <LiquidGlass
         material="clear"
         refraction="lens"
-        renderer={isPortrait ? "webgl" : "auto"}
+        renderer={surface === "portrait" ? "webgl" : "auto"}
         lensOptions={lensOptions}
         radius={design.radius}
         displacementScale={design.displacement}
