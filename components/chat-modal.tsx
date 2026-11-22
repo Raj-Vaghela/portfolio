@@ -1,11 +1,19 @@
 "use client"
 
 import * as Dialog from "@radix-ui/react-dialog"
-import { ArrowUp, X } from "lucide-react"
+import { ArrowUp, ArrowUpRight, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import type { FormEvent } from "react"
-import { chatLimits, type ChatTurn } from "@/lib/chat"
+import { chatLimits, type ChatLink, type ChatTurn } from "@/lib/chat"
 import { GlassOptics } from "@/components/glass-optics"
+
+type DisplayTurn = ChatTurn & { links?: ChatLink[] }
+
+const suggestedQuestions = [
+  "What does Raj work on at Kordin Labs?",
+  "Which projects can I try?",
+  "Can Raj build a website for my business?",
+]
 
 interface ChatModalProps {
   isOpen: boolean
@@ -13,22 +21,22 @@ interface ChatModalProps {
 }
 
 export function ChatModal({ isOpen, onClose }: ChatModalProps) {
-  const [messages, setMessages] = useState<ChatTurn[]>([])
+  const [messages, setMessages] = useState<DisplayTurn[]>([])
   const [input, setInput] = useState("")
   const [pending, setPending] = useState(false)
   const [error, setError] = useState("")
   const inFlight = useRef(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
     const viewport = scrollRef.current
     if (isOpen && viewport) viewport.scrollTop = viewport.scrollHeight
   }, [isOpen, messages, pending, error])
 
-  async function sendMessage(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const question = input.trim()
+  async function sendMessage(value: string) {
+    const question = value.trim()
     if (inFlight.current || !question) return
 
     inFlight.current = true
@@ -43,13 +51,13 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: nextMessages.slice(-chatLimits.turns) }),
+        body: JSON.stringify({ messages: nextMessages.slice(-chatLimits.turns).map(({ role, content }) => ({ role, content })) }),
       })
       const result = await response.json().catch(() => null)
       if (!response.ok || typeof result?.answer !== "string" || !result.answer.trim()) {
         throw new Error(typeof result?.error === "string" ? result.error : "The reply couldn’t load. Try again.")
       }
-      setMessages([...nextMessages, { role: "assistant", content: result.answer }])
+      setMessages([...nextMessages, { role: "assistant", content: result.answer, links: result.links }])
     } catch (failure) {
       setMessages(messages)
       setInput((current) => current || question)
@@ -60,6 +68,11 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
     }
   }
 
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    void sendMessage(input)
+  }
+
   return (
     <Dialog.Root open={isOpen} onOpenChange={(open) => { if (!open) onClose() }}>
       <Dialog.Portal>
@@ -68,12 +81,13 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
           className="portfolio-modal fixed inset-x-3 top-1/2 z-[100] mx-auto flex h-[min(38rem,calc(100dvh-1.5rem))] max-w-xl -translate-y-1/2 flex-col overflow-hidden rounded-[2rem] text-slate-900 dark:text-slate-50"
           onOpenAutoFocus={(event) => {
             event.preventDefault()
-            inputRef.current?.focus()
+            if (window.matchMedia("(pointer: coarse)").matches) titleRef.current?.focus()
+            else inputRef.current?.focus()
           }}
         >
           <header className="flex items-start justify-between gap-4 border-b border-slate-500/15 px-5 py-4 sm:px-7 dark:border-white/10">
             <div>
-              <Dialog.Title className="font-semibold tracking-tight">Chat with AI</Dialog.Title>
+              <Dialog.Title ref={titleRef} tabIndex={-1} className="font-semibold tracking-tight focus:outline-none">Chat with AI</Dialog.Title>
               <Dialog.Description className="mt-1 text-xs text-slate-600 dark:text-slate-300">
                 Ask about Raj’s experience, projects or freelance work.
               </Dialog.Description>
@@ -85,18 +99,49 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
 
           <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 sm:px-7" role="log" aria-label="Chat messages">
             <p className="mb-4 max-w-[90%] rounded-2xl rounded-bl-md bg-white/45 px-4 py-3 text-sm dark:bg-white/8">
-              Hi, I’m Raj’s portfolio assistant. What would you like to know?
+              Ask me about Raj’s work, projects or freelance services.
             </p>
+            {messages.length === 0 && (
+              <div className="mb-4 flex flex-wrap gap-2" aria-label="Suggested questions">
+                {suggestedQuestions.map((question) => (
+                  <button
+                    key={question}
+                    className="rounded-full border border-slate-500/30 px-3 py-2 text-left text-xs font-medium transition-colors hover:bg-slate-500/10"
+                    onClick={() => void sendMessage(question)}
+                  >
+                    {question}
+                  </button>
+                ))}
+              </div>
+            )}
             {messages.map((message, index) => (
               <div key={index} className={"mb-3 flex " + (message.role === "user" ? "justify-end" : "justify-start")}>
-                <p className={"max-w-[90%] whitespace-pre-wrap break-words rounded-2xl px-4 py-3 text-sm leading-relaxed " + (
+                <div className={"max-w-[92%] break-words rounded-2xl px-4 py-3 text-sm leading-relaxed " + (
                   message.role === "user"
                     ? "rounded-br-md bg-sky-950/10 dark:bg-sky-300/15"
                     : "rounded-bl-md bg-white/45 dark:bg-white/8"
                 )}>
-                  <span className="sr-only">{message.role === "user" ? "You: " : "AI assistant: "}</span>
-                  {message.content}
-                </p>
+                  <p className="whitespace-pre-wrap">
+                    <span className="sr-only">{message.role === "user" ? "You: " : "AI assistant: "}</span>
+                    {message.content}
+                  </p>
+                  {!!message.links?.length && (
+                    <ul className="mt-2.5 flex flex-wrap gap-2" aria-label="Related portfolio links">
+                      {message.links.map((link) => (
+                        <li key={link.href}>
+                          <a
+                            className="inline-flex items-center gap-1 rounded-full bg-sky-900/8 px-2.5 py-1 text-xs font-medium text-sky-900 hover:underline dark:bg-sky-300/12 dark:text-sky-200"
+                            href={link.href}
+                            target={link.href.startsWith("https://") ? "_blank" : undefined}
+                            rel="noreferrer"
+                          >
+                            {link.label}<ArrowUpRight size={13} aria-hidden="true" />
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </div>
             ))}
             {pending && <p className="text-sm text-slate-600 dark:text-slate-300" role="status">Thinking…</p>}
@@ -104,7 +149,7 @@ export function ChatModal({ isOpen, onClose }: ChatModalProps) {
 
           <div className="px-4 pb-4 pt-2 sm:px-6 sm:pb-6">
             {error && <p className="mb-2 px-2 text-sm text-rose-800 dark:text-rose-200" role="alert">{error}</p>}
-            <form onSubmit={sendMessage} className="glass-lens-host glass-pill-rim relative flex items-center gap-2 rounded-full p-1.5 pl-4 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-sky-500">
+            <form onSubmit={handleSubmit} className="glass-lens-host glass-pill-rim relative flex items-center gap-2 rounded-full p-1.5 pl-4 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-sky-500">
               <GlassOptics surface="pill" />
               <input
                 ref={inputRef}

@@ -1,5 +1,5 @@
 export const chatLimits = {
-  turns: 9,
+  turns: 13,
   questionCharacters: 700,
   answerCharacters: 2400,
 }
@@ -7,4 +7,9 @@ export const chatLimits = {
 export type ChatTurn = {
   role: "user" | "assistant"
   content: string
+}
+
+export type ChatLink = {
+  label: string
+  href: string
 }

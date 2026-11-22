@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { ArrowLeft, Mail } from "lucide-react"
+import { GradientBackground } from "@/components/gradient-background"
+import { PortfolioCard } from "@/components/portfolio-card"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { raykdi } from "@/lib/freelance"
 import { profile } from "@/lib/profile"
@@ -21,6 +23,7 @@ export default function FreelancePage() {
 
   return (
     <main className="portfolio-freelance-page h-dvh overflow-y-auto overscroll-contain">
+      <GradientBackground />
       <div className="mx-auto max-w-4xl px-5 pb-14 pt-6 sm:px-10 sm:pt-10">
         <header className="flex items-center justify-between gap-4">
           <Link href="/" className="inline-flex min-h-10 items-center gap-2 text-sm font-medium text-slate-700 hover:underline dark:text-slate-200">
@@ -37,7 +40,7 @@ export default function FreelancePage() {
           </p>
         </div>
 
-        <article id={raykdi.id} aria-labelledby="raykdi-title" className="portfolio-card portfolio-freelance-feature scroll-mt-6">
+        <PortfolioCard id={raykdi.id} aria-labelledby="raykdi-title" className="portfolio-freelance-feature scroll-mt-6">
           <p className="text-sm font-medium text-emerald-700 dark:text-emerald-300">{raykdi.status}</p>
           <h2 id="raykdi-title" className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">{raykdi.title}</h2>
           <p className="mt-3 max-w-xl leading-relaxed text-slate-600 dark:text-slate-300">{raykdi.summary}</p>
@@ -63,7 +66,7 @@ export default function FreelancePage() {
             <Mail className="size-4" aria-hidden="true" />
             Discuss a project or request a walkthrough
           </a>
-        </article>
+        </PortfolioCard>
       </div>
     </main>
   )
