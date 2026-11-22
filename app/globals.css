@@ -846,25 +846,27 @@
 .portfolio-welcome-coin {
   transform-box: fill-box;
   transform-origin: center;
-  animation: portfolio-welcome-coin-drop .64s .86s both;
+  animation: portfolio-welcome-coin-drop .72s .82s both;
 }
 .portfolio-welcome-coin-face {
   transform-box: fill-box;
   transform-origin: center;
-  animation: portfolio-welcome-coin-turn .64s .86s both;
+  animation: portfolio-welcome-coin-turn .72s .82s both;
 }
 @keyframes portfolio-welcome-write { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes portfolio-welcome-coin-drop {
-  0% { opacity: 0; transform: translateY(-25px) rotate(-16deg) scale(.78); }
-  38% { opacity: 1; transform: translateY(0) rotate(8deg) scale(1.06, .91); }
-  62% { transform: translateY(-6px) rotate(-5deg); }
-  82% { transform: translateY(0) rotate(2deg) scale(1.025, .97); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  0% { opacity: 0; transform: translate(5px, -29px) rotate(-19deg) scale(.87); animation-timing-function: cubic-bezier(.42, 0, .9, .8); }
+  28% { opacity: 1; }
+  49% { opacity: 1; transform: translate(0, .8px) rotate(7deg) scale(1.035, .94); animation-timing-function: ease-out; }
+  66% { transform: translate(-.5px, -4.3px) rotate(-3deg); animation-timing-function: ease-in; }
+  85% { transform: translate(0, .25px) rotate(1deg); animation-timing-function: ease-out; }
+  100% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
 }
 @keyframes portfolio-welcome-coin-turn {
-  0% { transform: scaleX(.18); }
-  43% { transform: scaleX(1); }
-  66% { transform: scaleX(.58); }
+  0% { transform: scaleX(.33); }
+  24% { transform: scaleX(.17); }
+  55% { transform: scaleX(1); }
+  74% { transform: scaleX(.92); }
   100% { transform: scaleX(1); }
 }
 @keyframes portfolio-welcome-reveal { from { opacity: 1; } to { opacity: 0; } }
