@@ -67,7 +67,7 @@ export const GlassOptics = memo(function GlassOptics({
   surface,
   backdropSelector = "#portfolio-glass-backdrop",
 }: GlassOpticsProps) {
-  const { resolvedTheme } = useTheme()
+  const { forcedTheme, resolvedTheme } = useTheme()
   const [reducedTransparency, setReducedTransparency] = useState(false)
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export const GlassOptics = memo(function GlassOptics({
     return () => query.removeEventListener("change", update)
   }, [])
 
-  const dark = resolvedTheme !== "light"
+  const dark = (forcedTheme ?? resolvedTheme) !== "light"
   const design = surfaces[surface]
   const isReadingSurface = surface === "card" || surface === "portraitCard"
   const isButton = surface === "button" || surface === "photoButton"
