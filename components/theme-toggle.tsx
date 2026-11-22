@@ -5,7 +5,7 @@ import { useTheme } from "next-themes"
 import { useMounted } from "@/lib/use-mounted"
 import { GlassOptics } from "@/components/glass-optics"
 
-export function ThemeToggle({ optical = false, backdropSelector }: { optical?: boolean; backdropSelector?: string }) {
+export function ThemeToggle({ optical = false }: { optical?: boolean | "wallpaper" }) {
   const mounted = useMounted()
   const { theme, setTheme } = useTheme()
 
@@ -19,10 +19,13 @@ export function ThemeToggle({ optical = false, backdropSelector }: { optical?: b
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className={"group relative flex size-10 items-center justify-center overflow-hidden rounded-full transition-all " + (optical ? "portfolio-glass-button" : "liquid-glass-control")}
+      className={"group relative flex size-10 items-center justify-center overflow-hidden rounded-full " + (
+        optical === "wallpaper" ? "portfolio-glass-button portfolio-wallpaper-control" :
+        optical ? "portfolio-glass-button" : "liquid-glass-control transition-all"
+      )}
       aria-label="Toggle theme"
     >
-      {optical && <GlassOptics surface={backdropSelector ? "photoButton" : "button"} backdropSelector={backdropSelector} />}
+      {optical === true && <GlassOptics surface="button" />}
       <Sun className="w-5 h-5 text-amber-500 absolute transition-all duration-300 rotate-0 scale-100 dark:-rotate-90 dark:scale-0" />
       <Moon className="w-5 h-5 text-blue-300 absolute transition-all duration-300 rotate-90 scale-0 dark:rotate-0 dark:scale-100" />
     </button>
