@@ -688,8 +688,7 @@
   height: 3.45rem;
   border-radius: inherit;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(#000 24%, rgb(0 0 0 / 72%) 49%, transparent 96%);
-  mask-image: linear-gradient(#000 24%, rgb(0 0 0 / 72%) 49%, transparent 96%);
+  /* The canvas now cuts itself to a thin optical band: no opacity fade on glass. */
   pointer-events: none;
 }
 .portfolio-drawer-rim canvas {
