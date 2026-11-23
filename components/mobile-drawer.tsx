@@ -210,7 +210,7 @@ export function MobileDrawer() {
             <Drawer.Description className="sr-only">Raj Vaghela’s work, projects, education and background.</Drawer.Description>
           </div>
 
-          <div ref={scroll} className="portfolio-notification-scroll">
+          <div ref={scroll} className="portfolio-notification-scroll" onScroll={(event) => { event.currentTarget.dataset.scrolled = event.currentTarget.scrollTop > 12 ? "true" : "false" }}>
             {showProjects ? (
               <ProjectDetails wallpaper />
             ) : (
