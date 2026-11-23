@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
 
-export function GradientBackground({ desktopArtwork = false }: { desktopArtwork?: boolean }) {
+export function GradientBackground({ desktopArtwork = false, onReady }: { desktopArtwork?: boolean; onReady?: () => void }) {
   const surface = useRef<HTMLCanvasElement>(null)
   const { forcedTheme, resolvedTheme } = useTheme()
   const dark = (forcedTheme ?? resolvedTheme) !== "light"
@@ -15,6 +15,8 @@ export function GradientBackground({ desktopArtwork = false }: { desktopArtwork?
 
     const desktop = window.matchMedia("(min-width: 64rem)")
     const artwork = desktopArtwork ? new Image() : null
+    let signalled = false
+    const ready = () => { if (!signalled) { signalled = true; onReady?.() } }
 
     const draw = () => {
       const width = Math.max(1, canvas.clientWidth)
@@ -58,6 +60,7 @@ export function GradientBackground({ desktopArtwork = false }: { desktopArtwork?
         context.fillStyle = edge
         context.fillRect(width * .32, 0, sceneWidth - width * .32, height)
       }
+      if (!desktop.matches || !desktopArtwork || artwork?.complete) ready()
     }
 
     const loadArtwork = () => {
@@ -67,6 +70,7 @@ export function GradientBackground({ desktopArtwork = false }: { desktopArtwork?
       draw()
     }
     artwork?.addEventListener("load", draw)
+    artwork?.addEventListener("error", ready)
     if (desktopArtwork) desktop.addEventListener("change", loadArtwork)
     loadArtwork()
     const observer = new ResizeObserver(draw)
@@ -74,9 +78,10 @@ export function GradientBackground({ desktopArtwork = false }: { desktopArtwork?
     return () => {
       observer.disconnect()
       artwork?.removeEventListener("load", draw)
+      artwork?.removeEventListener("error", ready)
       if (desktopArtwork) desktop.removeEventListener("change", loadArtwork)
     }
-  }, [dark, desktopArtwork])
+  }, [dark, desktopArtwork, onReady])
 
   return <canvas ref={surface} id="portfolio-glass-backdrop" aria-hidden="true" className="portfolio-backdrop" />
 }
