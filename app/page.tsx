@@ -97,7 +97,7 @@ export default function Page() {
             </div>
 
             <div className="portfolio-portrait-frame">
-              <ProfileImage src={imageUrl} alt="Raj Vaghela" className="size-full" priority onReady={markDesktopReady} sizes="(min-width: 1280px) 460px, 38vw" />
+              <ProfileImage src={imageUrl} alt="Raj Vaghela" className="size-full" onReady={markDesktopReady} sizes="(min-width: 1280px) 460px, 38vw" />
             </div>
           </section>
 
