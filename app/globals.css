@@ -1206,6 +1206,8 @@
 @keyframes finale-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
   .finale-lock-headline > span { animation: none; }
+}
+
 /* ---------------------------------------------------------------------------
    Glass legibility. Each surface measures the backdrop beneath it (lib/glass-legibility.ts)
    and sets --glass-dim, the least tint that keeps its text at WCAG AA (AAA when Tinted or
