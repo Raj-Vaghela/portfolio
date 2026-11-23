@@ -1,6 +1,6 @@
 "use client"
 
-import { ArrowLeft, ArrowUp, ArrowUpRight, ChevronUp, Linkedin, Mail, Sparkles, X } from "lucide-react"
+import { ArrowLeft, ChevronUp, X } from "lucide-react"
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react"
 import { Drawer } from "vaul"
 import { DrawerRim } from "./drawer-rim"
@@ -228,30 +228,30 @@ export function MobileDrawer() {
               />
             )}
             <footer className="portfolio-drawer-finale" aria-label="Closing note and contact links">
-              <div className="portfolio-finale-orbit" aria-hidden="true">
-                <span className="portfolio-finale-orbit-core"><Sparkles size={19} strokeWidth={1.5} /></span>
+              <div className="portfolio-finale-mark" aria-hidden="true">
+                <span className="portfolio-finale-mark-script">r.</span>
+                <span className="portfolio-finale-mark-glint" />
               </div>
-              <p className="portfolio-finale-eyebrow">THE STORY CONTINUES</p>
+              <p className="portfolio-finale-eyebrow">A NOTE FROM RAJ</p>
               <h3>Good things start<br />with a <em>conversation.</em></h3>
               <p className="portfolio-finale-message">
                 If something here sparked an idea, I&apos;d love to hear it.
               </p>
               <a className="portfolio-finale-cta" href={`mailto:${profile.email}?subject=Let%27s%20connect`}>
-                <Mail size={17} aria-hidden="true" />
-                Let&apos;s connect
-                <ArrowUpRight size={17} aria-hidden="true" />
+                <span>Start a conversation</span>
+                <span className="portfolio-finale-cta-rule" aria-hidden="true" />
               </a>
-              <div className="portfolio-finale-bottom">
-                <a href="https://linkedin.com/in/raj-vaghela" target="_blank" rel="noreferrer" aria-label="Raj Vaghela on LinkedIn">
-                  <Linkedin size={17} aria-hidden="true" /> LinkedIn
+              <nav className="portfolio-finale-bottom" aria-label="Closing links">
+                <a href="https://linkedin.com/in/raj-vaghela" target="_blank" rel="noreferrer">
+                  Find me on LinkedIn
                 </a>
                 <button type="button" onClick={() => scroll.current?.scrollTo({ top: 0, behavior: "smooth" })}>
-                  Back to top <ArrowUp size={15} aria-hidden="true" />
+                  Return to the beginning
                 </button>
-              </div>
-              <div className="portfolio-finale-signoff" aria-hidden="true">
+              </nav>
+              <div className="portfolio-finale-signoff">
                 <span>Made with curiosity in Leicester.</span>
-                <strong>raj.</strong>
+                <strong aria-label="Raj">raj.</strong>
               </div>
             </footer>
           </div>
