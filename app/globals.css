@@ -910,8 +910,7 @@
   .portfolio-finale-cta, .portfolio-finale-cta span:last-child { transition: none; }
 }
 
-/* Kordin Labs employment motif: brand-neutral and typographic, not an official logo.
-   Kept to the current work card; the portfolio remains about the engineer. */
+/* Kordin brand concept 2026: actual red mark and documented Pulse/Null/Substrate colours. Preview only. */
 .portfolio-notification-drawer .portfolio-company-about { overflow: hidden; }
 .portfolio-company-context {
   position: relative;
@@ -919,22 +918,22 @@
   align-items: center;
   gap: .55rem;
   padding: .62rem .76rem;
-  border: 1px solid rgb(220 232 255 / 22%);
+  border: 1px solid rgb(242 81 54 / 23%);
   border-radius: .85rem;
-  background: linear-gradient(110deg, rgb(38 53 77 / 55%), rgb(24 33 53 / 32%));
-  color: #dde5ef;
+  background: linear-gradient(110deg, rgb(39 27 26 / 55%), rgb(19 18 18 / 46%));
+  color: #ede9e8;
   font-size: .73rem;
   line-height: 1.35;
 }
-.portfolio-company-context strong { color: #f5f8ff; font-weight: 660; }
+.portfolio-company-context strong { color: #ede9e8; font-weight: 660; }
 .portfolio-company-context-dot {
   display: block;
   width: .36rem;
   height: .36rem;
   flex-shrink: 0;
   border-radius: 50%;
-  background: #b5c9df;
-  box-shadow: 0 0 0 3px rgb(203 224 246 / 12%);
+  background: #f25136;
+  box-shadow: 0 0 0 3px rgb(242 81 54 / 16%);
 }
 .portfolio-notification-drawer .portfolio-company-context .portfolio-company-context-arrow {
   margin-left: auto;
@@ -944,7 +943,7 @@
   min-height: 1.5rem;
   min-width: 1.5rem;
   font-size: 1rem;
-  color: #e8f2ff;
+  color: #ede9e8;
   text-decoration: none;
 }
 .portfolio-company-context-arrow:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
@@ -952,11 +951,11 @@
   position: relative;
   overflow: hidden;
   padding: 1.18rem;
-  border: 1px solid rgb(203 218 240 / 27%);
+  border: 1px solid rgb(242 81 54 / 28%);
   background:
-    radial-gradient(ellipse at 94% -4%, rgb(198 217 247 / 13%), transparent 48%),
-    linear-gradient(150deg, rgb(17 29 45 / 96%), rgb(12 19 32 / 94%) 76%);
-  box-shadow: inset 0 1px 0 rgb(223 237 255 / 20%), 0 12px 30px rgb(0 0 0 / 20%);
+    radial-gradient(ellipse at 94% -4%, rgb(242 81 54 / 13%), transparent 48%),
+    linear-gradient(150deg, rgb(19 18 18 / 96%), rgb(0 0 0 / 94%) 76%);
+  box-shadow: inset 0 1px 0 rgb(242 81 54 / 25%), 0 12px 30px rgb(0 0 0 / 20%);
 }
 .portfolio-notification-drawer .portfolio-company-feature > .glass-optics { opacity: .23; }
 .portfolio-notification-drawer .portfolio-company-feature::after { display: none; }
@@ -971,14 +970,13 @@
   pointer-events: none;
   opacity: .22;
   background:
-    linear-gradient(to right, rgb(198 215 239 / 14%) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(198 215 239 / 14%) 1px, transparent 1px);
+    linear-gradient(to right, rgb(242 81 54 / 11%) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(242 81 54 / 11%) 1px, transparent 1px);
   background-size: 36px 36px;
   -webkit-mask-image: linear-gradient(90deg, transparent 16%, #000 100%);
   mask-image: linear-gradient(90deg, transparent 16%, #000 100%);
 }
-/* Company-domain favicon displayed as glass-backed brand cameo.
-   If the favicon is missing, do not replace it with a made-up brand symbol. */
+/* Official Pulse-red symbol sampled from supplied brand presentation on translucent glass. */
 .portfolio-company-logo-glass {
   position: absolute;
   z-index: 0;
@@ -986,17 +984,17 @@
   top: 3.8rem;
   display: grid;
   place-items: center;
-  width: 10.3rem;
-  height: 10.3rem;
-  padding: 2.7rem;
+  width: 9.2rem;
+  height: 9.2rem;
+  padding: 2.2rem;
   border: 1px solid rgb(255 255 255 / 25%);
   border-radius: 2.2rem;
-  background: linear-gradient(138deg, rgb(250 252 255 / 15%), rgb(89 110 145 / 7%) 46%, rgb(255 255 255 / 5%));
+  background: linear-gradient(138deg, rgb(250 252 255 / 15%), rgb(242 81 54 / 8%) 46%, rgb(255 255 255 / 5%));
   box-shadow: inset 0 1px 2px rgb(255 255 255 / 29%), inset 0 -2px 6px rgb(0 0 0 / 18%), 0 18px 40px rgb(0 0 0 / 14%);
-  -webkit-backdrop-filter: blur(13px) saturate(135%);
-  backdrop-filter: blur(13px) saturate(135%);
+  -webkit-backdrop-filter: blur(9px) saturate(120%);
+  backdrop-filter: blur(9px) saturate(120%);
   transform: rotate(-11deg);
-  opacity: .48;
+  opacity: .62;
   pointer-events: none;
 }
 .portfolio-company-logo-glass::before {
@@ -1009,7 +1007,7 @@
 }
 .portfolio-company-logo-glass img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 7px 14px rgb(0 0 0 / 16%)); }
 @media (prefers-reduced-transparency: reduce) {
-  .portfolio-company-logo-glass { -webkit-backdrop-filter: none; backdrop-filter: none; background: #263247; }
+  .portfolio-company-logo-glass { -webkit-backdrop-filter: none; backdrop-filter: none; background: #131212; }
 }
 .portfolio-company-feature-top {
   display: flex;
@@ -1018,15 +1016,15 @@
   gap: .5rem;
   margin-bottom: 1.45rem;
   padding-bottom: .74rem;
-  border-bottom: 1px solid rgb(200 218 243 / 18%);
+  border-bottom: 1px solid rgb(242 81 54 / 20%);
   font-size: .58rem;
   font-weight: 700;
   letter-spacing: .14em;
-  color: #b5c6de;
+  color: #ede9e8;
 }
 .portfolio-company-feature-label {
   font-size: .53rem;
-  color: #93a6c1;
+  color: #d5d3d2;
   white-space: nowrap;
 }
 .portfolio-company-feature-context {
@@ -1037,19 +1035,19 @@
 }
 .portfolio-notification-drawer .portfolio-company-feature-context span {
   padding: .27rem .48rem;
-  border: 1px solid rgb(197 217 243 / 20%);
+  border: 1px solid rgb(242 81 54 / 20%);
   border-radius: .42rem;
-  background: rgb(77 105 145 / 12%);
-  color: #cad6e6;
+  background: rgb(242 81 54 / 9%);
+  color: #ede9e8;
   font-size: .67rem;
   line-height: 1.3;
 }
 .portfolio-notification-drawer .portfolio-company-feature h3 { font-size: 1.4rem; letter-spacing: -.045em; }
 .portfolio-notification-drawer .portfolio-company-feature ul {
   padding-top: .9rem;
-  border-top: 1px solid rgb(194 212 238 / 17%);
+  border-top: 1px solid rgb(242 81 54 / 17%);
 }
-.portfolio-notification-drawer .portfolio-company-feature li > span:first-child { color: #a6c1e2; }
+.portfolio-notification-drawer .portfolio-company-feature li > span:first-child { color: #f25136; }
 
 .portfolio-modal {
   border: 1px solid var(--portfolio-line);
