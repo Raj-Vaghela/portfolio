@@ -97,7 +97,7 @@ export default function Page() {
           <a href="/cv.pdf" target="_blank" rel="noreferrer"><WallpaperGlassIcon><FileText size={20} /></WallpaperGlassIcon><span>CV</span></a>
         </div>
 
-        <MobileDrawer />
+        <MobileDrawer onOpenChat={() => setChatOpen(true)} />
       </div>
 
       <ContactModal isOpen={isContactOpen} onClose={() => setContactOpen(false)} />

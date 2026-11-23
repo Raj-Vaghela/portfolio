@@ -1114,3 +1114,131 @@
   outline-offset: 3px;
 }
 .portfolio-drawer-toolbar > h2:focus { outline: none; }
+
+/* Liquid glass used by the drawer finale: refraction from GlassOptics, rim light on top. */
+.finale-glass {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid rgb(203 226 253 / 30%);
+  background: rgb(11 20 37 / 26%);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 30%);
+}
+.finale-glass > .glass-optics { overflow: hidden; }
+.finale-glass::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 75% 90% at 32% -23%, rgb(185 216 252 / 26%), transparent 69%),
+    linear-gradient(180deg, transparent 42%, rgb(4 9 20 / 36%));
+  box-shadow:
+    inset 0 1px 1px rgb(239 249 255 / 72%),
+    inset 1px 0 2px rgb(238 249 255 / 22%),
+    inset -1px 0 2px rgb(150 200 255 / 18%),
+    inset 0 -1px 2px rgb(4 9 20 / 30%);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .finale-glass { background: rgb(14 22 36 / 88%); }
+}
+
+/* Drawer finale: lock screen. */
+.finale-lock {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  min-height: 41rem;
+  margin: 2.4rem 0 0;
+  padding: 1.9rem .75rem .9rem;
+  overflow: hidden;
+  border-radius: 2rem;
+  border: 1px solid rgb(150 180 215 / 30%);
+  color: #f3f6fc;
+}
+.finale-lock-city { z-index: -2; object-fit: cover; object-position: 46% 100%; }
+.finale-lock-shade {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(7 11 19 / 86%) 0%, rgb(7 11 19 / 45%) 36%, rgb(7 11 19 / 18%) 60%, rgb(7 11 19 / 70%) 100%);
+}
+.finale-lock-clock { text-align: center; }
+.finale-lock-date { font-size: .94rem; font-weight: 500; color: #dbe5f2; }
+.finale-lock-time {
+  font-size: clamp(4.6rem, 24vw, 6rem);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.06em;
+  line-height: 1;
+}
+.finale-lock-headline { margin-top: .4rem; font-size: 1.9rem; font-weight: 600; letter-spacing: -.04em; line-height: 1; }
+.finale-lock-headline > span { display: inline-block; animation: finale-rise .4s cubic-bezier(.2, .8, .2, 1) both; }
+.finale-lock-headline em { font-family: var(--font-instrument-serif), Georgia, serif; font-weight: 400; color: #bad9fb; letter-spacing: -.01em; }
+.finale-lock-notes { display: flex; flex-direction: column; gap: .5rem; margin-top: auto; padding-top: 2.5rem; }
+.finale-lock-note { border-radius: 23px; }
+.finale-lock-note[data-open] { border-color: rgb(186 217 251 / 70%); }
+.finale-lock-note-toggle {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: .65rem;
+  align-items: center;
+  width: 100%;
+  padding: .75rem .9rem;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+.finale-lock-app {
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: .65rem;
+  background: #bad9fb;
+  color: #0b1526;
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-size: 1.2rem;
+  font-style: italic;
+  letter-spacing: -.05em;
+}
+.finale-lock-note-text { display: flex; flex-direction: column; gap: .12rem; min-width: 0; font-size: .85rem; line-height: 1.35; color: #e3ebf6; }
+.finale-lock-note-top { display: flex; justify-content: space-between; gap: .5rem; color: #f3f6fc; }
+.finale-lock-note-top strong { font-weight: 600; }
+.finale-lock-note-top span { color: #c3d1e4; font-size: .8rem; }
+.finale-lock-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 1.8rem);
+  min-height: 2.9rem;
+  margin: 0 .9rem .9rem;
+  border-radius: .9rem;
+  background: #f3f6fc;
+  color: #0f1a2b;
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.finale-lock-dock { display: flex; align-items: center; justify-content: space-between; margin-top: 1.1rem; padding: 0 .85rem; }
+.finale-lock-round { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: 50%; color: #f3f6fc; }
+.finale-lock-home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: 3.25rem;
+  font-size: .75rem;
+  color: #dbe5f2;
+  cursor: pointer;
+}
+.finale-lock-home span { width: 7.5rem; height: 5px; border-radius: 3px; background: #f3f6fc; }
+@keyframes finale-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .finale-lock-headline > span { animation: none; }
+}
