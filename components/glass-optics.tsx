@@ -48,6 +48,12 @@ const surfaces = {
     dark: "rgba(16, 32, 54, 0.34)",
     light: "rgba(245, 251, 255, 0.35)",
   },
+  bevel: {
+    radius: 24,
+    displacement: 72,
+    dark: "rgba(15, 28, 47, 0.07)",
+    light: "rgba(250, 253, 255, 0.08)",
+  },
 }
 
 const rim = { depth: .26, curvature: .57, bend: .46, bendWidth: .18, sheen: 1, specular: 1 }
@@ -55,17 +61,24 @@ const rim = { depth: .26, curvature: .57, bend: .46, bendWidth: .18, sheen: 1, s
 
 const readingRim = { depth: .12, curvature: .28, bend: .47, bendWidth: .08, sheen: .88, specular: 1 }
 const buttonRim = { depth: .28, curvature: .52, bend: .56, bendWidth: .19, sheen: 1, specular: 1 }
+const bevelRim = { depth: .26, curvature: .32, bend: .82, bendWidth: .2, sheen: 1.45, sheenWidth: 2.2, specular: 1.28, brightness: 0 }
 
 const layerStyle: CSSProperties = { position: "absolute", inset: 0, width: "100%", height: "100%", minHeight: 0 }
 
 interface GlassOpticsProps {
   surface: keyof typeof surfaces
   backdropSelector?: string
+  backdropVersion?: string
+  tone?: "dark" | "light"
+  radius?: number
 }
 
 export const GlassOptics = memo(function GlassOptics({
   surface,
   backdropSelector = "#portfolio-glass-backdrop",
+  backdropVersion,
+  tone,
+  radius,
 }: GlassOpticsProps) {
   const { forcedTheme, resolvedTheme } = useTheme()
   const [reducedTransparency, setReducedTransparency] = useState(false)
@@ -78,11 +91,12 @@ export const GlassOptics = memo(function GlassOptics({
     return () => query.removeEventListener("change", update)
   }, [])
 
-  const dark = (forcedTheme ?? resolvedTheme) !== "light"
+  const dark = (tone ?? forcedTheme ?? resolvedTheme) !== "light"
   const design = surfaces[surface]
   const isReadingSurface = surface === "card" || surface === "portraitCard"
   const isButton = surface === "button" || surface === "photoButton"
-  const lensOptions = isReadingSurface ? readingRim : isButton ? buttonRim : rim
+  const isBevel = surface === "bevel"
+  const lensOptions = isBevel ? bevelRim : isReadingSurface ? readingRim : isButton ? buttonRim : rim
 
   return (
     <div className="glass-optics" aria-hidden="true" data-portfolio-optics={surface}>
@@ -91,17 +105,17 @@ export const GlassOptics = memo(function GlassOptics({
         refraction="lens"
         renderer="auto"
         lensOptions={lensOptions}
-        radius={design.radius}
+        radius={radius ?? design.radius}
         displacementScale={design.displacement}
-        aberrationIntensity={isReadingSurface ? 0 : isButton ? .015 : .22}
+        aberrationIntensity={isBevel || isReadingSurface ? 0 : isButton ? .015 : .22}
         blur={0}
         frost={0}
         iosBlurMode="off"
         maxScale={1}
         backdropSelector={backdropSelector}
-        backdropVersion={dark ? "dark" : "light"}
+        backdropVersion={backdropVersion ?? (dark ? "dark" : "light")}
         glassColor={dark ? design.dark : design.light}
-        borderColor={isReadingSurface || isButton ? "transparent" : dark ? "rgba(218, 238, 255, 0.34)" : "rgba(255, 255, 255, 0.8)"}
+        borderColor={isBevel || isReadingSurface || isButton ? "transparent" : dark ? "rgba(218, 238, 255, 0.34)" : "rgba(255, 255, 255, 0.8)"}
         effectMode={reducedTransparency ? "off" : "auto"}
         reveal="immediate"
         className="absolute inset-0 size-full"

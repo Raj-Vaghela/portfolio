@@ -12,6 +12,7 @@
 .stage {
   --ink: #f1f6ff; --muted: #bac8dc; --accent: #a9ccff; --line: #d2e5ff46; --panel: #1a2b4270;
   --glint: #edf9ff66; --surface-shadow: #03050b4c;
+  --rim-flash: #f2f9ffdb; --rim-color: #b6dcffa0; --rim-reflection: #86afff69; --rim-base: #7eabd419;
   position: relative; isolation: isolate; min-height: calc(100vh - 4.25rem); color: var(--ink);
   background: #141d2b;
 }
@@ -21,6 +22,24 @@
   position: relative; isolation: isolate; border: 1px solid var(--line);
   background: var(--panel); box-shadow: inset 0 1px 1px var(--glint), 0 12px 34px var(--surface-shadow);
 }
+.glassRim::after {
+  position: absolute;
+  z-index: 1;
+  inset: -1px;
+  padding: 3px;
+  border-radius: inherit;
+  pointer-events: none;
+  content: "";
+  background:
+    radial-gradient(ellipse at 12% 0%, var(--rim-flash), transparent 43%),
+    radial-gradient(ellipse at 94% 85%, var(--rim-reflection), transparent 49%),
+    linear-gradient(165deg, var(--rim-color), var(--rim-base) 36%, var(--rim-base) 68%, var(--rim-color));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+.glassRim > :global(.glass-optics) { overflow: hidden; }
 .nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .62rem .95rem; border-radius: 2rem; }
 .monogram,.navContact,.navLinks,.profileBar div,.profileBar p,.tile a,.cta {
   display: flex; align-items: center; gap: .5rem;
@@ -99,6 +118,7 @@
 .stage[data-layout="editorial"] {
   --ink: #202e3d; --muted: #455b6d; --accent: #24577a; --line: #ffffffd6; --panel: #f5faff70;
   --glint: #ffffffef; --surface-shadow: #23334d25;
+  --rim-flash: #fff; --rim-color: #fffffff2; --rim-reflection: #6b9ab47c; --rim-base: #ebf6fb58;
   background: #dde7ed;
 }
 .stage[data-layout="editorial"] .wallpaper {
@@ -112,8 +132,7 @@
   grid-template-areas: "nav nav" "intro profile" "work profile" "projects profile";
   gap: 1.4rem clamp(1.8rem,6.2vw,6.5rem);
 }
-.stage[data-layout="editorial"] .nav { grid-area: nav; border-radius: 0; border-width: 0 0 1px; padding: .3rem 0 1rem; background: transparent; box-shadow: none; }
-.stage[data-layout="editorial"] .nav :global(.glass-optics) { display: none; }
+.stage[data-layout="editorial"] .nav { grid-area: nav; border-radius: 1.05rem; padding: .42rem .95rem; }
 .stage[data-layout="editorial"] .intro { grid-area: intro; padding: 1.5rem 0 .8rem; }
 .stage[data-layout="editorial"] .intro h1 {
   font-family: var(--font-instrument-serif), Georgia, serif; font-weight: 400; line-height: .78;
@@ -126,7 +145,6 @@
 .stage[data-layout="editorial"] .work { grid-area: work; }
 .stage[data-layout="editorial"] .projects { grid-area: projects; }
 .stage[data-layout="editorial"] .projectList { grid-template-columns: 1fr; }
-.stage[data-layout="editorial"] :is(.work,.tile) :global(.glass-optics) { opacity: .36; }
 
 @media (max-width: 880px) {
   .composition { padding-inline: 1.35rem; }
@@ -144,5 +162,5 @@
   .navLinks { gap: .65rem; }
 }
 @media (prefers-reduced-transparency: reduce) {
-  .nav,.work,.tile,.profileBar,.cta { backdrop-filter: none; }
+  .glassRim::after { display: none; }
 }
