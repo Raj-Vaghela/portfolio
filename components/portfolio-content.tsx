@@ -26,7 +26,14 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                         <UserRound aria-hidden="true" />
                         About
                     </h2>
-                    <PortfolioCard wallpaper={mobile} className="portfolio-about space-y-4">
+                    <PortfolioCard wallpaper={mobile} className={`portfolio-about space-y-4${mobile ? " portfolio-company-about" : ""}`}>
+                        {mobile && (
+                            <div className="portfolio-company-context">
+                                <span className="portfolio-company-context-dot" aria-hidden="true" />
+                                <span>Currently building at <strong>{profile.employer}</strong></span>
+                                <span aria-hidden="true" className="portfolio-company-context-arrow">↗</span>
+                            </div>
+                        )}
                         <p className="dark:text-white text-gray-800 text-lg leading-relaxed">
                             I&apos;m an <span className="dark:text-white text-black font-semibold">{profile.role} at {profile.employer}</span> and an MSc Advanced Computer Science graduate from the University of Leicester (Distinction),
                             specializing in applied AI and Large Language Models.
@@ -66,7 +73,17 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                         Experience
                     </h2>
                     <div className="portfolio-content-stack">
-                        <PortfolioCard wallpaper={mobile}>
+                        <PortfolioCard wallpaper={mobile} className={mobile ? "portfolio-company-feature" : undefined}>
+                            {mobile && (
+                                <>
+                                    <div className="portfolio-company-watermark" aria-hidden="true">K</div>
+                                    <div className="portfolio-company-grid" aria-hidden="true" />
+                                    <div className="portfolio-company-feature-top">
+                                        <span>01 / CURRENTLY BUILDING</span>
+                                        <span className="portfolio-company-feature-mark" aria-hidden="true"><i /> <i /> <i /></span>
+                                    </div>
+                                </>
+                            )}
                             <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
@@ -78,6 +95,11 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                 <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">{profile.roleStart} to present</span>
                             </div>
                             <p className="dark:text-white text-gray-800 text-sm mb-4">Remote, UK</p>
+                            {mobile && (
+                                <div className="portfolio-company-feature-context">
+                                    <span>AI infrastructure</span><span>Multi-cloud</span><span>Product engineering</span>
+                                </div>
+                            )}
                             <ul className="space-y-2 mt-4">
                                 {currentWork.map((item) => (
                                     <li key={item} className="flex gap-2 dark:text-white text-gray-900 text-sm">
