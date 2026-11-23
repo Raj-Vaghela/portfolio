@@ -27,6 +27,7 @@ interface Surface {
   kind: GlassKind
   backdrop: string
   visible: boolean
+  onFrost?: (px: number) => void
   ink?: RGB
   tint?: RGB
   dim?: number
@@ -203,10 +204,12 @@ function evaluate(element: HTMLElement, surface: Surface, settings: ReturnType<t
     surface.dim = dim
     element.style.setProperty("--glass-dim", String(dim))
   }
-  if (frost !== surface.frost) {
-    surface.frost = frost
-    element.style.setProperty("--glass-frost", `${frost}px`)
-    element.dataset.glassFrost = frost > 0 ? "on" : "off"
+  // Frost feeds the lens's own blur, so steps of 3px with a little hysteresis keep it from churning.
+  const stepped = Math.round(frost / 3) * 3
+  if (surface.frost === undefined || Math.abs(stepped - surface.frost) >= 3) {
+    surface.frost = stepped
+    element.style.setProperty("--glass-frost", `${stepped}px`)
+    surface.onFrost?.(stepped)
   }
 }
 
@@ -270,16 +273,15 @@ function start() {
 }
 
 /** Start adapting `element` to whatever `backdrop` shows behind it. Returns an unregister function. */
-export function adaptGlass(element: HTMLElement, kind: GlassKind, backdrop: string) {
+export function adaptGlass(element: HTMLElement, kind: GlassKind, backdrop: string, onFrost?: (px: number) => void) {
   start()
-  surfaces.set(element, { kind, backdrop, visible: false })
+  surfaces.set(element, { kind, backdrop, visible: false, onFrost })
   observer?.observe(element)
   return () => {
     observer?.unobserve(element)
     surfaces.delete(element)
     element.style.removeProperty("--glass-dim")
     element.style.removeProperty("--glass-frost")
-    delete element.dataset.glassFrost
   }
 }
 
