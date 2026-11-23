@@ -2,6 +2,7 @@
 
 import { ArrowRight, ArrowUpRight, Mail } from "lucide-react"
 import { PortfolioCard } from "@/components/portfolio-card"
+import { useLegibleText } from "@/lib/glass-legibility"
 import { greetingFor, useLeicesterTime } from "@/lib/leicester-time"
 import { profile } from "@/lib/profile"
 
@@ -13,14 +14,16 @@ interface DrawerFinaleProps {
 /** Night-city closing scene: a live greeting on the wallpaper, then the routes on the drawer's own glass. */
 export function DrawerFinale({ onAskAI, onBackToTop }: DrawerFinaleProps) {
   const { time, hour } = useLeicesterTime()
+  const status = useLegibleText<HTMLParagraphElement>("#portfolio-mobile-portrait")
+  const headline = useLegibleText<HTMLHeadingElement>("#portfolio-mobile-portrait")
 
   return (
     <footer className="finale-city" aria-label="Contact">
-      <p className="finale-city-status">
+      <p ref={status} className="finale-city-status" data-legible="">
         <span className="finale-city-live" aria-hidden="true" />
         {greetingFor(hour)} · Leicester {time}
       </p>
-      <h3 className="finale-city-headline">The city’s lit.<br />Let’s build the <em>next thing.</em></h3>
+      <h3 ref={headline} className="finale-city-headline" data-legible="">The city’s lit.<br />Let’s build the <em>next thing.</em></h3>
 
       <PortfolioCard wallpaper className="finale-city-panel">
         <nav aria-label="Ways to get in touch">

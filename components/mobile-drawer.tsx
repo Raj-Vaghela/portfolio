@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState, type PointerEvent } from "rea
 import { Drawer } from "vaul"
 import { DrawerFinale } from "./drawer-finale"
 import { DrawerRim } from "./drawer-rim"
+import { GlassAppearanceToggle } from "./glass-appearance-toggle"
 import { GlassOptics } from "./glass-optics"
 import { PortfolioContent } from "./portfolio-content"
 import { ProjectDetails } from "./projects-modal"
@@ -201,6 +202,9 @@ export function MobileDrawer({ onOpenChat }: { onOpenChat: () => void }) {
                   <GlassOptics surface="photoButton" backdropSelector="#portfolio-mobile-portrait" />
                   <ArrowLeft size={19} aria-hidden="true" />
                 </button>
+              )}
+              {!showProjects && (
+                <GlassAppearanceToggle className="portfolio-drawer-glass" surface="photoButton" backdropSelector="#portfolio-mobile-portrait" />
               )}
               <Drawer.Close className="portfolio-drawer-close portfolio-glass-button" aria-label="Close portfolio">
                 <GlassOptics surface="photoButton" backdropSelector="#portfolio-mobile-portrait" />
