@@ -1184,7 +1184,7 @@
 .finale-city-route > span { display: flex; align-items: baseline; gap: .6rem; font-size: .88rem; }
 .finale-city-route em { font-family: var(--font-instrument-serif), Georgia, serif; font-size: 1.3rem; color: var(--portfolio-accent); }
 .finale-city-contact { padding: .85rem; }
-.portfolio-notification-drawer .portfolio-card .finale-city-hello {
+.portfolio-notification-drawer .portfolio-card a.finale-city-hello {
   display: flex;
   align-items: center;
   justify-content: space-between;
