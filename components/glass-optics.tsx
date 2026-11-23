@@ -1,9 +1,10 @@
 "use client"
 
-import { memo, useEffect, useState } from "react"
+import { memo, useEffect, useRef, useState } from "react"
 import type { CSSProperties } from "react"
 import { useTheme } from "next-themes"
 import LiquidGlass from "simple-liquid-glass"
+import { adaptGlass } from "@/lib/glass-legibility"
 
 const surfaces = {
   window: {
@@ -83,9 +84,18 @@ export const GlassOptics = memo(function GlassOptics({
   const isReadingSurface = surface === "card" || surface === "portraitCard"
   const isButton = surface === "button" || surface === "photoButton"
   const lensOptions = isReadingSurface ? readingRim : isButton ? buttonRim : rim
+  // Text-bearing panes get Apple's "regular" treatment (frosted core); controls stay clear with a dimming layer.
+  const holdsText = isReadingSurface || surface === "sheet" || surface === "window"
+  const layer = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const host = layer.current?.parentElement
+    if (!host || host.classList.contains("portfolio-glass-button--blue")) return
+    return adaptGlass(host, holdsText ? "reading" : "control", backdropSelector)
+  }, [backdropSelector, holdsText])
 
   return (
-    <div className="glass-optics" aria-hidden="true" data-portfolio-optics={surface}>
+    <div ref={layer} className="glass-optics" aria-hidden="true" data-portfolio-optics={surface}>
       <LiquidGlass
         material="clear"
         refraction="lens"
@@ -107,6 +117,8 @@ export const GlassOptics = memo(function GlassOptics({
         className="absolute inset-0 size-full"
         style={layerStyle}
       />
+      {holdsText && <div className="glass-frost" />}
+      {!isReadingSurface && <div className="glass-dim" />}
     </div>
   )
 })

@@ -9,6 +9,7 @@ import { Suspense } from "react"
 import { PortfolioTheme } from "@/components/portfolio-theme"
 import { profile } from "@/lib/profile"
 import "./globals.css"
+import { glassBootstrap } from "@/lib/glass-bootstrap"
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -51,6 +52,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${instrumentSerif.variable} ${pressStart2P.variable} antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: glassBootstrap }} />
+      </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
         <PortfolioTheme>
         <Suspense fallback={null}>{children}</Suspense>

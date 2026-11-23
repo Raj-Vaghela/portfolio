@@ -4,6 +4,7 @@ import { Linkedin, Mail } from "lucide-react"
 import { useState } from "react"
 import { GlassOptics } from "@/components/glass-optics"
 import { PortfolioCard } from "@/components/portfolio-card"
+import { useLegibleText } from "@/lib/glass-legibility"
 import { useLeicesterTime } from "@/lib/leicester-time"
 import { profile } from "@/lib/profile"
 
@@ -35,10 +36,12 @@ export function DrawerFinale({ onAskAI, onBackToTop }: DrawerFinaleProps) {
   const [intent, setIntent] = useState<Intent | null>(null)
   const { time, date } = useLeicesterTime()
   const [lead, word] = headlines[intent ?? "hello"]
+  const clock = useLegibleText<HTMLDivElement>(wallpaper)
+  const home = useLegibleText<HTMLButtonElement>(wallpaper)
 
   return (
     <footer className="finale-lock" aria-label="Contact">
-      <div className="finale-lock-clock">
+      <div ref={clock} className="finale-lock-clock" data-legible="">
         <p className="finale-lock-date">{date ? `${date} · Leicester` : "Leicester, UK"}</p>
         <p className="finale-lock-time" aria-label={time ? `Local time in Leicester, ${time}` : undefined}>{time || " "}</p>
         <p className="finale-lock-headline" aria-live="polite">
@@ -75,7 +78,7 @@ export function DrawerFinale({ onAskAI, onBackToTop }: DrawerFinaleProps) {
           <GlassOptics surface="photoButton" backdropSelector={wallpaper} />
           <Mail size={20} aria-hidden="true" />
         </a>
-        <button type="button" className="finale-lock-home" onClick={onBackToTop}>
+        <button ref={home} type="button" className="finale-lock-home" data-legible="" onClick={onBackToTop}>
           Back to top<span aria-hidden="true" />
         </button>
         <a className="portfolio-glass-button finale-lock-round" href="https://www.linkedin.com/in/raj-vaghela/" target="_blank" rel="noreferrer" aria-label="LinkedIn">

@@ -324,6 +324,8 @@
   --portfolio-accent: #005ab8;
   --portfolio-glass: rgb(255 255 255 / 89%);
   --portfolio-card-tint: rgb(250 251 255 / 76%);
+  --portfolio-paper-rgb: 245 245 247;
+  --glass-tint: 246 250 255;
   --portfolio-card-rim: rgb(255 255 255 / 88%);
   --portfolio-card-shadow: rgb(39 49 82 / 11%);
 }
@@ -337,6 +339,8 @@
   --portfolio-accent: #a6ccff;
   --portfolio-glass: rgb(29 31 41 / 87%);
   --portfolio-card-tint: rgb(24 27 37 / 77%);
+  --portfolio-paper-rgb: 16 17 22;
+  --glass-tint: 14 20 32;
   --portfolio-card-rim: rgb(219 234 255 / 54%);
   --portfolio-card-shadow: rgb(0 0 0 / 25%);
 }
@@ -506,8 +510,9 @@
   z-index: -1;
   inset: 0;
   border-radius: inherit;
-  background: var(--portfolio-card-tint);
+  background: rgb(var(--glass-tint) / var(--glass-dim, var(--glass-dim-rest)));
   box-shadow: inset 0 1px 1px var(--portfolio-card-rim), inset 0 3px 7px rgb(255 255 255 / 6%), inset 0 -2px 3px rgb(4 8 18 / 14%);
+  transition: background-color .35s ease;
   pointer-events: none;
   content: "";
 }
@@ -517,9 +522,9 @@
 .portfolio-about { max-width: 57rem; }
 .portfolio-about-facts { display: flex; flex-wrap: wrap; gap: .75rem; padding-top: .375rem; }
 .portfolio-about-fact { flex: 1 1 9rem; padding: .85rem 1rem; border: 1px solid var(--portfolio-line); border-radius: 1rem; }
-.portfolio-freelance-feature {
-  --portfolio-card-tint: color-mix(in srgb, var(--portfolio-panel) 75%, var(--portfolio-accent) 7%);
-}
+.portfolio-card.portfolio-freelance-feature { --glass-tint: 233 241 249; --glass-dim-rest: .82; }
+.dark .portfolio-card.portfolio-freelance-feature { --glass-tint: 38 43 55; --glass-dim-rest: .82; }
+.portfolio-notification-drawer .portfolio-card.portfolio-freelance-feature { --glass-tint: 54 58 68; --glass-dim-rest: .82; }
 .portfolio-tag {
   border: 1px solid var(--portfolio-line);
   border-radius: 999px;
@@ -750,8 +755,8 @@
 /* The drawer remains entirely clear at rest. Once content travels beneath the header,
    feather the scrolling content itself instead of adding a second blurry plane or seam. */
 .portfolio-notification-scroll[data-scrolled="true"] {
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, rgb(0 0 0 / 20%) 19px, rgb(0 0 0 / 72%) 48px, #000 76px);
-  mask-image: linear-gradient(to bottom, transparent 0px, rgb(0 0 0 / 20%) 19px, rgb(0 0 0 / 72%) 48px, #000 76px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, transparent 14px, rgb(0 0 0 / 28%) 34px, rgb(0 0 0 / 78%) 62px, #000 86px);
+  mask-image: linear-gradient(to bottom, transparent 0px, transparent 14px, rgb(0 0 0 / 28%) 34px, rgb(0 0 0 / 78%) 62px, #000 86px);
 }
 .portfolio-notification-drawer .portfolio-content-section + .portfolio-content-section { margin-top: 1.55rem; }
 .portfolio-notification-drawer .portfolio-section-heading {
@@ -774,6 +779,8 @@
   padding: 1rem;
   border-radius: 1.42rem;
   --portfolio-card-tint: rgb(24 26 34 / 75%);
+  --glass-tint: 24 26 34;
+  --glass-dim-rest: .75;
   --portfolio-card-rim: rgb(242 249 255 / 56%);
   --portfolio-card-shadow: rgb(0 0 0 / 21%);
 }
@@ -1199,4 +1206,89 @@
 @keyframes finale-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
   .finale-lock-headline > span { animation: none; }
+/* ---------------------------------------------------------------------------
+   Glass legibility. Each surface measures the backdrop beneath it (lib/glass-legibility.ts)
+   and sets --glass-dim, the least tint that keeps its text at WCAG AA (AAA when Tinted or
+   when the visitor prefers more contrast), and --glass-frost, which rises with backdrop
+   detail. Text panes are frosted in the core only, so the liquid rim keeps refracting.
+   --------------------------------------------------------------------------- */
+.portfolio-card { --glass-tint: 250 251 255; --glass-dim-rest: .76; }
+.dark .portfolio-card { --glass-tint: 24 27 37; --glass-dim-rest: .77; }
+.portfolio-glass-button { --glass-tint: 235 243 255; }
+.dark .portfolio-glass-button, .portfolio-wallpaper .portfolio-glass-button, .portfolio-notification-drawer .portfolio-glass-button { --glass-tint: 11 20 37; }
+.portfolio-wallpaper .portfolio-wallpaper-control { --glass-tint: 11 19 32; }
+.portfolio-toolbar { --glass-tint: 255 255 255; }
+.dark .portfolio-toolbar { --glass-tint: 29 31 41; }
+
+.glass-frost, .glass-dim {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.glass-frost {
+  -webkit-backdrop-filter: blur(var(--glass-frost, 0px)) saturate(1.08);
+  backdrop-filter: blur(var(--glass-frost, 0px)) saturate(1.08);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent), linear-gradient(180deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent), linear-gradient(180deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  mask-composite: intersect;
+  transition: -webkit-backdrop-filter .35s ease, backdrop-filter .35s ease;
+}
+:not([data-glass-frost="on"]) > .glass-optics > .glass-frost { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.glass-dim {
+  background: rgb(var(--glass-tint) / var(--glass-dim, 0));
+  transition: background-color .35s ease;
+}
+
+/* Type set straight on a photo gets a scrim, not glass; its strength is measured too. */
+[data-legible] {
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / calc(var(--glass-dim, .45) * .9)),
+    0 2px 14px rgb(0 0 0 / var(--glass-dim, .45)),
+    0 0 36px rgb(0 0 0 / calc(var(--glass-dim, .45) * .75));
+  transition: text-shadow .35s ease;
+}
+
+/* Tinted: the iOS 26.1 option. The engine raises its contrast target; rims and lines firm up. */
+:root[data-glass="tinted"] .portfolio-card { border-color: rgb(255 255 255 / 26%); }
+:root[data-glass="tinted"]:not(.dark) .portfolio-desktop-shell .portfolio-card { border-color: rgb(20 21 25 / 22%); }
+:root[data-glass="tinted"] .portfolio-notification-drawer .portfolio-section-heading { background: rgb(19 22 29 / 90%); }
+:root[data-glass="tinted"] .portfolio-glass-button { --button-edge: rgb(203 226 253 / 48%); }
+
+@media (prefers-contrast: more) {
+  .portfolio-card, .portfolio-glass-button { border-color: rgb(255 255 255 / 45%); }
+  :root:not(.dark) .portfolio-desktop-shell .portfolio-card { border-color: rgb(20 21 25 / 40%); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .portfolio-card::after { background: rgb(var(--glass-tint) / .96); }
+  .glass-frost { display: none; }
+}
+
+/* Scroll edge: as content slides under the floating toolbar it fades and softens behind it. */
+.portfolio-scroll-edge {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 9;
+  height: 6.5rem;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(180deg, rgb(var(--portfolio-paper-rgb) / 94%) 0%, rgb(var(--portfolio-paper-rgb) / 72%) 46%, rgb(var(--portfolio-paper-rgb) / 0%) 100%);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(#000 52%, transparent);
+  mask-image: linear-gradient(#000 52%, transparent);
+  transition: opacity .3s ease;
+}
+:root[data-scrolled="true"] .portfolio-scroll-edge { opacity: 1; }
+
+.portfolio-toolbar-actions { display: flex; align-items: center; gap: .5rem; }
+.portfolio-glass-toggle { display: grid; place-items: center; cursor: pointer; }
+.portfolio-notification-drawer .portfolio-drawer-glass.portfolio-glass-button {
+  position: absolute;
+  left: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  --button-face: rgb(11 20 37 / 61%);
 }

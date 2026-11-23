@@ -13,6 +13,7 @@ import { PortfolioWelcome } from "@/components/portfolio-welcome"
 import { ProfileImage } from "@/components/profile-image"
 import { ProjectsModal } from "@/components/projects-modal"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { GlassAppearanceToggle } from "@/components/glass-appearance-toggle"
 import { profile } from "@/lib/profile"
 import { wallpaperShade } from "@/lib/wallpaper"
 
@@ -39,6 +40,7 @@ export default function Page() {
       <PortfolioWelcome />
 
       <div className="portfolio-desktop-shell hidden lg:block">
+        <div className="portfolio-scroll-edge" aria-hidden="true" />
         <header className="portfolio-toolbar glass-lens-host">
           <GlassOptics surface="pill" />
           <a className="portfolio-wordmark" href="#home">Raj Vaghela</a>
@@ -47,7 +49,10 @@ export default function Page() {
             <a href="#projects">Projects</a>
             <Link href="/freelance">Freelance</Link>
           </nav>
-          <ThemeToggle optical />
+          <div className="portfolio-toolbar-actions">
+            <GlassAppearanceToggle className="size-10 rounded-full" />
+            <ThemeToggle optical />
+          </div>
         </header>
 
         <div className="portfolio-desktop" id="home">
