@@ -910,6 +910,145 @@
   .portfolio-finale-cta, .portfolio-finale-cta span:last-child { transition: none; }
 }
 
+/* Kordin brand concept 2026: actual red mark and documented Pulse/Null/Substrate colours. Preview only. */
+.portfolio-notification-drawer .portfolio-company-about { overflow: hidden; }
+.portfolio-company-context {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  padding: .62rem .76rem;
+  border: 1px solid rgb(242 81 54 / 23%);
+  border-radius: .85rem;
+  background: linear-gradient(110deg, rgb(39 27 26 / 55%), rgb(19 18 18 / 46%));
+  color: #ede9e8;
+  font-size: .73rem;
+  line-height: 1.35;
+}
+.portfolio-company-context strong { color: #ede9e8; font-weight: 660; }
+.portfolio-company-context-dot {
+  display: block;
+  width: .36rem;
+  height: .36rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #f25136;
+  box-shadow: 0 0 0 3px rgb(242 81 54 / 16%);
+}
+.portfolio-notification-drawer .portfolio-company-context .portfolio-company-context-arrow {
+  margin-left: auto;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 1.5rem;
+  min-width: 1.5rem;
+  font-size: 1rem;
+  color: #ede9e8;
+  text-decoration: none;
+}
+.portfolio-company-context-arrow:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.portfolio-notification-drawer .portfolio-company-feature {
+  position: relative;
+  overflow: hidden;
+  padding: 1.18rem;
+  border: 1px solid rgb(242 81 54 / 28%);
+  background:
+    radial-gradient(ellipse at 94% -4%, rgb(242 81 54 / 13%), transparent 48%),
+    linear-gradient(150deg, rgb(19 18 18 / 96%), rgb(0 0 0 / 94%) 76%);
+  box-shadow: inset 0 1px 0 rgb(242 81 54 / 25%), 0 12px 30px rgb(0 0 0 / 20%);
+}
+.portfolio-notification-drawer .portfolio-company-feature > .glass-optics { opacity: .23; }
+.portfolio-notification-drawer .portfolio-company-feature::after { display: none; }
+.portfolio-company-feature > :not(.glass-optics):not(.portfolio-company-grid):not(.portfolio-company-logo-glass) {
+  position: relative;
+  z-index: 1;
+}
+.portfolio-company-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .22;
+  background:
+    linear-gradient(to right, rgb(242 81 54 / 11%) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(242 81 54 / 11%) 1px, transparent 1px);
+  background-size: 36px 36px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 16%, #000 100%);
+  mask-image: linear-gradient(90deg, transparent 16%, #000 100%);
+}
+/* Official Pulse-red symbol sampled from supplied brand presentation on translucent glass. */
+.portfolio-company-logo-glass {
+  position: absolute;
+  z-index: 0;
+  right: -.8rem;
+  top: 3.8rem;
+  display: grid;
+  place-items: center;
+  width: 9.2rem;
+  height: 9.2rem;
+  padding: 2.2rem;
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 2.2rem;
+  background: linear-gradient(138deg, rgb(250 252 255 / 15%), rgb(242 81 54 / 8%) 46%, rgb(255 255 255 / 5%));
+  box-shadow: inset 0 1px 2px rgb(255 255 255 / 29%), inset 0 -2px 6px rgb(0 0 0 / 18%), 0 18px 40px rgb(0 0 0 / 14%);
+  -webkit-backdrop-filter: blur(9px) saturate(120%);
+  backdrop-filter: blur(9px) saturate(120%);
+  transform: rotate(-11deg);
+  opacity: .62;
+  pointer-events: none;
+}
+.portfolio-company-logo-glass::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgb(250 253 255 / 17%);
+  border-radius: 1.95rem;
+  pointer-events: none;
+}
+.portfolio-company-logo-glass img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 7px 14px rgb(0 0 0 / 16%)); }
+@media (prefers-reduced-transparency: reduce) {
+  .portfolio-company-logo-glass { -webkit-backdrop-filter: none; backdrop-filter: none; background: #131212; }
+}
+.portfolio-company-feature-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-bottom: 1.45rem;
+  padding-bottom: .74rem;
+  border-bottom: 1px solid rgb(242 81 54 / 20%);
+  font-size: .58rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  color: #ede9e8;
+}
+.portfolio-company-feature-label {
+  font-size: .53rem;
+  color: #d5d3d2;
+  white-space: nowrap;
+}
+.portfolio-company-feature-context {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .34rem;
+  margin-bottom: 1.1rem;
+}
+.portfolio-notification-drawer .portfolio-company-feature-context span {
+  padding: .27rem .48rem;
+  border: 1px solid rgb(242 81 54 / 20%);
+  border-radius: .42rem;
+  background: rgb(242 81 54 / 9%);
+  color: #ede9e8;
+  font-size: .67rem;
+  line-height: 1.3;
+}
+.portfolio-notification-drawer .portfolio-company-feature h3 { font-size: 1.4rem; letter-spacing: -.045em; }
+.portfolio-notification-drawer .portfolio-company-feature ul {
+  padding-top: .9rem;
+  border-top: 1px solid rgb(242 81 54 / 17%);
+}
+.portfolio-notification-drawer .portfolio-company-feature li > span:first-child { color: #f25136; }
+
 .portfolio-modal {
   border: 1px solid var(--portfolio-line);
   background: color-mix(in srgb, var(--portfolio-panel) 96%, transparent);
@@ -966,9 +1105,28 @@
   place-items: center;
   pointer-events: none;
   background: rgb(8 13 24 / 37%);
-  -webkit-backdrop-filter: blur(20px) saturate(90%);
-  backdrop-filter: blur(20px) saturate(90%);
-  animation: portfolio-welcome-reveal .38s ease 1.72s both;
+  background: #0a111e;
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .32s ease, visibility .32s ease;
+  /* CSS-only escape hatch if hydration fails before React can dismiss us. */
+  animation: portfolio-welcome-safety-dismiss .01s linear 6s forwards;
+}
+@keyframes portfolio-welcome-safety-dismiss {
+  to { visibility: hidden; pointer-events: none; }
+}
+.portfolio-welcome[data-ready="true"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+/* The opaque welcome masks the UI visually, but assets beneath must remain
+   renderable, measurable and eligible for browser image loading. */
+.portfolio-home[data-landing-ready="false"] { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-welcome { transition: none; }
+  .portfolio-welcome-trace, .portfolio-welcome-coin, .portfolio-welcome-coin-face { animation: none; }
 }
 .dark .portfolio-welcome {
   --welcome-core: #c4daf3;

@@ -118,9 +118,13 @@ export function DrawerRim() {
     const reduceTransparency = window.matchMedia("(prefers-reduced-transparency: reduce)")
     let frame = 0
     let previousGeometry = ""
+    let lastCheck = 0
 
-    function render() {
+    function render(now: number) {
       frame = requestAnimationFrame(render)
+      // Check geometry at most 30 times/second while the sheet moves.
+      if (now - lastCheck < 33) return
+      lastCheck = now
       const photo = document.querySelector<HTMLImageElement>("#portfolio-mobile-portrait img")
       if (!photo?.naturalWidth || !canvas || !wrapper || !context) return
 
@@ -155,9 +159,9 @@ export function DrawerRim() {
 
       const xOrigin = bounds.left - imageLeft
       const yOrigin = bounds.top - imageTop
-      const rowStep = Math.max(1, Math.ceil(dpr))
+      const rowStep = Math.max(2, Math.ceil(2 * dpr))
       const edgePixels = Math.min(Math.ceil((radius + 36) * dpr), Math.floor(w / 2))
-      const colStep = Math.max(3, Math.ceil(2 * dpr))
+      const colStep = Math.max(4, Math.ceil(4 * dpr))
 
       function sample(left: number, right: number, row: number, band: number) {
         if (right <= left || !context || !photo) return

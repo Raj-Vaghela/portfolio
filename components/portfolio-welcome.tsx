@@ -5,48 +5,15 @@ import { useEffect, useId, useState } from "react"
 const coinRim = "M -2.65 -9.9 H 2.65 L 7.25 -7.25 9.9 -2.65 V 2.65 L 7.25 7.25 2.65 9.9 H -2.65 L -7.25 7.25 -9.9 2.65 V -2.65 L -7.25 -7.25 Z"
 const poundStamp = "M 3.1 -3.85 C 2.4 -5.35 .25 -5.65 -1.1 -4.5 C -2.5 -3.35 -1.8 -1.25 -1.48 .2 C -1.15 1.9 -1.9 3.1 -3.2 4.25 H 3.45 M -3.2 -.1 H 1.65"
 
-export function PortfolioWelcome() {
+export function PortfolioWelcome({ ready }: { ready: boolean }) {
   const id = useId()
-  const [width, setWidth] = useState<number | null>(null)
-
+  const [width, setWidth] = useState(390)
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
-
-    const key = "portfolio-welcome-seen"
-    try {
-      if (sessionStorage.getItem(key)) return
-    } catch {
-      return
-    }
-
     const measure = () => setWidth(window.innerWidth)
-    const frame = window.requestAnimationFrame(() => {
-      try {
-        sessionStorage.setItem(key, "1")
-        measure()
-        window.addEventListener("resize", measure)
-      } catch {
-        // The homepage stays visible if storage is disabled.
-      }
-    })
-    const dismiss = () => {
-      window.cancelAnimationFrame(frame)
-      window.removeEventListener("resize", measure)
-      setWidth(null)
-    }
-    const timeout = window.setTimeout(dismiss, 2150)
-    window.addEventListener("pointerdown", dismiss)
-    window.addEventListener("keydown", dismiss)
-    return () => {
-      window.cancelAnimationFrame(frame)
-      window.clearTimeout(timeout)
-      window.removeEventListener("resize", measure)
-      window.removeEventListener("pointerdown", dismiss)
-      window.removeEventListener("keydown", dismiss)
-    }
+    measure()
+    window.addEventListener("resize", measure)
+    return () => window.removeEventListener("resize", measure)
   }, [])
-
-  if (!width) return null
 
   const letterWidth = Math.min(280, Math.max(135, width * .35))
   const viewWidth = Math.round(width * 200 / letterWidth)
@@ -75,7 +42,7 @@ export function PortfolioWelcome() {
   `
 
   return (
-    <div className="portfolio-welcome" aria-hidden="true">
+    <div className="portfolio-welcome" data-ready={ready ? "true" : "false"} role="status" aria-label={ready ? "Portfolio ready" : "Loading portfolio"} aria-live="polite">
       <svg viewBox={`${left} 12 ${viewWidth} 132`} fill="none" strokeLinecap="round" strokeLinejoin="round">
         <defs>
           <linearGradient id={id + "-glass"} gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="36" y2="119">

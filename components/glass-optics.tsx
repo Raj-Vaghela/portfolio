@@ -3,7 +3,10 @@
 import { memo, useEffect, useState } from "react"
 import type { CSSProperties } from "react"
 import { useTheme } from "next-themes"
-import LiquidGlass from "simple-liquid-glass"
+import dynamic from "next/dynamic"
+
+// The WebGL/SVG glass engine is visual enhancement, not a landing prerequisite.
+const LiquidGlass = dynamic(() => import("simple-liquid-glass"), { ssr: false })
 
 const surfaces = {
   window: {
