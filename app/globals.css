@@ -838,27 +838,49 @@
   -webkit-mask-image: linear-gradient(transparent, #000 52%);
   mask-image: linear-gradient(transparent, #000 52%);
 }
-.portfolio-finale-orbit {
-  width: 4.3rem;
-  height: 4.3rem;
+.portfolio-finale-mark {
+  position: relative;
   display: grid;
   place-items: center;
-  margin-bottom: 1.35rem;
+  width: 5.15rem;
+  height: 5.15rem;
+  margin-bottom: 1.4rem;
+  border: 1px solid rgb(215 235 255 / 38%);
   border-radius: 50%;
-  border: 1px solid rgb(210 234 255 / 28%);
-  background: radial-gradient(circle at 25% 18%, rgb(215 237 255 / 20%), rgb(69 111 172 / 12%) 62%, rgb(17 35 59 / 20%));
-  box-shadow: inset 0 1px 1px rgb(255 255 255 / 37%), 0 0 36px rgb(96 166 255 / 15%);
+  background: radial-gradient(circle at 28% 14%, rgb(226 244 255 / 20%), transparent 55%),
+    linear-gradient(140deg, rgb(140 196 255 / 15%), rgb(18 38 67 / 28%));
+  box-shadow: inset 0 1px 2px rgb(255 255 255 / 47%), inset 0 -1px 2px rgb(0 0 0 / 17%),
+    0 0 0 7px rgb(169 215 255 / 4%), 0 14px 36px rgb(0 0 0 / 15%);
 }
-.portfolio-finale-orbit-core {
-  display: grid;
-  place-items: center;
-  width: 2.8rem;
-  height: 2.8rem;
-  border: 1px solid rgb(227 240 255 / 32%);
+.portfolio-finale-mark::before {
+  content: "";
+  position: absolute;
+  inset: .35rem;
+  border: 1px solid rgb(228 243 255 / 17%);
   border-radius: 50%;
-  background: linear-gradient(145deg, rgb(190 221 255 / 18%), rgb(35 65 101 / 20%));
-  box-shadow: inset 0 1px 1px rgb(255 255 255 / 36%);
-  color: #f0f7ff;
+  pointer-events: none;
+}
+.portfolio-finale-mark-script {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -.14em;
+  font-size: 3rem;
+  line-height: 1;
+  padding-right: .2em;
+  color: #f3f9ff;
+  text-shadow: 0 1px 3px rgb(20 40 70 / 45%);
+  transform: translateY(-.11rem);
+}
+.portfolio-finale-mark-glint {
+  position: absolute;
+  width: .3rem;
+  height: .3rem;
+  right: .72rem;
+  top: .82rem;
+  background: #effaff;
+  border-radius: 50%;
+  box-shadow: 0 0 13px 2px rgb(184 227 255 / 54%);
 }
 .portfolio-finale-eyebrow {
   font-size: .65rem;
@@ -890,23 +912,35 @@
 .portfolio-finale-cta {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: .7rem;
-  margin-top: 1.5rem;
-  padding: .85rem 1.15rem;
-  width: min(100%, 17rem);
-  border: 1px solid rgb(238 248 255 / 48%);
+  justify-content: space-between;
+  gap: .8rem;
+  width: min(100%, 18rem);
+  margin-top: 1.6rem;
+  padding: .91rem 1.15rem;
+  border: 1px solid rgb(238 248 255 / 46%);
   border-radius: 999px;
   color: #fff;
-  background: linear-gradient(148deg, rgb(148 199 252 / 32%), rgb(45 86 131 / 20%) 58%, rgb(21 45 82 / 36%));
+  background: linear-gradient(148deg, rgb(148 199 252 / 30%), rgb(45 86 131 / 20%) 58%, rgb(21 45 82 / 36%));
   -webkit-backdrop-filter: blur(12px) saturate(155%);
   backdrop-filter: blur(12px) saturate(155%);
-  box-shadow: inset 0 1px 2px rgb(255 255 255 / 45%), inset 0 -1px 2px rgb(11 27 45 / 32%), 0 12px 32px rgb(0 0 0 / 16%);
-  font-size: .87rem;
+  box-shadow: inset 0 1px 2px rgb(255 255 255 / 43%), inset 0 -1px 2px rgb(11 27 45 / 32%), 0 12px 32px rgb(0 0 0 / 16%);
+  font-size: .86rem;
   font-weight: 660;
+  letter-spacing: -.012em;
   transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
 }
-.portfolio-finale-cta svg:last-child { margin-left: auto; }
+.portfolio-finale-cta-rule {
+  display: block;
+  height: 1px;
+  width: 1.7rem;
+  background: #edf9ff;
+  box-shadow: 0 0 12px rgb(209 237 255 / 68%);
+  transform-origin: right center;
+  transition: transform .22s ease;
+}
+.portfolio-finale-cta:is(:hover,:focus-visible) .portfolio-finale-cta-rule {
+  transform: scaleX(1.4);
+}
 .portfolio-finale-cta:hover, .portfolio-finale-cta:focus-visible {
   transform: translateY(-2px);
   background: linear-gradient(148deg, rgb(160 209 255 / 48%), rgb(45 86 131 / 29%) 58%, rgb(21 45 82 / 44%));
@@ -919,7 +953,7 @@
   align-self: stretch;
   gap: 1rem;
   margin-top: 2.25rem;
-  padding: .95rem .2rem;
+  padding: 1rem .2rem;
   border-top: 1px solid rgb(219 235 255 / 19%);
 }
 .portfolio-finale-bottom :is(a,button) {
@@ -928,8 +962,11 @@
   gap: .45rem;
   padding: .35rem .15rem;
   color: #cbd7e6;
-  font-size: .78rem;
+  font-size: .74rem;
   font-weight: 560;
+  text-decoration: underline;
+  text-decoration-color: rgb(210 233 255 / 30%);
+  text-underline-offset: .3rem;
   cursor: pointer;
   transition: color .18s ease;
 }
