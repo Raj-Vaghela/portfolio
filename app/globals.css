@@ -1111,7 +1111,12 @@
   pointer-events: auto;
   opacity: 1;
   visibility: visible;
-  transition: opacity .42s ease, visibility .42s ease;
+  transition: opacity .32s ease, visibility .32s ease;
+  /* CSS-only escape hatch if hydration fails before React can dismiss us. */
+  animation: portfolio-welcome-safety-dismiss .01s linear 6s forwards;
+}
+@keyframes portfolio-welcome-safety-dismiss {
+  to { visibility: hidden; pointer-events: none; }
 }
 .portfolio-welcome[data-ready="true"] {
   opacity: 0;
