@@ -31,7 +31,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                             <div className="portfolio-company-context">
                                 <span className="portfolio-company-context-dot" aria-hidden="true" />
                                 <span>Currently building at <strong>{profile.employer}</strong></span>
-                                <span aria-hidden="true" className="portfolio-company-context-arrow">↗</span>
+                                <a className="portfolio-company-context-arrow" href="https://kordinlabs.io/" target="_blank" rel="noopener noreferrer" aria-label="Visit Kordin Labs website">↗</a>
                             </div>
                         )}
                         <p className="dark:text-white text-gray-800 text-lg leading-relaxed">
@@ -76,11 +76,11 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                         <PortfolioCard wallpaper={mobile} className={mobile ? "portfolio-company-feature" : undefined}>
                             {mobile && (
                                 <>
-                                    <div className="portfolio-company-watermark" aria-hidden="true">K</div>
+                                    <div className="portfolio-company-watermark" aria-hidden="true">KORDIN</div>
                                     <div className="portfolio-company-grid" aria-hidden="true" />
                                     <div className="portfolio-company-feature-top">
                                         <span>01 / CURRENTLY BUILDING</span>
-                                        <span className="portfolio-company-feature-mark" aria-hidden="true"><i /> <i /> <i /></span>
+                                        <span className="portfolio-company-feature-label">KORDIN LABS · LONDON</span>
                                     </div>
                                 </>
                             )}
@@ -88,6 +88,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
                                         <h3 className="text-2xl font-bold dark:text-white text-gray-800">{profile.employer}</h3>
+                                        <ProfileLink href="https://kordinlabs.io/" label="Website" description="Visit the Kordin Labs website" />
                                         <ProfileLink href="https://uk.linkedin.com/company/kordinlabs" label="LinkedIn" description="View Kordin Labs on LinkedIn" />
                                     </div>
                                     <p className="dark:text-white text-gray-900 text-lg">{profile.role}</p>
