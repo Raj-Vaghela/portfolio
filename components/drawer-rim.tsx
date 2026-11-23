@@ -67,7 +67,7 @@ export function DrawerRim() {
       const coverScale = Math.max(backdrop.width / photo.naturalWidth, backdrop.height / photo.naturalHeight)
       // CSS object-position accepts keywords (e.g. "center 46%"), not just percentages.
       // parseFloat("center") is NaN and previously broke the entire canvas refraction.
-      const positionTokens = getComputedStyle(photo).objectPosition.trim().split(/\\s+/)
+      const positionTokens = getComputedStyle(photo).objectPosition.trim().split(/\s+/)
       const positionPercent = (value: string | undefined, fallback: number) => {
         if (!value) return fallback
         if (value === "center") return 50
