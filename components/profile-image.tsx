@@ -25,7 +25,7 @@ export function ProfileImage({ src, id, alt, className, priority = false, sizes 
   useEffect(() => { if (hasError) onReady?.() }, [hasError, onReady])
 
   return (
-    <div id={id} className={cn("relative overflow-hidden bg-zinc-100 dark:bg-zinc-800", className)}>
+    <div id={id} className={cn("relative overflow-hidden bg-slate-900", className)}>
       {/* Passive failure fallback, not a second animated loading screen. */}
       {hasError && (
         <div className="absolute inset-0 grid place-items-center bg-slate-900">
@@ -41,13 +41,14 @@ export function ProfileImage({ src, id, alt, className, priority = false, sizes 
           fill
           sizes={sizes}
           className={cn(
-            "object-cover transition-opacity duration-500",
+            "object-cover transition-opacity duration-250",
             isLoading ? "opacity-0" : "opacity-100"
           )}
           onLoad={() => { setLoadedSrc(imageSrc); onReady?.() }}
           onError={() => { setFailedSrc(imageSrc); onReady?.() }}
           priority={priority}
-          quality={90}
+          quality={75}
+          decoding="async"
         />
       )}
 
