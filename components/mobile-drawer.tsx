@@ -3,17 +3,17 @@
 import { ArrowLeft, ChevronUp, X } from "lucide-react"
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react"
 import { Drawer } from "vaul"
+import { DrawerFinale } from "./drawer-finale"
 import { DrawerRim } from "./drawer-rim"
 import { GlassOptics } from "./glass-optics"
 import { PortfolioContent } from "./portfolio-content"
 import { ProjectDetails } from "./projects-modal"
-import { profile } from "@/lib/profile"
 
 const sectionLinks = new Set(["experience", "projects", "education"])
 type PullPhase = "tracking" | "settling" | "returning"
 type PullGesture = { id: number; x: number; y: number; time: number; tracking: boolean }
 
-export function MobileDrawer() {
+export function MobileDrawer({ onOpenChat }: { onOpenChat: () => void }) {
   const [isOpen, setIsOpen] = useState(false)
   const [showProjects, setShowProjects] = useState(false)
   const [linkedSection, setLinkedSection] = useState<string | null>(null)
@@ -227,22 +227,13 @@ export function MobileDrawer() {
                 }}
               />
             )}
-            <footer className="portfolio-drawer-finale" aria-label="Afterword and contact">
-              <div className="portfolio-finale-topline"><span>AN AFTERWORD</span><span>RV / 01</span></div>
-              <h3>The next good idea<br />starts with <em>hello.</em></h3>
-              <p className="portfolio-finale-message">I build things, ask questions, and enjoy good conversations. Have one in mind?</p>
-              <a className="portfolio-finale-cta" href={`mailto:${profile.email}?subject=Hello%20Raj`}>
-                <span>Start a conversation</span><span aria-hidden="true">↗</span>
-              </a>
-              <nav className="portfolio-finale-bottom" aria-label="Closing links">
-                <a href="https://linkedin.com/in/raj-vaghela" target="_blank" rel="noreferrer">LinkedIn ↗</a>
-                <button type="button" onClick={() => scroll.current?.scrollTo({ top: 0, behavior: "smooth" })}>Back to top ↑</button>
-              </nav>
-              <div className="portfolio-finale-signoff">
-                <span>LEICESTER, UK</span>
-                <strong aria-label="Raj">raj.</strong>
-              </div>
-            </footer>
+            <DrawerFinale
+              onBackToTop={() => scroll.current?.scrollTo({ top: 0, behavior: "smooth" })}
+              onAskAI={() => {
+                setIsOpen(false)
+                window.setTimeout(onOpenChat, 280)
+              }}
+            />
           </div>
         </Drawer.Content>
       </Drawer.Portal>
