@@ -76,7 +76,9 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                         <PortfolioCard wallpaper={mobile} className={mobile ? "portfolio-company-feature" : undefined}>
                             {mobile && (
                                 <>
-                                    <div className="portfolio-company-watermark" aria-hidden="true">KORDIN</div>
+                                    <div className="portfolio-company-logo-glass" aria-hidden="true">
+                                        <img src="https://www.google.com/s2/favicons?domain=kordinlabs.io&sz=256" alt="" decoding="async" onError={(event) => { event.currentTarget.style.display = "none" }} />
+                                    </div>
                                     <div className="portfolio-company-grid" aria-hidden="true" />
                                     <div className="portfolio-company-feature-top">
                                         <span>01 / CURRENTLY BUILDING</span>
