@@ -910,48 +910,55 @@
   .portfolio-finale-cta, .portfolio-finale-cta span:last-child { transition: none; }
 }
 
-/* Kordin work-identity exploration. Preview only.
-   The giant letter is typographic design, NOT an official corporate logo. */
-.portfolio-notification-drawer .portfolio-company-about {
-  overflow: hidden;
-}
+/* Kordin Labs employment motif: brand-neutral and typographic, not an official logo.
+   Kept to the current work card; the portfolio remains about the engineer. */
+.portfolio-notification-drawer .portfolio-company-about { overflow: hidden; }
 .portfolio-company-context {
   position: relative;
   display: flex;
   align-items: center;
-  gap: .52rem;
-  padding: .55rem .72rem;
-  border: 1px solid rgb(139 214 225 / 25%);
-  border-radius: .8rem;
-  background: linear-gradient(100deg, rgb(19 68 78 / 48%), rgb(18 32 48 / 32%));
-  color: #c4e7eb;
+  gap: .55rem;
+  padding: .62rem .76rem;
+  border: 1px solid rgb(220 232 255 / 22%);
+  border-radius: .85rem;
+  background: linear-gradient(110deg, rgb(38 53 77 / 55%), rgb(24 33 53 / 32%));
+  color: #dde5ef;
   font-size: .73rem;
   line-height: 1.35;
-  letter-spacing: -.015em;
 }
-.portfolio-company-context strong { color: #e7fafb; font-weight: 650; }
+.portfolio-company-context strong { color: #f5f8ff; font-weight: 660; }
 .portfolio-company-context-dot {
+  display: block;
   width: .36rem;
   height: .36rem;
-  flex: 0 0 auto;
+  flex-shrink: 0;
   border-radius: 50%;
-  background: #76d4d7;
-  box-shadow: 0 0 0 3px rgb(118 212 215 / 12%), 0 0 10px rgb(118 212 215 / 40%);
+  background: #b5c9df;
+  box-shadow: 0 0 0 3px rgb(203 224 246 / 12%);
 }
-.portfolio-company-context-arrow { margin-left: auto; font-size: .9rem; opacity: .62; }
+.portfolio-notification-drawer .portfolio-company-context .portfolio-company-context-arrow {
+  margin-left: auto;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 1.5rem;
+  min-width: 1.5rem;
+  font-size: 1rem;
+  color: #e8f2ff;
+  text-decoration: none;
+}
+.portfolio-company-context-arrow:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .portfolio-notification-drawer .portfolio-company-feature {
   position: relative;
   overflow: hidden;
-  padding: 1.15rem;
+  padding: 1.18rem;
+  border: 1px solid rgb(203 218 240 / 27%);
   background:
-    radial-gradient(ellipse at 91% 8%, rgb(89 177 192 / 15%), transparent 46%),
-    linear-gradient(145deg, rgb(13 30 41 / 93%), rgb(15 22 34 / 92%) 73%);
-  border-color: rgb(132 206 216 / 30%);
-  box-shadow: inset 0 1px 0 rgb(187 232 234 / 24%), 0 12px 30px rgb(0 0 0 / 20%);
+    radial-gradient(ellipse at 94% -4%, rgb(198 217 247 / 13%), transparent 48%),
+    linear-gradient(150deg, rgb(17 29 45 / 96%), rgb(12 19 32 / 94%) 76%);
+  box-shadow: inset 0 1px 0 rgb(223 237 255 / 20%), 0 12px 30px rgb(0 0 0 / 20%);
 }
-.portfolio-notification-drawer .portfolio-company-feature > .glass-optics {
-  opacity: .34;
-}
+.portfolio-notification-drawer .portfolio-company-feature > .glass-optics { opacity: .23; }
 .portfolio-notification-drawer .portfolio-company-feature::after { display: none; }
 .portfolio-company-feature > :not(.glass-optics):not(.portfolio-company-grid):not(.portfolio-company-watermark) {
   position: relative;
@@ -959,78 +966,73 @@
 }
 .portfolio-company-grid {
   position: absolute;
+  inset: 0;
   z-index: 0;
   pointer-events: none;
-  inset: 0;
-  opacity: .28;
-  background: linear-gradient(to right, rgb(166 223 228 / 13%) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(166 223 228 / 13%) 1px, transparent 1px);
-  background-size: 34px 34px;
-  -webkit-mask-image: linear-gradient(100deg, transparent 22%, #000 100%);
-  mask-image: linear-gradient(100deg, transparent 22%, #000 100%);
+  opacity: .22;
+  background:
+    linear-gradient(to right, rgb(198 215 239 / 14%) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(198 215 239 / 14%) 1px, transparent 1px);
+  background-size: 36px 36px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 16%, #000 100%);
+  mask-image: linear-gradient(90deg, transparent 16%, #000 100%);
 }
 .portfolio-company-watermark {
   position: absolute;
-  pointer-events: none;
+  top: 1.6rem;
+  right: -1.15rem;
   z-index: 0;
-  top: -.7rem;
-  right: -.55rem;
-  font-size: 12rem;
+  pointer-events: none;
+  transform: rotate(-90deg) translateY(0);
+  transform-origin: center;
   font-family: Arial, Helvetica, sans-serif;
-  font-weight: 830;
-  letter-spacing: -.14em;
+  font-size: clamp(3.5rem, 19vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -.065em;
   line-height: 1;
+  white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 1px rgb(117 220 225 / 24%);
-  text-shadow: 0 0 44px rgb(80 210 211 / 9%);
-  transform: skew(-7deg);
+  -webkit-text-stroke: 1px rgb(205 226 251 / 16%);
 }
 .portfolio-company-feature-top {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: .7rem;
-  border-bottom: 1px solid rgb(159 224 228 / 20%);
-  font-size: .59rem;
+  gap: .5rem;
+  margin-bottom: 1.45rem;
+  padding-bottom: .74rem;
+  border-bottom: 1px solid rgb(200 218 243 / 18%);
+  font-size: .58rem;
   font-weight: 700;
-  letter-spacing: .16em;
-  color: #96c9d1;
+  letter-spacing: .14em;
+  color: #b5c6de;
 }
-.portfolio-company-feature-mark {
-  display: inline-flex;
-  align-items: center;
-  gap: .16rem;
-  transform: rotate(-24deg);
+.portfolio-company-feature-label {
+  font-size: .53rem;
+  color: #93a6c1;
+  white-space: nowrap;
 }
-.portfolio-company-feature-mark i {
-  display: block;
-  width: .19rem;
-  height: .75rem;
-  border-radius: 3px;
-  background: #79c5cd;
-}
-.portfolio-company-feature-mark i:nth-child(2) { height: 1rem; background: #aedbe0; }
-.portfolio-company-feature-mark i:nth-child(3) { height: .55rem; }
 .portfolio-company-feature-context {
   display: flex;
   flex-wrap: wrap;
-  gap: .35rem;
+  gap: .34rem;
   margin-bottom: 1.1rem;
 }
-.portfolio-company-feature-context span {
-  padding: .25rem .49rem;
-  border: 1px solid rgb(145 216 224 / 21%);
-  border-radius: .4rem;
-  background: rgb(55 120 139 / 16%);
-  color: #c3dce1 !important;
+.portfolio-notification-drawer .portfolio-company-feature-context span {
+  padding: .27rem .48rem;
+  border: 1px solid rgb(197 217 243 / 20%);
+  border-radius: .42rem;
+  background: rgb(77 105 145 / 12%);
+  color: #cad6e6;
   font-size: .67rem;
   line-height: 1.3;
 }
-.portfolio-notification-drawer .portfolio-company-feature h3 { font-size: 1.43rem; letter-spacing: -.045em; }
-.portfolio-notification-drawer .portfolio-company-feature ul { border-top: 1px solid rgb(152 213 220 / 17%); padding-top: .9rem; }
-.portfolio-notification-drawer .portfolio-company-feature li > span:first-child { color: #79cbd4 !important; }
+.portfolio-notification-drawer .portfolio-company-feature h3 { font-size: 1.4rem; letter-spacing: -.045em; }
+.portfolio-notification-drawer .portfolio-company-feature ul {
+  padding-top: .9rem;
+  border-top: 1px solid rgb(194 212 238 / 17%);
+}
+.portfolio-notification-drawer .portfolio-company-feature li > span:first-child { color: #a6c1e2; }
 
 .portfolio-modal {
   border: 1px solid var(--portfolio-line);
