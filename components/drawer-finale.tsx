@@ -1,9 +1,9 @@
 "use client"
 
-import Image from "next/image"
 import { Linkedin, Mail } from "lucide-react"
 import { useState } from "react"
 import { GlassOptics } from "@/components/glass-optics"
+import { PortfolioCard } from "@/components/portfolio-card"
 import { useLeicesterTime } from "@/lib/leicester-time"
 import { profile } from "@/lib/profile"
 
@@ -22,14 +22,15 @@ const notifications: { id: Intent; title: string; body: string; action: string; 
   { id: "curious", title: "Just curious?", body: "The AI guide can answer questions about the portfolio.", action: "Ask the AI guide" },
 ]
 
-const backdrop = "#portfolio-finale-city"
+// The drawer floats over the portrait wallpaper; every glass surface here refracts it.
+const wallpaper = "#portfolio-mobile-portrait"
 
 interface DrawerFinaleProps {
   onAskAI: () => void
   onBackToTop: () => void
 }
 
-/** Lock-screen closing scene for the mobile drawer: live Leicester time and three routes as notifications. */
+/** Lock-screen closing scene: live Leicester time over the wallpaper, three routes as glass notifications. */
 export function DrawerFinale({ onAskAI, onBackToTop }: DrawerFinaleProps) {
   const [intent, setIntent] = useState<Intent | null>(null)
   const { time, date } = useLeicesterTime()
@@ -37,9 +38,6 @@ export function DrawerFinale({ onAskAI, onBackToTop }: DrawerFinaleProps) {
 
   return (
     <footer className="finale-lock" aria-label="Contact">
-      <Image id="portfolio-finale-city" className="finale-lock-city" src="/desktop-london.webp" alt="" fill sizes="100vw" aria-hidden="true" />
-      <div className="finale-lock-shade" aria-hidden="true" />
-
       <div className="finale-lock-clock">
         <p className="finale-lock-date">{date ? `${date} · Leicester` : "Leicester, UK"}</p>
         <p className="finale-lock-time" aria-label={time ? `Local time in Leicester, ${time}` : undefined}>{time || " "}</p>
@@ -52,35 +50,36 @@ export function DrawerFinale({ onAskAI, onBackToTop }: DrawerFinaleProps) {
         {notifications.map((note) => {
           const open = intent === note.id
           return (
-            <li key={note.id} className="finale-glass finale-lock-note" data-open={open || undefined}>
-              <GlassOptics surface="portraitCard" backdropSelector={backdrop} />
-              <button type="button" className="finale-lock-note-toggle" aria-expanded={open} onClick={() => setIntent(open ? null : note.id)}>
-                <span className="finale-lock-app" aria-hidden="true">raj.</span>
-                <span className="finale-lock-note-text">
-                  <span className="finale-lock-note-top"><strong>{note.title}</strong><span>now</span></span>
-                  <span>{note.body}</span>
-                </span>
-              </button>
-              {open && (
-                note.href
-                  ? <a className="finale-lock-action" href={note.href}>{note.action}</a>
-                  : <button type="button" className="finale-lock-action" onClick={onAskAI}>{note.action}</button>
-              )}
+            <li key={note.id}>
+              <PortfolioCard wallpaper className="finale-lock-note" data-open={open || undefined}>
+                <button type="button" className="finale-lock-note-toggle" aria-expanded={open} onClick={() => setIntent(open ? null : note.id)}>
+                  <span className="finale-lock-app" aria-hidden="true">raj.</span>
+                  <span className="finale-lock-note-text">
+                    <span className="finale-lock-note-top"><strong>{note.title}</strong><span>now</span></span>
+                    <span>{note.body}</span>
+                  </span>
+                </button>
+                {open && (
+                  note.href
+                    ? <a className="finale-lock-action" href={note.href}>{note.action}</a>
+                    : <button type="button" className="finale-lock-action" onClick={onAskAI}>{note.action}</button>
+                )}
+              </PortfolioCard>
             </li>
           )
         })}
       </ul>
 
       <div className="finale-lock-dock">
-        <a className="finale-glass finale-lock-round" href={`mailto:${profile.email}?subject=Hello%20Raj`} aria-label="Email Raj">
-          <GlassOptics surface="photoButton" backdropSelector={backdrop} />
+        <a className="portfolio-glass-button finale-lock-round" href={`mailto:${profile.email}?subject=Hello%20Raj`} aria-label="Email Raj">
+          <GlassOptics surface="photoButton" backdropSelector={wallpaper} />
           <Mail size={20} aria-hidden="true" />
         </a>
         <button type="button" className="finale-lock-home" onClick={onBackToTop}>
           Back to top<span aria-hidden="true" />
         </button>
-        <a className="finale-glass finale-lock-round" href="https://www.linkedin.com/in/raj-vaghela/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-          <GlassOptics surface="photoButton" backdropSelector={backdrop} />
+        <a className="portfolio-glass-button finale-lock-round" href="https://www.linkedin.com/in/raj-vaghela/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+          <GlassOptics surface="photoButton" backdropSelector={wallpaper} />
           <Linkedin size={20} aria-hidden="true" />
         </a>
       </div>
