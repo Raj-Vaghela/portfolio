@@ -1169,7 +1169,7 @@
   text-align: left;
   cursor: pointer;
 }
-.portfolio-notification-drawer .portfolio-card .finale-lock-app {
+.portfolio-notification-drawer .portfolio-card span.finale-lock-app {
   display: grid;
   place-items: center;
   width: 2.4rem;
@@ -1186,7 +1186,7 @@
 .finale-lock-note-top { display: flex; justify-content: space-between; gap: .5rem; }
 .finale-lock-note-top strong { font-weight: 650; color: #fff; }
 .portfolio-notification-drawer .portfolio-card .finale-lock-note-top span { font-size: .78rem; color: rgb(229 229 235 / 75%); }
-.portfolio-notification-drawer .portfolio-card .finale-lock-action {
+.portfolio-notification-drawer .portfolio-card :is(a, button).finale-lock-action {
   display: flex;
   align-items: center;
   justify-content: center;
