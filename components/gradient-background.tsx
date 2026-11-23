@@ -60,7 +60,8 @@ export function GradientBackground({ desktopArtwork = false, onReady }: { deskto
         context.fillStyle = edge
         context.fillRect(width * .32, 0, sceneWidth - width * .32, height)
       }
-      if (!desktop.matches || !desktopArtwork || artwork?.complete) ready()
+      // The gradient is usable immediately; optional desktop artwork can arrive later.
+      ready()
     }
 
     const loadArtwork = () => {
