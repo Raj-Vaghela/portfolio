@@ -54,7 +54,7 @@ export default function Page() {
   // A slow or unavailable image must never trap visitors behind the intro.
   // The loader is a progressive enhancement, not a blocking dependency.
   useEffect(() => {
-    const timeout = window.setTimeout(() => setLoadTimeoutReached(true), 3500)
+    const timeout = window.setTimeout(() => setLoadTimeoutReached(true), 2600)
     return () => window.clearTimeout(timeout)
   }, [])
 
