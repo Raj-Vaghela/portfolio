@@ -757,15 +757,17 @@
    also hide the wallpaper from every glass card's refraction, so the edge lives on the header. */
 .portfolio-drawer-header::after {
   position: absolute;
-  inset: 100% 0 auto;
-  height: 4.25rem;
+  z-index: -1;
+  inset: calc(100% - 2.75rem) 0 auto;
+  height: 7rem;
   pointer-events: none;
   opacity: 0;
-  background: linear-gradient(to bottom, rgb(6 9 15 / 62%), rgb(6 9 15 / 26%) 55%, rgb(6 9 15 / 0%));
+  background: linear-gradient(to bottom, rgb(6 9 15 / 0%), rgb(6 9 15 / 52%) 2.75rem, rgb(6 9 15 / 22%) 4.75rem, rgb(6 9 15 / 0%));
   -webkit-backdrop-filter: blur(7px);
   backdrop-filter: blur(7px);
-  -webkit-mask-image: linear-gradient(to bottom, #000 25%, rgb(0 0 0 / 55%) 60%, transparent);
-  mask-image: linear-gradient(to bottom, #000 25%, rgb(0 0 0 / 55%) 60%, transparent);
+  /* Fade the blur in under the header and out below it, so it never draws a line. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 2.75rem, #000 3.6rem, rgb(0 0 0 / 45%) 5rem, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 2.75rem, #000 3.6rem, rgb(0 0 0 / 45%) 5rem, transparent);
   transition: opacity .25s ease;
   content: "";
 }
