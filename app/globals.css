@@ -688,7 +688,10 @@
   height: 3.45rem;
   border-radius: inherit;
   overflow: hidden;
-  /* The canvas now cuts itself to a thin optical band: no opacity fade on glass. */
+  /* The lens fades out softly below the top curve; the drawer's scroll-content
+     mask is independent and starts beneath the header. */
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 28%, rgb(0 0 0 / 78%) 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 28%, rgb(0 0 0 / 78%) 60%, transparent 100%);
   pointer-events: none;
 }
 .portfolio-drawer-rim canvas {

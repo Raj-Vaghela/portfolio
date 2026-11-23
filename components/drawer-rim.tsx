@@ -117,20 +117,17 @@ export function DrawerRim() {
 
       context.save()
       context.scale(pixelRatio, pixelRatio)
-      // Keep the entire optical band at full opacity. Limit sampled pixels to
-      // the rounded top edge and its side returns, never a fading sheet.
+      // Reintroduce the full translucent lens, but use only a whisper of the
+      // wallpaper shade so the scene stays visible behind the glass.
+      const shade = context.createLinearGradient(0, 0, 0, rim.height)
+      shade.addColorStop(0, "rgba(9, 18, 32, .12)")
+      shade.addColorStop(.55, "rgba(9, 18, 32, .07)")
+      shade.addColorStop(1, "rgba(9, 18, 32, 0)")
+      context.globalCompositeOperation = "source-atop"
+      context.fillStyle = shade
+      context.fillRect(0, 0, rim.width, rim.height)
+      context.globalCompositeOperation = "source-over"
       drawRimHighlights(context, rim.width, radius)
-      context.globalCompositeOperation = "destination-in"
-      context.beginPath()
-      const bandInset = 6
-      context.moveTo(bandInset, radius + 8)
-      context.arcTo(bandInset, bandInset, radius, bandInset, radius - bandInset)
-      context.arcTo(rim.width - bandInset, bandInset, rim.width - bandInset, radius, radius - bandInset)
-      context.lineTo(rim.width - bandInset, radius + 8)
-      context.lineWidth = 12
-      context.lineCap = "round"
-      context.strokeStyle = "#fff"
-      context.stroke()
       context.restore()
     }
 
