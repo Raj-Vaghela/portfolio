@@ -120,8 +120,8 @@ export function DrawerRim() {
       // Reintroduce the full translucent lens, but use only a whisper of the
       // wallpaper shade so the scene stays visible behind the glass.
       const shade = context.createLinearGradient(0, 0, 0, rim.height)
-      shade.addColorStop(0, "rgba(9, 18, 32, .12)")
-      shade.addColorStop(.55, "rgba(9, 18, 32, .07)")
+      shade.addColorStop(0, "rgba(9, 18, 32, .20)")
+      shade.addColorStop(.55, "rgba(9, 18, 32, .12)")
       shade.addColorStop(1, "rgba(9, 18, 32, 0)")
       context.globalCompositeOperation = "source-atop"
       context.fillStyle = shade
