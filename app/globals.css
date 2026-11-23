@@ -960,7 +960,7 @@
 }
 .portfolio-notification-drawer .portfolio-company-feature > .glass-optics { opacity: .23; }
 .portfolio-notification-drawer .portfolio-company-feature::after { display: none; }
-.portfolio-company-feature > :not(.glass-optics):not(.portfolio-company-grid):not(.portfolio-company-watermark) {
+.portfolio-company-feature > :not(.glass-optics):not(.portfolio-company-grid):not(.portfolio-company-logo-glass) {
   position: relative;
   z-index: 1;
 }
@@ -977,22 +977,39 @@
   -webkit-mask-image: linear-gradient(90deg, transparent 16%, #000 100%);
   mask-image: linear-gradient(90deg, transparent 16%, #000 100%);
 }
-.portfolio-company-watermark {
+/* Company-domain favicon displayed as glass-backed brand cameo.
+   If the favicon is missing, do not replace it with a made-up brand symbol. */
+.portfolio-company-logo-glass {
   position: absolute;
-  top: 1.6rem;
-  right: -1.15rem;
   z-index: 0;
+  right: -.8rem;
+  top: 3.8rem;
+  display: grid;
+  place-items: center;
+  width: 10.3rem;
+  height: 10.3rem;
+  padding: 2.7rem;
+  border: 1px solid rgb(255 255 255 / 25%);
+  border-radius: 2.2rem;
+  background: linear-gradient(138deg, rgb(250 252 255 / 15%), rgb(89 110 145 / 7%) 46%, rgb(255 255 255 / 5%));
+  box-shadow: inset 0 1px 2px rgb(255 255 255 / 29%), inset 0 -2px 6px rgb(0 0 0 / 18%), 0 18px 40px rgb(0 0 0 / 14%);
+  -webkit-backdrop-filter: blur(13px) saturate(135%);
+  backdrop-filter: blur(13px) saturate(135%);
+  transform: rotate(-11deg);
+  opacity: .48;
   pointer-events: none;
-  transform: rotate(-90deg) translateY(0);
-  transform-origin: center;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(3.5rem, 19vw, 6rem);
-  font-weight: 800;
-  letter-spacing: -.065em;
-  line-height: 1;
-  white-space: nowrap;
-  color: transparent;
-  -webkit-text-stroke: 1px rgb(205 226 251 / 16%);
+}
+.portfolio-company-logo-glass::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgb(250 253 255 / 17%);
+  border-radius: 1.95rem;
+  pointer-events: none;
+}
+.portfolio-company-logo-glass img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 7px 14px rgb(0 0 0 / 16%)); }
+@media (prefers-reduced-transparency: reduce) {
+  .portfolio-company-logo-glass { -webkit-backdrop-filter: none; backdrop-filter: none; background: #263247; }
 }
 .portfolio-company-feature-top {
   display: flex;
@@ -1092,7 +1109,24 @@
   background: rgb(8 13 24 / 37%);
   -webkit-backdrop-filter: blur(20px) saturate(90%);
   backdrop-filter: blur(20px) saturate(90%);
-  animation: portfolio-welcome-reveal .38s ease 1.72s both;
+  background: #0a111e;
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .42s ease, visibility .42s ease;
+}
+.portfolio-welcome[data-ready="true"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.portfolio-home[data-landing-ready="false"] > :not(.portfolio-welcome) {
+  visibility: hidden;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-welcome { transition: none; }
+  .portfolio-welcome-trace, .portfolio-welcome-coin, .portfolio-welcome-coin-face { animation: none; }
 }
 .dark .portfolio-welcome {
   --welcome-core: #c4daf3;
