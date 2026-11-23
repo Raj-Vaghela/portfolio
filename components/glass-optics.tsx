@@ -84,7 +84,7 @@ export const GlassOptics = memo(function GlassOptics({
   const isReadingSurface = surface === "card" || surface === "portraitCard"
   const isButton = surface === "button" || surface === "photoButton"
   const lensOptions = isReadingSurface ? readingRim : isButton ? buttonRim : rim
-  // Text-bearing panes get Apple's "regular" treatment (frosted core); controls stay clear with a dimming layer.
+  // Text-bearing panes get Apple's "regular" treatment (frosted lens); controls stay clear with a dimming layer.
   const holdsText = isReadingSurface || surface === "sheet" || surface === "window"
   const layer = useRef<HTMLDivElement>(null)
 
@@ -117,7 +117,6 @@ export const GlassOptics = memo(function GlassOptics({
         className="absolute inset-0 size-full"
         style={layerStyle}
       />
-      {holdsText && <div className="glass-frost" />}
       {!isReadingSurface && <div className="glass-dim" />}
     </div>
   )
