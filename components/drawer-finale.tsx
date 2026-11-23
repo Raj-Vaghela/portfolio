@@ -1,35 +1,28 @@
 "use client"
 
-import Image from "next/image"
 import { ArrowRight, ArrowUpRight, Mail } from "lucide-react"
-import { GlassOptics } from "@/components/glass-optics"
+import { PortfolioCard } from "@/components/portfolio-card"
 import { greetingFor, useLeicesterTime } from "@/lib/leicester-time"
 import { profile } from "@/lib/profile"
-
-const backdrop = "#portfolio-finale-city"
 
 interface DrawerFinaleProps {
   onAskAI: () => void
   onBackToTop: () => void
 }
 
-/** London night closing scene for the mobile drawer: live greeting and three routes on liquid glass. */
+/** Night-city closing scene: a live greeting on the wallpaper, then the routes on the drawer's own glass. */
 export function DrawerFinale({ onAskAI, onBackToTop }: DrawerFinaleProps) {
   const { time, hour } = useLeicesterTime()
 
   return (
     <footer className="finale-city" aria-label="Contact">
-      <Image id="portfolio-finale-city" className="finale-city-photo" src="/desktop-london.webp" alt="" fill sizes="100vw" aria-hidden="true" />
-      <div className="finale-city-shade" aria-hidden="true" />
-
       <p className="finale-city-status">
         <span className="finale-city-live" aria-hidden="true" />
         {greetingFor(hour)} · Leicester {time}
       </p>
       <h3 className="finale-city-headline">The city’s lit.<br />Let’s build the <em>next thing.</em></h3>
 
-      <div className="finale-glass finale-city-panel">
-        <GlassOptics surface="card" backdropSelector={backdrop} />
+      <PortfolioCard wallpaper className="finale-city-panel">
         <nav aria-label="Ways to get in touch">
           <a className="finale-city-route" href={profile.resume}>
             <span><em>Hiring</em>Download the CV</span>
@@ -58,7 +51,7 @@ export function DrawerFinale({ onAskAI, onBackToTop }: DrawerFinaleProps) {
             <strong aria-label="Raj">raj.</strong>
           </div>
         </div>
-      </div>
+      </PortfolioCard>
     </footer>
   )
 }
