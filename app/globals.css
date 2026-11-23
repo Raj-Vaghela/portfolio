@@ -805,6 +805,165 @@
 .portfolio-notification-drawer .portfolio-secondary { background: #252731; }
 .portfolio-notification-drawer .portfolio-secondary :is(span, svg) { color: inherit; }
 
+
+/* Mobile drawer finale: an intentional closing scene, not another notification card. */
+.portfolio-drawer-finale {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 29rem;
+  margin: 2.4rem -.55rem 0;
+  padding: 3.3rem 1.1rem 1.3rem;
+  overflow: hidden;
+  border-radius: 2.2rem 2.2rem 1.6rem 1.6rem;
+  text-align: center;
+  color: #f5f8ff;
+  background:
+    radial-gradient(ellipse 70% 43% at 50% 8%, rgb(115 176 244 / 20%), transparent 82%),
+    linear-gradient(180deg, rgb(15 29 48 / 18%) 0%, rgb(12 21 35 / 45%) 62%, rgb(8 15 27 / 75%) 100%);
+  border: 1px solid rgb(199 226 255 / 17%);
+  box-shadow: inset 0 1px 0 rgb(247 251 255 / 25%), inset 0 -1px 0 rgb(3 6 14 / 20%);
+}
+.portfolio-drawer-finale::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  border-radius: inherit;
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-mask-image: linear-gradient(transparent, #000 52%);
+  mask-image: linear-gradient(transparent, #000 52%);
+}
+.portfolio-finale-orbit {
+  width: 4.3rem;
+  height: 4.3rem;
+  display: grid;
+  place-items: center;
+  margin-bottom: 1.35rem;
+  border-radius: 50%;
+  border: 1px solid rgb(210 234 255 / 28%);
+  background: radial-gradient(circle at 25% 18%, rgb(215 237 255 / 20%), rgb(69 111 172 / 12%) 62%, rgb(17 35 59 / 20%));
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / 37%), 0 0 36px rgb(96 166 255 / 15%);
+}
+.portfolio-finale-orbit-core {
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border: 1px solid rgb(227 240 255 / 32%);
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgb(190 221 255 / 18%), rgb(35 65 101 / 20%));
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / 36%);
+  color: #f0f7ff;
+}
+.portfolio-finale-eyebrow {
+  font-size: .65rem;
+  letter-spacing: .22em;
+  font-weight: 700;
+  color: #c0d7f1;
+}
+.portfolio-drawer-finale h3 {
+  margin-top: .85rem;
+  font-size: clamp(1.95rem, 8.6vw, 2.8rem);
+  font-weight: 620;
+  letter-spacing: -.055em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+.portfolio-drawer-finale h3 em {
+  color: #c9e5ff;
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -.035em;
+}
+.portfolio-finale-message {
+  max-width: 26ch;
+  margin-top: 1rem;
+  color: #d1d9e6;
+  font-size: .9rem;
+  line-height: 1.55;
+}
+.portfolio-finale-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .7rem;
+  margin-top: 1.5rem;
+  padding: .85rem 1.15rem;
+  width: min(100%, 17rem);
+  border: 1px solid rgb(238 248 255 / 48%);
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(148deg, rgb(148 199 252 / 32%), rgb(45 86 131 / 20%) 58%, rgb(21 45 82 / 36%));
+  -webkit-backdrop-filter: blur(12px) saturate(155%);
+  backdrop-filter: blur(12px) saturate(155%);
+  box-shadow: inset 0 1px 2px rgb(255 255 255 / 45%), inset 0 -1px 2px rgb(11 27 45 / 32%), 0 12px 32px rgb(0 0 0 / 16%);
+  font-size: .87rem;
+  font-weight: 660;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.portfolio-finale-cta svg:last-child { margin-left: auto; }
+.portfolio-finale-cta:hover, .portfolio-finale-cta:focus-visible {
+  transform: translateY(-2px);
+  background: linear-gradient(148deg, rgb(160 209 255 / 48%), rgb(45 86 131 / 29%) 58%, rgb(21 45 82 / 44%));
+  box-shadow: inset 0 1px 2px rgb(255 255 255 / 48%), 0 16px 35px rgb(0 0 0 / 23%);
+}
+.portfolio-finale-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+  gap: 1rem;
+  margin-top: 2.25rem;
+  padding: .95rem .2rem;
+  border-top: 1px solid rgb(219 235 255 / 19%);
+}
+.portfolio-finale-bottom :is(a,button) {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .35rem .15rem;
+  color: #cbd7e6;
+  font-size: .78rem;
+  font-weight: 560;
+  cursor: pointer;
+  transition: color .18s ease;
+}
+.portfolio-finale-bottom :is(a,button):hover { color: #fff; }
+.portfolio-finale-signoff {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  margin-top: auto;
+  padding-top: .4rem;
+  gap: 1rem;
+}
+.portfolio-finale-signoff span {
+  color: #a6b4c9;
+  font-size: .65rem;
+  letter-spacing: .012em;
+}
+.portfolio-finale-signoff strong {
+  color: #e4f2ff;
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-size: 1.75rem;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -.09em;
+}
+@media (prefers-reduced-transparency: reduce) {
+  .portfolio-drawer-finale::before, .portfolio-finale-cta { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .portfolio-drawer-finale { background: #152137; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-finale-cta { transition: none; }
+}
+
 .portfolio-modal {
   border: 1px solid var(--portfolio-line);
   background: color-mix(in srgb, var(--portfolio-panel) 96%, transparent);

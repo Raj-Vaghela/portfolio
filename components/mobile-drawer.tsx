@@ -1,12 +1,13 @@
 "use client"
 
-import { ArrowLeft, ChevronUp, X } from "lucide-react"
+import { ArrowLeft, ArrowUp, ArrowUpRight, ChevronUp, Linkedin, Mail, Sparkles, X } from "lucide-react"
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react"
 import { Drawer } from "vaul"
 import { DrawerRim } from "./drawer-rim"
 import { GlassOptics } from "./glass-optics"
 import { PortfolioContent } from "./portfolio-content"
 import { ProjectDetails } from "./projects-modal"
+import { profile } from "@/lib/profile"
 
 const sectionLinks = new Set(["experience", "projects", "education"])
 type PullPhase = "tracking" | "settling" | "returning"
@@ -226,6 +227,33 @@ export function MobileDrawer() {
                 }}
               />
             )}
+            <footer className="portfolio-drawer-finale" aria-label="Closing note and contact links">
+              <div className="portfolio-finale-orbit" aria-hidden="true">
+                <span className="portfolio-finale-orbit-core"><Sparkles size={19} strokeWidth={1.5} /></span>
+              </div>
+              <p className="portfolio-finale-eyebrow">THE STORY CONTINUES</p>
+              <h3>Good things start<br />with a <em>conversation.</em></h3>
+              <p className="portfolio-finale-message">
+                If something here sparked an idea, I&apos;d love to hear it.
+              </p>
+              <a className="portfolio-finale-cta" href={`mailto:${profile.email}?subject=Let%27s%20connect`}>
+                <Mail size={17} aria-hidden="true" />
+                Let&apos;s connect
+                <ArrowUpRight size={17} aria-hidden="true" />
+              </a>
+              <div className="portfolio-finale-bottom">
+                <a href="https://linkedin.com/in/raj-vaghela" target="_blank" rel="noreferrer" aria-label="Raj Vaghela on LinkedIn">
+                  <Linkedin size={17} aria-hidden="true" /> LinkedIn
+                </a>
+                <button type="button" onClick={() => scroll.current?.scrollTo({ top: 0, behavior: "smooth" })}>
+                  Back to top <ArrowUp size={15} aria-hidden="true" />
+                </button>
+              </div>
+              <div className="portfolio-finale-signoff" aria-hidden="true">
+                <span>Made with curiosity in Leicester.</span>
+                <strong>raj.</strong>
+              </div>
+            </footer>
           </div>
         </Drawer.Content>
       </Drawer.Portal>
