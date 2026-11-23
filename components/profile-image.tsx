@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 
@@ -11,9 +11,10 @@ interface ProfileImageProps {
   className?: string
   priority?: boolean
   sizes?: string
+  onReady?: () => void
 }
 
-export function ProfileImage({ src, id, alt, className, priority = false, sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" }: ProfileImageProps) {
+export function ProfileImage({ src, id, alt, className, priority = false, sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw", onReady }: ProfileImageProps) {
   const [loadedSrc, setLoadedSrc] = useState("")
   const [failedSrc, setFailedSrc] = useState("")
   const idMatch = src.includes("drive.google.com") ? src.match(/\/d\/([^/]+)|id=([^&]+)/) : null
@@ -21,28 +22,14 @@ export function ProfileImage({ src, id, alt, className, priority = false, sizes 
   const imageSrc = driveId ? `https://drive.google.com/thumbnail?id=${driveId}&sz=w2000` : src
   const hasError = !imageSrc || failedSrc === imageSrc
   const isLoading = !!imageSrc && loadedSrc !== imageSrc && !hasError
+  useEffect(() => { if (hasError) onReady?.() }, [hasError, onReady])
 
   return (
     <div id={id} className={cn("relative overflow-hidden bg-zinc-100 dark:bg-zinc-800", className)}>
-      {/* Placeholder / Fallback - Modern mesh gradient with shimmer */}
-      {(isLoading || hasError) && (
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 z-10">
-          {/* Animated mesh gradient overlay */}
-          <div className="absolute inset-0 opacity-50">
-            <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-blob" />
-            <div className="absolute top-0 -right-4 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000" />
-            <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000" />
-          </div>
-
-          {/* Shimmer effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
-
-          {/* Initials */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-white font-bold text-4xl md:text-6xl opacity-90 font-[family-name:var(--font-instrument-serif)] drop-shadow-2xl">
-              RV
-            </span>
-          </div>
+      {/* Passive failure fallback, not a second animated loading screen. */}
+      {hasError && (
+        <div className="absolute inset-0 grid place-items-center bg-slate-900">
+          <span className="font-[family-name:var(--font-instrument-serif)] text-5xl text-white/70">RV</span>
         </div>
       )}
 
@@ -57,52 +44,13 @@ export function ProfileImage({ src, id, alt, className, priority = false, sizes 
             "object-cover transition-opacity duration-500",
             isLoading ? "opacity-0" : "opacity-100"
           )}
-          onLoad={() => setLoadedSrc(imageSrc)}
-          onError={() => setFailedSrc(imageSrc)}
+          onLoad={() => { setLoadedSrc(imageSrc); onReady?.() }}
+          onError={() => { setFailedSrc(imageSrc); onReady?.() }}
           priority={priority}
           quality={90}
         />
       )}
 
-      {/* Custom animations */}
-      <style jsx>{`
-        @keyframes blob {
-          0%, 100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-        }
-        
-        @keyframes shimmer {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-        
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        
-        .animate-shimmer {
-          animation: shimmer 2s infinite;
-        }
-      `}</style>
     </div>
   )
 }
