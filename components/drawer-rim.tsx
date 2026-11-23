@@ -10,7 +10,7 @@ function lensOffset(x: number, y: number, width: number, radius: number) {
   const length = Math.hypot(normalX, normalY)
   // Follow the inward normal of the top edge and its rounded corners.
   const depth = y >= radius ? Math.min(x, width - x) : radius - length
-  const strength = Math.min(25, radius * .85) * (1 - Math.max(0, Math.min(1, depth / radius)))
+  const strength = Math.min(30, radius * 1.02) * (1 - Math.max(0, Math.min(1, depth / radius)))
   return length ? [strength * normalX / length, strength * normalY / length] : [0, 0]
 }
 
@@ -65,7 +65,19 @@ export function DrawerRim() {
       previousGeometry = geometry
 
       const coverScale = Math.max(backdrop.width / photo.naturalWidth, backdrop.height / photo.naturalHeight)
-      const [positionX, positionY] = getComputedStyle(photo).objectPosition.split(" ").map(parseFloat)
+      // CSS object-position accepts keywords (e.g. "center 46%"), not just percentages.
+      // parseFloat("center") is NaN and previously broke the entire canvas refraction.
+      const positionTokens = getComputedStyle(photo).objectPosition.trim().split(/\\s+/)
+      const positionPercent = (value: string | undefined, fallback: number) => {
+        if (!value) return fallback
+        if (value === "center") return 50
+        if (value === "left" || value === "top") return 0
+        if (value === "right" || value === "bottom") return 100
+        const parsed = Number.parseFloat(value)
+        return Number.isFinite(parsed) ? parsed : fallback
+      }
+      const positionX = positionPercent(positionTokens[0], 50)
+      const positionY = positionPercent(positionTokens[1], 50)
       const imageLeft = backdrop.left + (backdrop.width - photo.naturalWidth * coverScale) * positionX / 100
       const imageTop = backdrop.top + (backdrop.height - photo.naturalHeight * coverScale) * positionY / 100
       const width = Math.ceil(rim.width * pixelRatio)
