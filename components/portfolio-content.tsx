@@ -88,7 +88,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                 <div>
                                     <div className="mb-1 flex items-center gap-2">
                                         <h3 className="text-2xl font-bold dark:text-white text-gray-800">{profile.employer}</h3>
-                                        <ProfileLink href="https://kordinlabs.io/" label="Website" description="Visit the Kordin Labs website" />
+                                        <a href="https://kordinlabs.io/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Kordin Labs website" title="Kordin Labs website" className="inline-flex shrink-0 rounded-lg border border-white/20 bg-white/5 p-1.5 transition-all hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"><ExternalLink className="h-4 w-4 text-white/70" aria-hidden="true" /></a>
                                         <ProfileLink href="https://uk.linkedin.com/company/kordinlabs" label="LinkedIn" description="View Kordin Labs on LinkedIn" />
                                     </div>
                                     <p className="dark:text-white text-gray-900 text-lg">{profile.role}</p>
