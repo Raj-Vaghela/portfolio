@@ -77,7 +77,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                             {mobile && (
                                 <>
                                     <div className="portfolio-company-logo-glass" aria-hidden="true">
-                                        <img src="https://www.google.com/s2/favicons?domain=kordinlabs.io&sz=256" alt="" decoding="async" onError={(event) => { event.currentTarget.style.display = "none" }} />
+                                        <img src="https://kordinlabs.io/favicon.ico" alt="" decoding="async" onError={(event) => { const image = event.currentTarget; if (!image.dataset.fallback) { image.dataset.fallback = "true"; image.src = "https://www.google.com/s2/favicons?domain=kordinlabs.io&sz=256" } else { image.parentElement?.style.setProperty("display", "none") } }} />
                                     </div>
                                     <div className="portfolio-company-grid" aria-hidden="true" />
                                     <div className="portfolio-company-feature-top">
