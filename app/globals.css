@@ -1191,6 +1191,8 @@
 @media (prefers-reduced-motion: reduce) {
   .finale-city-live { animation: none; }
   .finale-city-route { transition: none; }
+}
+
 /* ---------------------------------------------------------------------------
    Glass legibility. Each surface measures the backdrop beneath it (lib/glass-legibility.ts)
    and sets --glass-dim, the least tint that keeps its text at WCAG AA (AAA when Tinted or
