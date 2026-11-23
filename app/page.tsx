@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { ArrowDown, FileText, Github, Linkedin, Mail, Sparkles } from "lucide-react"
-import { useState, type ReactNode } from "react"
+import { useCallback, useEffect, useState, type ReactNode } from "react"
 import { ChatModal } from "@/components/chat-modal"
 import { ContactModal } from "@/components/contact-modal"
 import { GlassOptics } from "@/components/glass-optics"
@@ -32,11 +32,28 @@ export default function Page() {
   const [isContactOpen, setContactOpen] = useState(false)
   const [isProjectsOpen, setProjectsOpen] = useState(false)
   const [isChatOpen, setChatOpen] = useState(false)
+  const [desktop, setDesktop] = useState<boolean | null>(null)
+  const [mobilePortraitReady, setMobilePortraitReady] = useState(false)
+  const [desktopPortraitReady, setDesktopPortraitReady] = useState(false)
+  const [backdropReady, setBackdropReady] = useState(false)
+  const markMobileReady = useCallback(() => setMobilePortraitReady(true), [])
+  const markDesktopReady = useCallback(() => setDesktopPortraitReady(true), [])
+  const markBackdropReady = useCallback(() => setBackdropReady(true), [])
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 64rem)")
+    const update = () => setDesktop(query.matches)
+    update()
+    query.addEventListener("change", update)
+    return () => query.removeEventListener("change", update)
+  }, [])
+
+  const landingReady = desktop !== null && backdropReady && (desktop ? desktopPortraitReady : mobilePortraitReady)
 
   return (
-    <main className="portfolio-home">
-      <GradientBackground desktopArtwork />
-      <PortfolioWelcome />
+    <main className="portfolio-home" data-landing-ready={landingReady ? "true" : "false"} aria-busy={!landingReady}>
+      <GradientBackground desktopArtwork onReady={markBackdropReady} />
+      <PortfolioWelcome ready={landingReady} />
 
       <div className="portfolio-desktop-shell hidden lg:block">
         <header className="portfolio-toolbar glass-lens-host">
@@ -69,7 +86,7 @@ export default function Page() {
             </div>
 
             <div className="portfolio-portrait-frame">
-              <ProfileImage src={imageUrl} alt="Raj Vaghela" className="size-full" priority sizes="(min-width: 1280px) 460px, 38vw" />
+              <ProfileImage src={imageUrl} alt="Raj Vaghela" className="size-full" priority onReady={markDesktopReady} sizes="(min-width: 1280px) 460px, 38vw" />
             </div>
           </section>
 
@@ -81,7 +98,7 @@ export default function Page() {
 
       <div className="portfolio-wallpaper lg:hidden">
         <div id="portfolio-mobile-photo" className="absolute inset-0">
-          <ProfileImage id="portfolio-mobile-portrait" src={imageUrl} alt="" className="size-full" priority sizes="(max-width: 1023px) 100vw, 1px" />
+          <ProfileImage id="portfolio-mobile-portrait" src={imageUrl} alt="" className="size-full" priority onReady={markMobileReady} sizes="(max-width: 1023px) 100vw, 1px" />
           <div className="portfolio-wallpaper-shade" style={{ backgroundImage: wallpaperShade }} aria-hidden="true" />
         </div>
 
