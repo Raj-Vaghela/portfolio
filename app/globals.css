@@ -752,12 +752,24 @@
   scrollbar-width: thin;
 
 }
-/* The drawer remains entirely clear at rest. Once content travels beneath the header,
-   feather the scrolling content itself instead of adding a second blurry plane or seam. */
-.portfolio-notification-scroll[data-scrolled="true"] {
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, transparent 14px, rgb(0 0 0 / 28%) 34px, rgb(0 0 0 / 78%) 62px, #000 86px);
-  mask-image: linear-gradient(to bottom, transparent 0px, transparent 14px, rgb(0 0 0 / 28%) 34px, rgb(0 0 0 / 78%) 62px, #000 86px);
+/* The drawer remains entirely clear at rest. Once content travels beneath the header, a soft
+   scroll edge (as in iOS 26) blurs and dims it without a seam. A mask on the scroller would
+   also hide the wallpaper from every glass card's refraction, so the edge lives on the header. */
+.portfolio-drawer-header::after {
+  position: absolute;
+  inset: 100% 0 auto;
+  height: 4.25rem;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(to bottom, rgb(6 9 15 / 62%), rgb(6 9 15 / 26%) 55%, rgb(6 9 15 / 0%));
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 25%, rgb(0 0 0 / 55%) 60%, transparent);
+  mask-image: linear-gradient(to bottom, #000 25%, rgb(0 0 0 / 55%) 60%, transparent);
+  transition: opacity .25s ease;
+  content: "";
 }
+.portfolio-notification-drawer:has(.portfolio-notification-scroll[data-scrolled="true"]) .portfolio-drawer-header::after { opacity: 1; }
 .portfolio-notification-drawer .portfolio-content-section + .portfolio-content-section { margin-top: 1.55rem; }
 .portfolio-notification-drawer .portfolio-section-heading {
   display: flex;
@@ -1142,11 +1154,6 @@
   border-radius: inherit;
   pointer-events: none;
 }
-/* Frost the refracted copy of the backdrop itself. A backdrop-filter could not see past the
-   drawer's scroll mask; blurring the lens layer works everywhere, and the sharp wallpaper
-   that shows through its outer few pixels leaves the rim reading as clear liquid glass. */
-.glass-optics > :first-child { transition: filter .35s ease; }
-[data-glass-frost="on"] > .glass-optics > :first-child { filter: blur(var(--glass-frost, 0px)) saturate(1.06); }
 .glass-dim {
   background: rgb(var(--glass-tint) / var(--glass-dim, 0));
   transition: background-color .35s ease;
