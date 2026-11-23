@@ -2,37 +2,108 @@
 
 import { useEffect, useRef } from "react"
 
-function lensOffset(x: number, y: number, width: number, radius: number) {
-  const centerX = Math.max(radius, Math.min(x, width - radius))
-  const normalX = centerX - x
-  const normalY = Math.max(0, radius - y)
-  const length = Math.hypot(normalX, normalY)
-  // Follow the inward normal of the top edge and its rounded corners.
-  const depth = y >= radius ? Math.min(x, width - x) : radius - length
-  const strength = Math.min(30, radius * 1.02) * (1 - Math.max(0, Math.min(1, depth / radius)))
-  return length ? [strength * normalX / length, strength * normalY / length] : [0, 0]
+function smoothstep(start: number, end: number, value: number) {
+  const t = Math.max(0, Math.min(1, (value - start) / (end - start)))
+  return t * t * (3 - 2 * t)
 }
 
-function drawRimHighlights(context: CanvasRenderingContext2D, width: number, radius: number) {
-  const light = context.createLinearGradient(0, 0, width, 0)
-  light.addColorStop(0, "rgba(225, 241, 255, .25)")
-  light.addColorStop(.075, "rgba(246, 251, 255, .79)")
-  light.addColorStop(.4, "rgba(228, 240, 255, .18)")
-  light.addColorStop(.84, "rgba(228, 240, 255, .28)")
-  light.addColorStop(.955, "rgba(248, 252, 255, .7)")
-  light.addColorStop(1, "rgba(225, 241, 255, .22)")
+// Distance and inward normal of a sheet whose TOP corners alone are rounded.
+// The lens is driven by the actual contour, rather than a vertical screen fade.
+function edgeOptics(x: number, y: number, width: number, radius: number) {
+  let distance = y
+  let nx = 0
+  let ny = 1
 
-  for (const inset of [1, 3.6]) {
-    context.beginPath()
-    context.moveTo(inset, radius + 8)
-    context.arcTo(inset, inset, radius, inset, radius - inset)
-    context.arcTo(width - inset, inset, width - inset, radius, radius - inset)
-    context.lineTo(width - inset, radius + 8)
-    context.strokeStyle = light
-    context.globalAlpha = inset === 1 ? 1 : .23
-    context.lineWidth = inset === 1 ? 1.1 : 2.2
-    context.stroke()
+  if (x < radius && y < radius) {
+    const dx = radius - x
+    const dy = radius - y
+    const length = Math.max(.001, Math.hypot(dx, dy))
+    distance = radius - length
+    nx = dx / length
+    ny = dy / length
+  } else if (x > width - radius && y < radius) {
+    const dx = width - radius - x
+    const dy = radius - y
+    const length = Math.max(.001, Math.hypot(dx, dy))
+    distance = radius - length
+    nx = dx / length
+    ny = dy / length
+  } else if (x < radius && x < distance) {
+    distance = x
+    nx = 1
+    ny = 0
+  } else if (x > width - radius && width - x < distance) {
+    distance = width - x
+    nx = -1
+    ny = 0
   }
+
+  // A pronounced thin lip, followed by a subtle counter-bend that makes
+  // wallpaper details appear to wrap underneath the thickness of the edge.
+  const lip = Math.pow(1 - smoothstep(0, 17, Math.max(0, distance)), 1.3)
+  const counterbend = smoothstep(7, 16, distance) * (1 - smoothstep(16, 32, distance))
+  const strength = 19 * lip - 5.2 * counterbend
+  return [nx * strength, ny * strength] as const
+}
+
+function roundedSheetPath(ctx: CanvasRenderingContext2D, width: number, height: number, radius: number) {
+  const r = Math.min(radius, width / 2, height)
+  ctx.beginPath()
+  ctx.moveTo(0, height)
+  ctx.lineTo(0, r)
+  ctx.quadraticCurveTo(0, 0, r, 0)
+  ctx.lineTo(width - r, 0)
+  ctx.quadraticCurveTo(width, 0, width, r)
+  ctx.lineTo(width, height)
+  ctx.closePath()
+}
+
+function highlightRim(ctx: CanvasRenderingContext2D, width: number, radius: number) {
+  // A caustic, a hairline, and an inset reflection follow the SAME contour.
+  const topLight = ctx.createLinearGradient(0, 0, width, 0)
+  topLight.addColorStop(0, "rgba(242,248,255,.68)")
+  topLight.addColorStop(.13, "rgba(250,253,255,.40)")
+  topLight.addColorStop(.44, "rgba(231,244,255,.25)")
+  topLight.addColorStop(.72, "rgba(233,244,255,.35)")
+  topLight.addColorStop(.94, "rgba(255,255,255,.75)")
+  topLight.addColorStop(1, "rgba(215,235,255,.52)")
+
+  function line(inset: number) {
+    const r = Math.max(2, radius - inset)
+    ctx.beginPath()
+    ctx.moveTo(inset, radius + 15)
+    ctx.lineTo(inset, radius)
+    ctx.quadraticCurveTo(inset, inset, radius, inset)
+    ctx.lineTo(width - radius, inset)
+    ctx.quadraticCurveTo(width - inset, inset, width - inset, radius)
+    ctx.lineTo(width - inset, radius + 15)
+  }
+
+  ctx.save()
+  line(2)
+  ctx.strokeStyle = "rgba(10,23,42,.52)"
+  ctx.lineWidth = 6
+  ctx.shadowColor = "rgba(0,10,29,.32)"
+  ctx.shadowBlur = 12
+  ctx.stroke()
+  ctx.restore()
+
+  ctx.save()
+  line(1.3)
+  ctx.strokeStyle = topLight
+  ctx.lineWidth = 1.65
+  ctx.shadowBlur = 5
+  ctx.shadowColor = "rgba(202,233,255,.44)"
+  ctx.stroke()
+  ctx.restore()
+
+  // A second, faint line supplies the thickness that the original rim lacked.
+  ctx.save()
+  line(5.7)
+  ctx.strokeStyle = "rgba(223,243,255,.21)"
+  ctx.lineWidth = 1
+  ctx.stroke()
+  ctx.restore()
 }
 
 export function DrawerRim() {
@@ -40,108 +111,114 @@ export function DrawerRim() {
 
   useEffect(() => {
     const canvas = surface.current
-    const rimSurface = canvas?.parentElement
+    const wrapper = canvas?.parentElement
     const context = canvas?.getContext("2d")
-    if (!canvas || !rimSurface || !context) return
+    if (!canvas || !wrapper || !context) return
 
-    const transparency = window.matchMedia("(prefers-reduced-transparency: reduce)")
+    const reduceTransparency = window.matchMedia("(prefers-reduced-transparency: reduce)")
     let frame = 0
     let previousGeometry = ""
 
-    function draw() {
-      frame = requestAnimationFrame(draw)
+    function render() {
+      frame = requestAnimationFrame(render)
       const photo = document.querySelector<HTMLImageElement>("#portfolio-mobile-portrait img")
-      if (!photo?.naturalWidth || !canvas || !rimSurface || !context) return
+      if (!photo?.naturalWidth || !canvas || !wrapper || !context) return
 
-      const rim = canvas.getBoundingClientRect()
-      const backdrop = photo.getBoundingClientRect()
-      const pixelRatio = Math.min(window.devicePixelRatio, 2)
-      if (!rim.width || !rim.height || !backdrop.width || !backdrop.height) return
+      const bounds = canvas.getBoundingClientRect()
+      const imageBounds = photo.getBoundingClientRect()
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      if (bounds.width <= 0 || bounds.height <= 0 || imageBounds.width <= 0 || imageBounds.height <= 0) return
 
-      const geometry = [rim.x, rim.y, rim.width, rim.height, backdrop.x, backdrop.y,
-        backdrop.width, backdrop.height, pixelRatio, photo.currentSrc].join("|")
+      const geometry = [bounds.left, bounds.top, bounds.width, bounds.height, imageBounds.left,
+        imageBounds.top, imageBounds.width, imageBounds.height, photo.currentSrc, dpr].join("|")
       if (geometry === previousGeometry) return
       previousGeometry = geometry
 
-      const coverScale = Math.max(backdrop.width / photo.naturalWidth, backdrop.height / photo.naturalHeight)
-      // CSS object-position accepts keywords (e.g. "center 46%"), not just percentages.
-      // parseFloat("center") is NaN and previously broke the entire canvas refraction.
-      const positionTokens = getComputedStyle(photo).objectPosition.trim().split(/\s+/)
-      const positionPercent = (value: string | undefined, fallback: number) => {
-        if (!value) return fallback
-        if (value === "center") return 50
-        if (value === "left" || value === "top") return 0
-        if (value === "right" || value === "bottom") return 100
-        const parsed = Number.parseFloat(value)
-        return Number.isFinite(parsed) ? parsed : fallback
+      const cover = Math.max(imageBounds.width / photo.naturalWidth, imageBounds.height / photo.naturalHeight)
+      const positions = getComputedStyle(photo).objectPosition.trim().split(/\s+/)
+      const percent = (token: string | undefined, fallback: number) => {
+        if (!token || token === "center") return 50
+        if (token === "left" || token === "top") return 0
+        if (token === "right" || token === "bottom") return 100
+        const value = Number.parseFloat(token)
+        return Number.isFinite(value) ? value : fallback
       }
-      const positionX = positionPercent(positionTokens[0], 50)
-      const positionY = positionPercent(positionTokens[1], 50)
-      const imageLeft = backdrop.left + (backdrop.width - photo.naturalWidth * coverScale) * positionX / 100
-      const imageTop = backdrop.top + (backdrop.height - photo.naturalHeight * coverScale) * positionY / 100
-      const width = Math.ceil(rim.width * pixelRatio)
-      const height = Math.ceil(rim.height * pixelRatio)
-      const radius = parseFloat(getComputedStyle(rimSurface).borderTopLeftRadius)
-      if (canvas.width !== width) canvas.width = width
-      if (canvas.height !== height) canvas.height = height
-      context.clearRect(0, 0, width, height)
+      const imageLeft = imageBounds.left + (imageBounds.width - photo.naturalWidth * cover) * percent(positions[0], 50) / 100
+      const imageTop = imageBounds.top + (imageBounds.height - photo.naturalHeight * cover) * percent(positions[1], 50) / 100
 
-      const step = Math.ceil(pixelRatio)
-      const cornerWidth = Math.min(Math.ceil((radius + 12) * pixelRatio), Math.floor(width / 2))
-      const columnStep = 3 * step
-      const originX = rim.left - imageLeft
-      const originY = rim.top - imageTop
+      const w = Math.ceil(bounds.width * dpr)
+      const h = Math.ceil(bounds.height * dpr)
+      const radius = Number.parseFloat(getComputedStyle(wrapper).borderTopLeftRadius) || 30
+      if (canvas.width !== w) canvas.width = w
+      if (canvas.height !== h) canvas.height = h
+      context.clearRect(0, 0, w, h)
 
-      function drawBand(left: number, right: number, row: number, height: number) {
+      const xOrigin = bounds.left - imageLeft
+      const yOrigin = bounds.top - imageTop
+      const rowStep = Math.max(1, Math.ceil(dpr))
+      const edgePixels = Math.min(Math.ceil((radius + 36) * dpr), Math.floor(w / 2))
+      const colStep = Math.max(3, Math.ceil(2 * dpr))
+
+      function sample(left: number, right: number, row: number, band: number) {
         if (right <= left || !context || !photo) return
-        const x = left / pixelRatio
-        const y = row / pixelRatio
-        const [leftX, leftY] = lensOffset(x, y, rim.width, radius)
-        const [rightX, rightY] = lensOffset(right / pixelRatio, y, rim.width, radius)
-        const sourceWidth = (right - left) / pixelRatio + rightX - leftX
-        context.drawImage(photo,
-          (originX + x + leftX) / coverScale, (originY + y + (leftY + rightY) / 2) / coverScale,
-          sourceWidth / coverScale, height / (pixelRatio * coverScale),
-          left, row, right - left, height)
+        const x1 = left / dpr
+        const x2 = right / dpr
+        const y = row / dpr
+        const [dx1, dy1] = edgeOptics(x1, y, bounds.width, radius)
+        const [dx2, dy2] = edgeOptics(x2, y, bounds.width, radius)
+        const sourceWidth = Math.max(.2, x2 - x1 + dx2 - dx1)
+        try {
+          context.drawImage(photo, (xOrigin + x1 + dx1) / cover,
+            (yOrigin + y + (dy1 + dy2) / 2) / cover,
+            sourceWidth / cover, band / (dpr * cover),
+            left, row, right - left, band)
+        } catch {
+          // An image source may change during navigation; try again next frame.
+          previousGeometry = ""
+        }
       }
 
-      for (let row = 0; row < height; row += step) {
-        const band = Math.min(step, height - row)
-        drawBand(cornerWidth, width - cornerWidth, row, band)
-        for (let edge = 0; edge < cornerWidth; edge += columnStep) {
-          const end = Math.min(edge + columnStep, cornerWidth)
-          drawBand(edge, end, row, band)
-          drawBand(width - end, width - edge, row, band)
+      for (let row = 0; row < h; row += rowStep) {
+        const band = Math.min(rowStep, h - row)
+        sample(edgePixels, w - edgePixels, row, band)
+        for (let x = 0; x < edgePixels; x += colStep) {
+          const end = Math.min(x + colStep, edgePixels)
+          sample(x, end, row, band)
+          sample(w - end, w - x, row, band)
         }
       }
 
       context.save()
-      context.scale(pixelRatio, pixelRatio)
-      // Reintroduce the full translucent lens, but use only a whisper of the
-      // wallpaper shade so the scene stays visible behind the glass.
-      const shade = context.createLinearGradient(0, 0, 0, rim.height)
-      shade.addColorStop(0, "rgba(9, 18, 32, .20)")
-      shade.addColorStop(.55, "rgba(9, 18, 32, .12)")
-      shade.addColorStop(1, "rgba(9, 18, 32, 0)")
-      context.globalCompositeOperation = "source-atop"
-      context.fillStyle = shade
-      context.fillRect(0, 0, rim.width, rim.height)
+      context.scale(dpr, dpr)
+      context.globalCompositeOperation = "destination-in"
+      roundedSheetPath(context, bounds.width, bounds.height, radius)
+      context.fill()
       context.globalCompositeOperation = "source-over"
-      drawRimHighlights(context, rim.width, radius)
+      roundedSheetPath(context, bounds.width, bounds.height, radius)
+      context.clip()
+
+      // Very light material tint, not a black fade. The dark interior of the
+      // drawer belongs to its contents, while this lens is mainly transparent.
+      const tint = context.createLinearGradient(0, 0, 0, bounds.height)
+      tint.addColorStop(0, "rgba(12, 26, 47, .14)")
+      tint.addColorStop(.55, "rgba(15, 31, 53, .08)")
+      tint.addColorStop(1, "rgba(15, 31, 53, 0)")
+      context.fillStyle = tint
+      context.fillRect(0, 0, bounds.width, bounds.height)
+      highlightRim(context, bounds.width, radius)
       context.restore()
     }
 
     function updateTransparency() {
       cancelAnimationFrame(frame)
       previousGeometry = ""
-      if (!transparency.matches) frame = requestAnimationFrame(draw)
+      if (!reduceTransparency.matches) frame = requestAnimationFrame(render)
     }
-
     updateTransparency()
-    transparency.addEventListener("change", updateTransparency)
+    reduceTransparency.addEventListener("change", updateTransparency)
     return () => {
       cancelAnimationFrame(frame)
-      transparency.removeEventListener("change", updateTransparency)
+      reduceTransparency.removeEventListener("change", updateTransparency)
     }
   }, [])
 
