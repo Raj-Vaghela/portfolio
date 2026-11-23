@@ -227,30 +227,19 @@ export function MobileDrawer() {
                 }}
               />
             )}
-            <footer className="portfolio-drawer-finale" aria-label="Closing note and contact links">
-              <div className="portfolio-finale-mark" aria-hidden="true">
-                <span className="portfolio-finale-mark-script">r.</span>
-                <span className="portfolio-finale-mark-glint" />
-              </div>
-              <p className="portfolio-finale-eyebrow">A NOTE FROM RAJ</p>
-              <h3>Good things start<br />with a <em>conversation.</em></h3>
-              <p className="portfolio-finale-message">
-                If something here sparked an idea, I&apos;d love to hear it.
-              </p>
-              <a className="portfolio-finale-cta" href={`mailto:${profile.email}?subject=Let%27s%20connect`}>
-                <span>Start a conversation</span>
-                <span className="portfolio-finale-cta-rule" aria-hidden="true" />
+            <footer className="portfolio-drawer-finale" aria-label="Afterword and contact">
+              <div className="portfolio-finale-topline"><span>AN AFTERWORD</span><span>RV / 01</span></div>
+              <h3>The next good idea<br />starts with <em>hello.</em></h3>
+              <p className="portfolio-finale-message">I build things, ask questions, and enjoy good conversations. Have one in mind?</p>
+              <a className="portfolio-finale-cta" href={`mailto:${profile.email}?subject=Hello%20Raj`}>
+                <span>Start a conversation</span><span aria-hidden="true">↗</span>
               </a>
               <nav className="portfolio-finale-bottom" aria-label="Closing links">
-                <a href="https://linkedin.com/in/raj-vaghela" target="_blank" rel="noreferrer">
-                  Find me on LinkedIn
-                </a>
-                <button type="button" onClick={() => scroll.current?.scrollTo({ top: 0, behavior: "smooth" })}>
-                  Return to the beginning
-                </button>
+                <a href="https://linkedin.com/in/raj-vaghela" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+                <button type="button" onClick={() => scroll.current?.scrollTo({ top: 0, behavior: "smooth" })}>Back to top ↑</button>
               </nav>
               <div className="portfolio-finale-signoff">
-                <span>Made with curiosity in Leicester.</span>
+                <span>LEICESTER, UK</span>
                 <strong aria-label="Raj">raj.</strong>
               </div>
             </footer>
