@@ -698,9 +698,23 @@
   height: 100%;
 }
 .portfolio-drawer-header {
-  z-index: 1;
+  position: relative;
+  z-index: 2;
   flex-shrink: 0;
   padding: .55rem .9rem .25rem;
+}
+/* A clear optical veil feathers cards beneath the fixed glass header.
+   Keep it untinted so the portrait remains visible through the drawer. */
+.portfolio-drawer-header::after {
+  position: absolute;
+  inset: auto 0 -2.75rem;
+  height: 2.75rem;
+  pointer-events: none;
+  content: "";
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 68%), transparent);
+  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 68%), transparent);
 }
 .portfolio-drawer-handle {
   width: 2.5rem !important;
@@ -733,13 +747,28 @@
 .portfolio-drawer-close { right: 0; }
 .portfolio-wallpaper-hint, .portfolio-notification-drawer button { -webkit-tap-highlight-color: transparent; }
 .portfolio-notification-scroll {
+  position: relative;
+  z-index: 1;
   flex: 1;
   min-height: 0;
   width: 100%;
   overflow: auto;
   overscroll-behavior: contain;
-  padding: .7rem 1rem calc(1.5rem + env(safe-area-inset-bottom));
+  padding: 1.2rem 1rem calc(1.5rem + env(safe-area-inset-bottom));
   scrollbar-width: thin;
+  /* Fade cards and text before they meet the header; no straight clipping line. */
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent 0,
+    rgb(0 0 0 / 14%) 12px,
+    rgb(0 0 0 / 48%) 27px,
+    rgb(0 0 0 / 82%) 43px,
+    #000 60px);
+  mask-image: linear-gradient(to bottom,
+    transparent 0,
+    rgb(0 0 0 / 14%) 12px,
+    rgb(0 0 0 / 48%) 27px,
+    rgb(0 0 0 / 82%) 43px,
+    #000 60px);
 }
 .portfolio-notification-drawer .portfolio-content-section + .portfolio-content-section { margin-top: 1.55rem; }
 .portfolio-notification-drawer .portfolio-section-heading {
