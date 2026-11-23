@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useRef } from "react"
-import { wallpaperShadeStops } from "@/lib/wallpaper"
 
 function lensOffset(x: number, y: number, width: number, radius: number) {
   const centerX = Math.max(radius, Math.min(x, width - radius))
@@ -118,16 +117,20 @@ export function DrawerRim() {
 
       context.save()
       context.scale(pixelRatio, pixelRatio)
-      // Apply the same lighting as the wallpaper so the lens reads as clear glass.
-      const shade = context.createLinearGradient(0, backdrop.top - rim.top, 0, backdrop.bottom - rim.top)
-      for (const [position, opacity] of wallpaperShadeStops) {
-        shade.addColorStop(position, `rgba(0, 0, 0, ${opacity})`)
-      }
-      context.globalCompositeOperation = "source-atop"
-      context.fillStyle = shade
-      context.fillRect(0, 0, rim.width, rim.height)
-      context.globalCompositeOperation = "source-over"
+      // Keep the entire optical band at full opacity. Limit sampled pixels to
+      // the rounded top edge and its side returns, never a fading sheet.
       drawRimHighlights(context, rim.width, radius)
+      context.globalCompositeOperation = "destination-in"
+      context.beginPath()
+      const bandInset = 6
+      context.moveTo(bandInset, radius + 8)
+      context.arcTo(bandInset, bandInset, radius, bandInset, radius - bandInset)
+      context.arcTo(rim.width - bandInset, bandInset, rim.width - bandInset, radius, radius - bandInset)
+      context.lineTo(rim.width - bandInset, radius + 8)
+      context.lineWidth = 12
+      context.lineCap = "round"
+      context.strokeStyle = "#fff"
+      context.stroke()
       context.restore()
     }
 
