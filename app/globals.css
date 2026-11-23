@@ -703,19 +703,6 @@
   flex-shrink: 0;
   padding: .55rem .9rem .25rem;
 }
-/* A clear optical veil feathers cards beneath the fixed glass header.
-   Keep it untinted so the portrait remains visible through the drawer. */
-.portfolio-drawer-header::after {
-  position: absolute;
-  inset: auto 0 -2.75rem;
-  height: 2.75rem;
-  pointer-events: none;
-  content: "";
-  -webkit-backdrop-filter: blur(6px) saturate(120%);
-  backdrop-filter: blur(6px) saturate(120%);
-  -webkit-mask-image: linear-gradient(to bottom, rgb(0 0 0 / 68%), transparent);
-  mask-image: linear-gradient(to bottom, rgb(0 0 0 / 68%), transparent);
-}
 .portfolio-drawer-handle {
   width: 2.5rem !important;
   height: .27rem !important;
@@ -756,19 +743,13 @@
   overscroll-behavior: contain;
   padding: 1.2rem 1rem calc(1.5rem + env(safe-area-inset-bottom));
   scrollbar-width: thin;
-  /* Fade cards and text before they meet the header; no straight clipping line. */
-  -webkit-mask-image: linear-gradient(to bottom,
-    transparent 0,
-    rgb(0 0 0 / 14%) 12px,
-    rgb(0 0 0 / 48%) 27px,
-    rgb(0 0 0 / 82%) 43px,
-    #000 60px);
-  mask-image: linear-gradient(to bottom,
-    transparent 0,
-    rgb(0 0 0 / 14%) 12px,
-    rgb(0 0 0 / 48%) 27px,
-    rgb(0 0 0 / 82%) 43px,
-    #000 60px);
+
+}
+/* The drawer remains entirely clear at rest. Once content travels beneath the header,
+   feather the scrolling content itself instead of adding a second blurry plane or seam. */
+.portfolio-notification-scroll[data-scrolled="true"] {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, rgb(0 0 0 / 20%) 19px, rgb(0 0 0 / 72%) 48px, #000 76px);
+  mask-image: linear-gradient(to bottom, transparent 0px, rgb(0 0 0 / 20%) 19px, rgb(0 0 0 / 72%) 48px, #000 76px);
 }
 .portfolio-notification-drawer .portfolio-content-section + .portfolio-content-section { margin-top: 1.55rem; }
 .portfolio-notification-drawer .portfolio-section-heading {
