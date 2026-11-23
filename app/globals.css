@@ -1197,7 +1197,7 @@
    Glass legibility. Each surface measures the backdrop beneath it (lib/glass-legibility.ts)
    and sets --glass-dim, the least tint that keeps its text at WCAG AA (AAA when Tinted or
    when the visitor prefers more contrast), and --glass-frost, which rises with backdrop
-   detail. Text panes are frosted in the core only, so the liquid rim keeps refracting.
+   detail. Text panes frost their lens; controls stay clear behind a dimming layer.
    --------------------------------------------------------------------------- */
 .portfolio-card { --glass-tint: 250 251 255; --glass-dim-rest: .76; }
 .dark .portfolio-card { --glass-tint: 24 27 37; --glass-dim-rest: .77; }
@@ -1207,22 +1207,17 @@
 .portfolio-toolbar { --glass-tint: 255 255 255; }
 .dark .portfolio-toolbar { --glass-tint: 29 31 41; }
 
-.glass-frost, .glass-dim {
+.glass-dim {
   position: absolute;
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
 }
-.glass-frost {
-  -webkit-backdrop-filter: blur(var(--glass-frost, 0px)) saturate(1.08);
-  backdrop-filter: blur(var(--glass-frost, 0px)) saturate(1.08);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent), linear-gradient(180deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(90deg, transparent, #000 18px, #000 calc(100% - 18px), transparent), linear-gradient(180deg, transparent, #000 18px, #000 calc(100% - 18px), transparent);
-  mask-composite: intersect;
-  transition: -webkit-backdrop-filter .35s ease, backdrop-filter .35s ease;
-}
-:not([data-glass-frost="on"]) > .glass-optics > .glass-frost { -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* Frost the refracted copy of the backdrop itself. A backdrop-filter could not see past the
+   drawer's scroll mask; blurring the lens layer works everywhere, and the sharp wallpaper
+   that shows through its outer few pixels leaves the rim reading as clear liquid glass. */
+.glass-optics > :first-child { transition: filter .35s ease; }
+[data-glass-frost="on"] > .glass-optics > :first-child { filter: blur(var(--glass-frost, 0px)) saturate(1.06); }
 .glass-dim {
   background: rgb(var(--glass-tint) / var(--glass-dim, 0));
   transition: background-color .35s ease;
@@ -1249,7 +1244,6 @@
 }
 @media (prefers-reduced-transparency: reduce) {
   .portfolio-card::after { background: rgb(var(--glass-tint) / .96); }
-  .glass-frost { display: none; }
 }
 
 /* Scroll edge: as content slides under the floating toolbar it fades and softens behind it. */

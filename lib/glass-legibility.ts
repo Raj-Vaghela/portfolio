@@ -188,12 +188,16 @@ function evaluate(element: HTMLElement, surface: Surface, settings: ReturnType<t
   const reading = surface.kind === "reading"
   const text = surface.kind === "text"
   const target = settings.tinted ? 7 : 4.5
-  const floor = text ? 0 : settings.reduced ? 0.95 : reading ? (settings.tinted ? 0.68 : 0.5) : (settings.tinted ? 0.42 : 0.1)
+  // Floors keep clear glass at least as legible as the site's original fixed tint (about 0.75)
+  // only where the backdrop asks for it: calm, dark areas may drop to 0.62 and look more liquid.
+  const floor = text ? 0 : settings.reduced ? 0.95 : reading ? (settings.tinted ? 0.8 : 0.62) : (settings.tinted ? 0.45 : 0.12)
   const dim = Math.round(dimFor(surface.ink, surface.tint, worst, target, floor, text ? 0.8 : 0.95) * 100) / 100
 
   const mean = sum / total
   const detail = Math.sqrt(Math.max(0, sumSquares / total - mean * mean))
-  const frost = !reading || settings.reduced ? 0 : Math.round(Math.min(settings.tinted ? 16 : 10, (settings.tinted ? 6 : 0) + detail * 90))
+  // Busy backdrops (lights, faces, edges) cost legibility even when bright pixels are rare,
+  // so frost grows with the spread of luminance behind the text.
+  const frost = !reading || settings.reduced ? 0 : Math.round(Math.min(settings.tinted ? 18 : 12, (settings.tinted ? 8 : 4) + detail * 160))
 
   if (dim !== surface.dim) {
     surface.dim = dim
