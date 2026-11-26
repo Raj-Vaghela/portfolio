@@ -1285,197 +1285,149 @@
 
 
 /* Combined preview: restrained Kordin identity, preserving wallpaper refraction */
-/* Kordin brand concept 2026: actual red mark and documented Pulse/Null/Substrate colours. Preview only. */
-.portfolio-notification-drawer .portfolio-company-about { overflow: hidden; }
-.portfolio-company-context {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: .55rem;
-  padding: .62rem .76rem;
-  border: 1px solid rgb(242 81 54 / 23%);
-  border-radius: .85rem;
-  background: linear-gradient(110deg, rgb(39 27 26 / 55%), rgb(19 18 18 / 46%));
-  color: #ede9e8;
-  font-size: .73rem;
-  line-height: 1.35;
-}
-.portfolio-company-context strong { color: #ede9e8; font-weight: 660; }
-.portfolio-company-context-dot {
-  display: block;
-  width: .36rem;
-  height: .36rem;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: #f25136;
-  box-shadow: 0 0 0 3px rgb(242 81 54 / 16%);
-}
-.portfolio-notification-drawer .portfolio-company-context .portfolio-company-context-arrow {
-  margin-left: auto;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 1.5rem;
-  min-width: 1.5rem;
-  font-size: 1rem;
-  color: #ede9e8;
-  text-decoration: none;
-}
-.portfolio-company-context-arrow:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+/* Kordin Labs: deliberately isolated, structured employer card.
+   The mark is part of layout, never positioned over the chips or copy. */
 .portfolio-notification-drawer .portfolio-company-feature {
-  position: relative;
+  --glass-tint: 13 18 28;
+  --glass-dim-rest: .48;
+  padding: 1.15rem;
   overflow: hidden;
-  padding: 1.18rem;
-  border: 1px solid rgb(242 81 54 / 28%);
-  background:
-    radial-gradient(ellipse at 94% -4%, rgb(242 81 54 / 13%), transparent 48%),
-    linear-gradient(150deg, rgb(19 18 18 / 96%), rgb(0 0 0 / 94%) 76%);
-  box-shadow: inset 0 1px 0 rgb(242 81 54 / 25%), 0 12px 30px rgb(0 0 0 / 20%);
+  border: 1px solid rgb(242 81 54 / 24%);
+  background: transparent;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 22%), 0 12px 30px rgb(0 0 0 / 13%);
 }
-.portfolio-notification-drawer .portfolio-company-feature > .glass-optics { opacity: .23; }
-.portfolio-notification-drawer .portfolio-company-feature::after { display: none; }
-.portfolio-company-feature > :not(.glass-optics):not(.portfolio-company-grid):not(.portfolio-company-logo-glass) {
+.portfolio-notification-drawer .portfolio-company-feature > .glass-optics { opacity: 1; }
+.portfolio-company-feature > :not(.glass-optics):not(.portfolio-company-grid) {
   position: relative;
   z-index: 1;
 }
+/* Very light motif: visible as texture, not as a competing design element. */
 .portfolio-company-grid {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: .22;
-  background:
-    linear-gradient(to right, rgb(242 81 54 / 11%) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(242 81 54 / 11%) 1px, transparent 1px);
-  background-size: 36px 36px;
-  -webkit-mask-image: linear-gradient(90deg, transparent 16%, #000 100%);
-  mask-image: linear-gradient(90deg, transparent 16%, #000 100%);
-}
-/* Official Pulse-red symbol sampled from supplied brand presentation on translucent glass. */
-.portfolio-company-logo-glass {
-  position: absolute;
-  z-index: 0;
-  right: -.8rem;
-  top: 3.8rem;
-  display: grid;
-  place-items: center;
-  width: 9.2rem;
-  height: 9.2rem;
-  padding: 2.2rem;
-  border: 1px solid rgb(255 255 255 / 25%);
-  border-radius: 2.2rem;
-  background: linear-gradient(138deg, rgb(250 252 255 / 15%), rgb(242 81 54 / 8%) 46%, rgb(255 255 255 / 5%));
-  box-shadow: inset 0 1px 2px rgb(255 255 255 / 29%), inset 0 -2px 6px rgb(0 0 0 / 18%), 0 18px 40px rgb(0 0 0 / 14%);
-  -webkit-backdrop-filter: blur(9px) saturate(120%);
-  backdrop-filter: blur(9px) saturate(120%);
-  transform: rotate(-11deg);
-  opacity: .62;
-  pointer-events: none;
-}
-.portfolio-company-logo-glass::before {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border: 1px solid rgb(250 253 255 / 17%);
-  border-radius: 1.95rem;
-  pointer-events: none;
-}
-.portfolio-company-logo-glass img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 7px 14px rgb(0 0 0 / 16%)); }
-@media (prefers-reduced-transparency: reduce) {
-  .portfolio-company-logo-glass { -webkit-backdrop-filter: none; backdrop-filter: none; background: #131212; }
+  background: url("/kordin-red-brand-mark.svg") 12px 20px / 60px 55px repeat;
+  opacity: .027;
+  -webkit-mask-image: linear-gradient(110deg, transparent 8%, #000 95%);
+  mask-image: linear-gradient(110deg, transparent 8%, #000 95%);
 }
 .portfolio-company-feature-top {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: .5rem;
+  align-items: center;
+  padding-bottom: .75rem;
   margin-bottom: 1.45rem;
-  padding-bottom: .74rem;
-  border-bottom: 1px solid rgb(242 81 54 / 20%);
-  font-size: .58rem;
+  border-bottom: 1px solid rgb(242 81 54 / 24%);
+  color: #e6e9f0;
+  font-size: .64rem;
+  letter-spacing: .13em;
   font-weight: 700;
-  letter-spacing: .14em;
-  color: #ede9e8;
 }
-.portfolio-company-feature-label {
-  font-size: .53rem;
-  color: #d5d3d2;
-  white-space: nowrap;
+.portfolio-company-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem .7rem;
+  margin-bottom: .7rem;
+}
+.portfolio-company-heading h3 { margin: 0; line-height: 1.16; }
+.portfolio-company-links { display: flex; align-items: center; gap: .4rem; }
+.portfolio-company-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(5.4rem, 7rem);
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+.portfolio-company-meta { display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
+.portfolio-notification-drawer .portfolio-company-meta p { margin: 0; line-height: 1.4; }
+/* The brand symbol occupies actual space in the layout, not a floating tile. */
+.portfolio-company-logo-glass {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 7rem);
+  aspect-ratio: 169 / 155;
+  padding: .25rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  transform: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  opacity: 1;
+  display: grid;
+  place-items: center;
+  justify-self: end;
+}
+.portfolio-company-logo-glass::before { content: none; }
+.portfolio-company-logo-glass img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 9px rgb(0 0 0 / 22%));
 }
 .portfolio-company-feature-context {
   display: flex;
   flex-wrap: wrap;
-  gap: .34rem;
-  margin-bottom: 1.1rem;
+  gap: .35rem;
+  padding: 0 0 .9rem;
 }
 .portfolio-notification-drawer .portfolio-company-feature-context span {
-  padding: .27rem .48rem;
-  border: 1px solid rgb(242 81 54 / 20%);
-  border-radius: .42rem;
-  background: rgb(242 81 54 / 9%);
-  color: #ede9e8;
-  font-size: .67rem;
-  line-height: 1.3;
+  color: #f5f6f9;
+  padding: .3rem .48rem;
+  font-size: .68rem;
+  line-height: 1.2;
+  border: 1px solid rgb(242 81 54 / 30%);
+  border-radius: .55rem;
+  background: rgb(9 12 20 / 25%);
 }
-.portfolio-notification-drawer .portfolio-company-feature h3 { font-size: 1.4rem; letter-spacing: -.045em; }
 .portfolio-notification-drawer .portfolio-company-feature ul {
-  padding-top: .9rem;
-  border-top: 1px solid rgb(242 81 54 / 17%);
+  padding-top: 1.1rem;
+  border-top: 1px solid rgb(242 81 54 / 25%);
 }
 .portfolio-notification-drawer .portfolio-company-feature li > span:first-child { color: #f25136; }
-
-
-/* Keep the official mark upright in the upper right, without a tilted tile. */
-.portfolio-notification-drawer .portfolio-company-feature {
-  padding-top: 1.22rem;
-  background: linear-gradient(135deg, rgb(19 18 18 / 25%), rgb(19 18 18 / 10%) 70%) !important;
-  border-color: rgb(242 81 54 / 24%);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 20%), 0 8px 28px rgb(0 0 0 / 12%);
+.portfolio-notification-drawer .portfolio-company-feature :is(h3, p, li) {
+  text-shadow: 0 1px 4px rgb(0 0 0 / 70%);
 }
-.portfolio-notification-drawer .portfolio-company-feature > .glass-optics { opacity: 1; }
-.portfolio-company-logo-glass {
-  position: absolute;
-  top: .82rem; right: .85rem;
-  width: 3.6rem; height: 3.6rem;
-  padding: .16rem;
-  border: 0; border-radius: 0;
-  background: transparent;
-  -webkit-backdrop-filter: none; backdrop-filter: none;
-  box-shadow: none;
-  transform: none;
-  opacity: .98;
-  z-index: 2;
-}
-.portfolio-company-logo-glass::before { display: none; }
-.portfolio-company-logo-glass img { width: 100%; height: 100%; filter: drop-shadow(0 3px 8px rgb(0 0 0 / 28%)); }
-.portfolio-company-feature-top { padding-right: 4.15rem; min-height: 3.7rem; align-items: flex-start; }
-.portfolio-company-feature-label { display: none; }
-/* Brand mark as a fine-grained background texture, not a red tint overlay. */
-.portfolio-company-grid {
-  background-image: url("/kordin-red-brand-mark.svg");
-  background-size: 66px 61px;
-  background-position: 10px 8px;
-  opacity: .065;
-  -webkit-mask-image: linear-gradient(112deg, transparent 15%, #000 90%);
-  mask-image: linear-gradient(112deg, transparent 15%, #000 90%);
-  pointer-events: none;
-}
-/* Liquid glass should refract, not act as a frosted plaque. */
+/* Preserve optical distortion and highlights. Text legibility comes from a
+   modest tint, shadows and controlled backdrop contrast, never opaque frost. */
 .portfolio-notification-drawer .portfolio-card {
-  --glass-dim-rest: .40;
+  --glass-dim-rest: .45;
 }
-.portfolio-notification-drawer .portfolio-card::after {
-  box-shadow: inset 0 1px 1px rgb(238 249 255 / 21%), inset 0 -1px 1px rgb(0 0 0 / 10%);
+.portfolio-notification-drawer .portfolio-card::before {
+  position: absolute;
+  content: "";
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(160deg,
+    rgb(7 11 20 / 14%) 0%,
+    rgb(7 11 20 / 25%) 46%,
+    rgb(7 11 20 / 39%) 100%);
 }
-:root[data-glass="tinted"] .portfolio-notification-drawer .portfolio-card { --glass-dim-rest: .80; }
+.portfolio-notification-drawer .portfolio-card > :not(.glass-optics):not(.portfolio-company-grid) {
+  position: relative;
+  z-index: 1;
+}
+.portfolio-notification-drawer .portfolio-card li {
+  color: #f6f7fc;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 75%);
+}
+.portfolio-notification-drawer .portfolio-card p {
+  text-shadow: 0 1px 3px rgb(0 0 0 / 68%);
+}
+:root[data-glass="tinted"] .portfolio-notification-drawer .portfolio-card {
+  --glass-dim-rest: .78;
+}
 @media (prefers-contrast: more) {
-  .portfolio-notification-drawer .portfolio-card { --glass-dim-rest: .84; }
+  .portfolio-notification-drawer .portfolio-card::before { background: rgb(7 11 20 / 55%); }
 }
 @media (prefers-reduced-transparency: reduce) {
-  .portfolio-notification-drawer .portfolio-card { --glass-dim-rest: .96; }
+  .portfolio-notification-drawer .portfolio-card::before { background: rgb(7 11 20 / 88%); }
 }
-
-/* Unified fail-open loader rules supersede the original 2.15-second intro animation. */
+/* A single real loader, with a CSS-only exit if hydration is interrupted. */
 .portfolio-welcome {
   background: #0a111e;
   pointer-events: auto;
@@ -1485,79 +1437,14 @@
   animation: portfolio-welcome-safety-dismiss .01s linear 6s forwards;
 }
 .portfolio-welcome[data-ready="true"] {
-  opacity: 0; visibility: hidden; pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
-@keyframes portfolio-welcome-safety-dismiss { to { visibility: hidden; pointer-events: none; } }
+@keyframes portfolio-welcome-safety-dismiss {
+  to { visibility: hidden; pointer-events: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   .portfolio-welcome { transition: none; }
   .portfolio-welcome-trace, .portfolio-welcome-coin, .portfolio-welcome-coin-face { animation: none; }
 }
-
-/* Screenshot review: put the Kordin mark in the open upper-body area,
-   not beside the section label. No slanted tile or opaque image container. */
-.portfolio-notification-drawer .portfolio-company-logo-glass {
-  top: 8.5rem;
-  right: 1.1rem;
-  width: clamp(6.3rem, 24vw, 7.7rem);
-  height: clamp(6.3rem, 24vw, 7.7rem);
-  padding: .2rem;
-  opacity: .96;
-  z-index: 2;
-}
-.portfolio-company-feature-top {
-  padding-right: 0;
-  min-height: 0;
-  margin-bottom: 1.45rem;
-}
-.portfolio-company-grid {
-  background-size: 48px 44px;
-  opacity: .032;
-}
-/* Readable Liquid Glass: increase shadow density where photo highlights enter
-   the text area, but DO NOT blur. Background detail and refraction remain visible. */
-.portfolio-notification-drawer .portfolio-card {
-  --glass-dim-rest: .48;
-}
-.portfolio-notification-drawer .portfolio-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 0;
-  background: linear-gradient(
-    to bottom,
-    rgb(6 10 20 / 19%) 0%,
-    rgb(6 10 20 / 34%) 36%,
-    rgb(6 10 20 / 61%) 70%,
-    rgb(6 10 20 / 81%) 100%
-  );
-}
-.portfolio-notification-drawer .portfolio-card > :not(.glass-optics):not(.portfolio-company-grid):not(.portfolio-company-logo-glass) {
-  position: relative;
-  z-index: 1;
-}
-.portfolio-notification-drawer .portfolio-card :is(p, li, h3, h4, .portfolio-company-feature-context) {
-  text-shadow: 0 1px 2px rgb(1 3 9 / 64%);
-}
-.portfolio-notification-drawer .portfolio-card li {
-  color: #f6f7fb;
-}
-.portfolio-notification-drawer .portfolio-company-feature::before {
-  background: linear-gradient(
-    to bottom,
-    rgb(6 10 18 / 26%) 0%,
-    rgb(6 10 18 / 38%) 28%,
-    rgb(6 10 18 / 66%) 58%,
-    rgb(6 10 18 / 87%) 100%
-  );
-}
-:root[data-glass="tinted"] .portfolio-notification-drawer .portfolio-card::before {
-  background: linear-gradient(to bottom, rgb(6 10 18 / 46%), rgb(6 10 18 / 90%));
-}
-@media (prefers-contrast: more) {
-  .portfolio-notification-drawer .portfolio-card::before {
-    background: linear-gradient(to bottom, rgb(6 10 18 / 56%), rgb(6 10 18 / 94%));
-  }
-}
-
