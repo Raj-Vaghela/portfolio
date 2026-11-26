@@ -194,7 +194,10 @@ function evaluate(element: HTMLElement, surface: Surface, settings: ReturnType<t
 // Clear mode keeps a visible, refractive scene behind text. Dynamic contrast protection
   // still increases tint where the sampled wallpaper requires it; Tinted keeps its stronger floor.
   const floor = text ? 0 : settings.reduced ? 0.95 : reading ? (settings.tinted ? 0.8 : 0.32) : (settings.tinted ? 0.45 : 0.12)
-  const dim = Math.round(dimFor(surface.ink, surface.tint, worst, target, floor, text ? 0.8 : 0.95) * 100) / 100
+  // Quantise contrast adjustments to 5% steps. A scrolling card crosses small
+  // differences in wallpaper pixels every frame; avoiding tiny CSS tint writes
+  // prevents brightness shimmer without pausing glass rendering or sampling.
+  const dim = Math.round(dimFor(surface.ink, surface.tint, worst, target, floor, text ? 0.8 : 0.95) * 20) / 20
 
   const mean = sum / total
   const detail = Math.sqrt(Math.max(0, sumSquares / total - mean * mean))
