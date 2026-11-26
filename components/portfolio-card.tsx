@@ -33,7 +33,7 @@ export function PortfolioCard({ wallpaper = false, className, children, ...props
       {showOptics && (
         <GlassOptics
           surface={wallpaper ? "portraitCard" : "card"}
-          backdropSelector={wallpaper ? "#portfolio-mobile-portrait" : undefined}
+          backdropSelector={wallpaper ? "#portfolio-mobile-portrait img" : undefined}
         />
       )}
       {children}
