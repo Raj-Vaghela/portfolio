@@ -1,9 +1,12 @@
 "use client"
 
-import { memo, useEffect, useState } from "react"
+import { memo, useEffect, useRef, useState } from "react"
 import type { CSSProperties } from "react"
 import { useTheme } from "next-themes"
-import LiquidGlass from "simple-liquid-glass"
+import dynamic from "next/dynamic"
+
+const LiquidGlass = dynamic(() => import("simple-liquid-glass"), { ssr: false })
+import { adaptGlass } from "@/lib/glass-legibility"
 
 const surfaces = {
   window: {
@@ -83,18 +86,33 @@ export const GlassOptics = memo(function GlassOptics({
   const isReadingSurface = surface === "card" || surface === "portraitCard"
   const isButton = surface === "button" || surface === "photoButton"
   const lensOptions = isReadingSurface ? readingRim : isButton ? buttonRim : rim
+  // Text-bearing panes get Apple's "regular" treatment (frosted lens); controls stay clear with a dimming layer.
+  const holdsText = isReadingSurface || surface === "sheet" || surface === "window"
+  const layer = useRef<HTMLDivElement>(null)
+  const [frost, setFrost] = useState(0)
+
+  useEffect(() => {
+    const host = layer.current?.parentElement
+    if (!host || host.classList.contains("portfolio-glass-button--blue")) return
+    return adaptGlass(host, holdsText ? "reading" : "control", backdropSelector, holdsText ? setFrost : undefined)
+  }, [backdropSelector, holdsText])
 
   return (
-    <div className="glass-optics" aria-hidden="true" data-portfolio-optics={surface}>
+    <div ref={layer} className="glass-optics" aria-hidden="true" data-portfolio-optics={surface}>
       <LiquidGlass
         material="clear"
         refraction="lens"
-        renderer="auto"
+        // Android Chrome can apply SVG displacement in the browser's own
+        // backdrop compositor. Unlike a separate WebGL snapshot, it stays
+        // locked to native nested scrolling, with refraction active throughout.
+        // iOS uses the library's WebGL path since WebKit lacks SVG backdrop filters.
+        renderer={backdropSelector === "#portfolio-mobile-portrait" ? "svg" : "auto"}
+        mobileFallback={backdropSelector === "#portfolio-mobile-portrait" ? "svg" : undefined}
         lensOptions={lensOptions}
         radius={design.radius}
         displacementScale={design.displacement}
         aberrationIntensity={isReadingSurface ? 0 : isButton ? .015 : .22}
-        blur={0}
+        blur={isReadingSurface ? 0 : holdsText ? Math.min(frost, 1.5) : 0}
         frost={0}
         iosBlurMode="off"
         maxScale={1}
@@ -107,6 +125,7 @@ export const GlassOptics = memo(function GlassOptics({
         className="absolute inset-0 size-full"
         style={layerStyle}
       />
+      {!isReadingSurface && <div className="glass-dim" />}
     </div>
   )
 })

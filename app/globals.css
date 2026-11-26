@@ -324,6 +324,8 @@
   --portfolio-accent: #005ab8;
   --portfolio-glass: rgb(255 255 255 / 89%);
   --portfolio-card-tint: rgb(250 251 255 / 76%);
+  --portfolio-paper-rgb: 245 245 247;
+  --glass-tint: 246 250 255;
   --portfolio-card-rim: rgb(255 255 255 / 88%);
   --portfolio-card-shadow: rgb(39 49 82 / 11%);
 }
@@ -337,6 +339,8 @@
   --portfolio-accent: #a6ccff;
   --portfolio-glass: rgb(29 31 41 / 87%);
   --portfolio-card-tint: rgb(24 27 37 / 77%);
+  --portfolio-paper-rgb: 16 17 22;
+  --glass-tint: 14 20 32;
   --portfolio-card-rim: rgb(219 234 255 / 54%);
   --portfolio-card-shadow: rgb(0 0 0 / 25%);
 }
@@ -506,8 +510,9 @@
   z-index: -1;
   inset: 0;
   border-radius: inherit;
-  background: var(--portfolio-card-tint);
+  background: rgb(var(--glass-tint) / var(--glass-dim, var(--glass-dim-rest)));
   box-shadow: inset 0 1px 1px var(--portfolio-card-rim), inset 0 3px 7px rgb(255 255 255 / 6%), inset 0 -2px 3px rgb(4 8 18 / 14%);
+  transition: background-color .35s ease;
   pointer-events: none;
   content: "";
 }
@@ -517,9 +522,9 @@
 .portfolio-about { max-width: 57rem; }
 .portfolio-about-facts { display: flex; flex-wrap: wrap; gap: .75rem; padding-top: .375rem; }
 .portfolio-about-fact { flex: 1 1 9rem; padding: .85rem 1rem; border: 1px solid var(--portfolio-line); border-radius: 1rem; }
-.portfolio-freelance-feature {
-  --portfolio-card-tint: color-mix(in srgb, var(--portfolio-panel) 75%, var(--portfolio-accent) 7%);
-}
+.portfolio-card.portfolio-freelance-feature { --glass-tint: 233 241 249; --glass-dim-rest: .82; }
+.dark .portfolio-card.portfolio-freelance-feature { --glass-tint: 38 43 55; --glass-dim-rest: .82; }
+.portfolio-notification-drawer .portfolio-card.portfolio-freelance-feature { --glass-tint: 54 58 68; --glass-dim-rest: .82; }
 .portfolio-tag {
   border: 1px solid var(--portfolio-line);
   border-radius: 999px;
@@ -747,12 +752,26 @@
   scrollbar-width: thin;
 
 }
-/* The drawer remains entirely clear at rest. Once content travels beneath the header,
-   feather the scrolling content itself instead of adding a second blurry plane or seam. */
-.portfolio-notification-scroll[data-scrolled="true"] {
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, rgb(0 0 0 / 20%) 19px, rgb(0 0 0 / 72%) 48px, #000 76px);
-  mask-image: linear-gradient(to bottom, transparent 0px, rgb(0 0 0 / 20%) 19px, rgb(0 0 0 / 72%) 48px, #000 76px);
+/* The drawer remains entirely clear at rest. Once content travels beneath the header, a soft
+   scroll edge (as in iOS 26) blurs and dims it without a seam. A mask on the scroller would
+   also hide the wallpaper from every glass card's refraction, so the edge lives on the header. */
+.portfolio-drawer-header::after {
+  position: absolute;
+  z-index: -1;
+  inset: calc(100% - 2.75rem) 0 auto;
+  height: 7rem;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(to bottom, rgb(6 9 15 / 0%), rgb(6 9 15 / 52%) 2.75rem, rgb(6 9 15 / 22%) 4.75rem, rgb(6 9 15 / 0%));
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  /* Fade the blur in under the header and out below it, so it never draws a line. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 2.75rem, #000 3.6rem, rgb(0 0 0 / 45%) 5rem, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 2.75rem, #000 3.6rem, rgb(0 0 0 / 45%) 5rem, transparent);
+  transition: opacity .25s ease;
+  content: "";
 }
+.portfolio-notification-drawer:has(.portfolio-notification-scroll[data-scrolled="true"]) .portfolio-drawer-header::after { opacity: 1; }
 .portfolio-notification-drawer .portfolio-content-section + .portfolio-content-section { margin-top: 1.55rem; }
 .portfolio-notification-drawer .portfolio-section-heading {
   display: flex;
@@ -774,6 +793,8 @@
   padding: 1rem;
   border-radius: 1.42rem;
   --portfolio-card-tint: rgb(24 26 34 / 75%);
+  --glass-tint: 24 26 34;
+  --glass-dim-rest: .75;
   --portfolio-card-rim: rgb(242 249 255 / 56%);
   --portfolio-card-shadow: rgb(0 0 0 / 21%);
 }
@@ -1114,3 +1135,316 @@
   outline-offset: 3px;
 }
 .portfolio-drawer-toolbar > h2:focus { outline: none; }
+
+
+/* Drawer finale: night city. No backdrop of its own: the greeting sits on the portrait
+   wallpaper, and the routes are one of the drawer's own glass cards over it. */
+.finale-city {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2.6rem;
+  padding: 1.5rem .1rem .4rem;
+  color: #fff;
+}
+.finale-city-status {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: 0 .3rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: .75rem;
+  color: #f0f4fa;
+  text-shadow: 0 1px 5px rgb(0 0 0 / 70%);
+}
+.finale-city-live { width: 7px; height: 7px; border-radius: 50%; background: #8fd8a8; box-shadow: 0 0 8px rgb(143 216 168 / 70%); animation: finale-pulse 2.4s ease-in-out infinite; }
+.finale-city-headline {
+  margin: 1.1rem .3rem 0;
+  font-size: clamp(2.3rem, 11vw, 2.8rem);
+  font-weight: 650;
+  letter-spacing: -.065em;
+  line-height: 1;
+  text-shadow: 0 1px 5px rgb(0 0 0 / 65%), 0 2px 22px rgb(0 0 0 / 50%);
+}
+.finale-city-headline em { font-family: var(--font-instrument-serif), Georgia, serif; font-weight: 400; color: var(--portfolio-accent); letter-spacing: -.02em; }
+.portfolio-notification-drawer .finale-city-panel.portfolio-card { margin-top: 9rem; padding: 0; border-radius: 1.6rem; }
+.finale-city-route {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  width: 100%;
+  min-height: 4rem;
+  padding: 0 1.1rem;
+  border-bottom: 1px solid var(--portfolio-line);
+  text-align: left;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.finale-city-route:hover { background: rgb(255 255 255 / 6%); }
+.finale-city-route > span { display: flex; align-items: baseline; gap: .6rem; font-size: .88rem; }
+.finale-city-route em { font-family: var(--font-instrument-serif), Georgia, serif; font-size: 1.3rem; color: var(--portfolio-accent); }
+.finale-city-contact { padding: .85rem; }
+.portfolio-notification-drawer .portfolio-card a.finale-city-hello {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3.4rem;
+  padding: 0 1.1rem;
+  border-radius: 999px;
+  background: #f3f6fc;
+  color: #0f1a2b;
+}
+.portfolio-notification-drawer .portfolio-card .finale-city-hello :is(span, svg) { color: #0f1a2b; }
+.finale-city-hello span { display: flex; flex-direction: column; font-size: .75rem; }
+.finale-city-hello strong { font-size: .94rem; font-weight: 650; }
+.finale-city-foot { display: flex; align-items: center; justify-content: space-between; margin-top: .25rem; padding: 0 .4rem; }
+.finale-city-foot nav { display: flex; gap: 1rem; }
+.finale-city-foot :is(a, button) { display: inline-flex; align-items: center; min-height: 44px; font-size: .82rem; color: var(--portfolio-muted); cursor: pointer; }
+.finale-city-foot > strong { font-family: var(--font-instrument-serif), Georgia, serif; font-size: 1.75rem; font-style: italic; font-weight: 400; letter-spacing: -.05em; color: #fff; }
+@keyframes finale-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) {
+  .finale-city-live { animation: none; }
+  .finale-city-route { transition: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Glass legibility. Each surface measures the backdrop beneath it (lib/glass-legibility.ts)
+   and sets --glass-dim, the least tint that keeps its text at WCAG AA (AAA when Tinted or
+   when the visitor prefers more contrast), and --glass-frost, which rises with backdrop
+   detail. Text panes frost their lens; controls stay clear behind a dimming layer.
+   --------------------------------------------------------------------------- */
+.portfolio-card { --glass-tint: 250 251 255; --glass-dim-rest: .76; }
+.dark .portfolio-card { --glass-tint: 24 27 37; --glass-dim-rest: .77; }
+.portfolio-glass-button { --glass-tint: 235 243 255; }
+.dark .portfolio-glass-button, .portfolio-wallpaper .portfolio-glass-button, .portfolio-notification-drawer .portfolio-glass-button { --glass-tint: 11 20 37; }
+.portfolio-wallpaper .portfolio-wallpaper-control { --glass-tint: 11 19 32; }
+.portfolio-toolbar { --glass-tint: 255 255 255; }
+.dark .portfolio-toolbar { --glass-tint: 29 31 41; }
+
+.glass-dim {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.glass-dim {
+  background: rgb(var(--glass-tint) / var(--glass-dim, 0));
+  transition: background-color .35s ease;
+}
+
+/* Type set straight on a photo gets a scrim, not glass; its strength is measured too. */
+[data-legible] {
+  text-shadow:
+    0 1px 2px rgb(0 0 0 / calc(var(--glass-dim, .45) * .9)),
+    0 2px 14px rgb(0 0 0 / var(--glass-dim, .45)),
+    0 0 36px rgb(0 0 0 / calc(var(--glass-dim, .45) * .75));
+  transition: text-shadow .35s ease;
+}
+
+/* Tinted: the iOS 26.1 option. The engine raises its contrast target; rims and lines firm up. */
+:root[data-glass="tinted"] .portfolio-card { border-color: rgb(255 255 255 / 26%); }
+:root[data-glass="tinted"]:not(.dark) .portfolio-desktop-shell .portfolio-card { border-color: rgb(20 21 25 / 22%); }
+:root[data-glass="tinted"] .portfolio-notification-drawer .portfolio-section-heading { background: rgb(19 22 29 / 90%); }
+:root[data-glass="tinted"] .portfolio-glass-button { --button-edge: rgb(203 226 253 / 48%); }
+
+@media (prefers-contrast: more) {
+  .portfolio-card, .portfolio-glass-button { border-color: rgb(255 255 255 / 45%); }
+  :root:not(.dark) .portfolio-desktop-shell .portfolio-card { border-color: rgb(20 21 25 / 40%); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .portfolio-card::after { background: rgb(var(--glass-tint) / .96); }
+}
+
+/* Scroll edge: as content slides under the floating toolbar it fades and softens behind it. */
+.portfolio-scroll-edge {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 9;
+  height: 6.5rem;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(180deg, rgb(var(--portfolio-paper-rgb) / 94%) 0%, rgb(var(--portfolio-paper-rgb) / 72%) 46%, rgb(var(--portfolio-paper-rgb) / 0%) 100%);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(#000 52%, transparent);
+  mask-image: linear-gradient(#000 52%, transparent);
+  transition: opacity .3s ease;
+}
+:root[data-scrolled="true"] .portfolio-scroll-edge { opacity: 1; }
+
+.portfolio-toolbar-actions { display: flex; align-items: center; gap: .5rem; }
+.portfolio-glass-toggle { display: grid; place-items: center; cursor: pointer; }
+.portfolio-notification-drawer .portfolio-drawer-glass.portfolio-glass-button {
+  position: absolute;
+  left: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  --button-face: rgb(11 20 37 / 61%);
+}
+
+
+/* Combined preview: restrained Kordin identity, preserving wallpaper refraction */
+/* Kordin Labs: deliberately isolated, structured employer card.
+   The mark is part of layout, never positioned over the chips or copy. */
+.portfolio-notification-drawer .portfolio-company-feature {
+  --glass-tint: 13 18 28;
+  --glass-dim-rest: .48;
+  padding: 1.15rem;
+  overflow: hidden;
+  border: 1px solid rgb(242 81 54 / 24%);
+  background: transparent;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 22%), 0 12px 30px rgb(0 0 0 / 13%);
+}
+.portfolio-notification-drawer .portfolio-company-feature > .glass-optics { opacity: 1; }
+.portfolio-company-feature > :not(.glass-optics):not(.portfolio-company-grid) {
+  position: relative;
+  z-index: 1;
+}
+/* Very light motif: visible as texture, not as a competing design element. */
+.portfolio-company-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: url("/kordin-red-brand-mark.svg") 12px 20px / 60px 55px repeat;
+  opacity: .027;
+  -webkit-mask-image: linear-gradient(110deg, transparent 8%, #000 95%);
+  mask-image: linear-gradient(110deg, transparent 8%, #000 95%);
+}
+.portfolio-company-feature-top {
+  display: flex;
+  align-items: center;
+  padding-bottom: .75rem;
+  margin-bottom: 1.45rem;
+  border-bottom: 1px solid rgb(242 81 54 / 24%);
+  color: #e6e9f0;
+  font-size: .64rem;
+  letter-spacing: .13em;
+  font-weight: 700;
+}
+.portfolio-company-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem .7rem;
+  margin-bottom: .7rem;
+}
+.portfolio-company-heading h3 { margin: 0; line-height: 1.16; }
+.portfolio-company-links { display: flex; align-items: center; gap: .4rem; }
+.portfolio-company-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(5.4rem, 7rem);
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+.portfolio-company-meta { display: flex; flex-direction: column; gap: .5rem; min-width: 0; }
+.portfolio-notification-drawer .portfolio-company-meta p { margin: 0; line-height: 1.4; }
+/* The brand symbol occupies actual space in the layout, not a floating tile. */
+.portfolio-company-logo-glass {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 7rem);
+  aspect-ratio: 169 / 155;
+  padding: .25rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  transform: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  opacity: 1;
+  display: grid;
+  place-items: center;
+  justify-self: end;
+}
+.portfolio-company-logo-glass::before { content: none; }
+.portfolio-company-logo-glass img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 9px rgb(0 0 0 / 22%));
+}
+.portfolio-company-feature-context {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  padding: 0 0 .9rem;
+}
+.portfolio-notification-drawer .portfolio-company-feature-context span {
+  color: #f5f6f9;
+  padding: .3rem .48rem;
+  font-size: .68rem;
+  line-height: 1.2;
+  border: 1px solid rgb(242 81 54 / 30%);
+  border-radius: .55rem;
+  background: rgb(9 12 20 / 25%);
+}
+.portfolio-notification-drawer .portfolio-company-feature ul {
+  padding-top: 1.1rem;
+  border-top: 1px solid rgb(242 81 54 / 25%);
+}
+.portfolio-notification-drawer .portfolio-company-feature li > span:first-child { color: #f25136; }
+.portfolio-notification-drawer .portfolio-company-feature :is(h3, p, li) {
+  text-shadow: 0 1px 4px rgb(0 0 0 / 70%);
+}
+/* Preserve optical distortion and highlights. Text legibility comes from a
+   modest tint, shadows and controlled backdrop contrast, never opaque frost. */
+.portfolio-notification-drawer .portfolio-card {
+  --glass-dim-rest: .45;
+}
+.portfolio-notification-drawer .portfolio-card::before {
+  position: absolute;
+  content: "";
+  inset: 0;
+  border-radius: inherit;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(160deg,
+    rgb(7 11 20 / 14%) 0%,
+    rgb(7 11 20 / 25%) 46%,
+    rgb(7 11 20 / 39%) 100%);
+}
+.portfolio-notification-drawer .portfolio-card > :not(.glass-optics):not(.portfolio-company-grid) {
+  position: relative;
+  z-index: 1;
+}
+.portfolio-notification-drawer .portfolio-card li {
+  color: #f6f7fc;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 75%);
+}
+.portfolio-notification-drawer .portfolio-card p {
+  text-shadow: 0 1px 3px rgb(0 0 0 / 68%);
+}
+:root[data-glass="tinted"] .portfolio-notification-drawer .portfolio-card {
+  --glass-dim-rest: .78;
+}
+@media (prefers-contrast: more) {
+  .portfolio-notification-drawer .portfolio-card::before { background: rgb(7 11 20 / 55%); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .portfolio-notification-drawer .portfolio-card::before { background: rgb(7 11 20 / 88%); }
+}
+/* A single real loader, with a CSS-only exit if hydration is interrupted. */
+.portfolio-welcome {
+  background: #0a111e;
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .32s ease, visibility .32s ease;
+  animation: portfolio-welcome-safety-dismiss .01s linear 6s forwards;
+}
+.portfolio-welcome[data-ready="true"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+@keyframes portfolio-welcome-safety-dismiss {
+  to { visibility: hidden; pointer-events: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-welcome { transition: none; }
+  .portfolio-welcome-trace, .portfolio-welcome-coin, .portfolio-welcome-coin-face { animation: none; }
+}

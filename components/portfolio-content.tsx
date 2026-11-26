@@ -26,7 +26,14 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                         <UserRound aria-hidden="true" />
                         About
                     </h2>
-                    <PortfolioCard wallpaper={mobile} className="portfolio-about space-y-4">
+                    <PortfolioCard wallpaper={mobile} className={`portfolio-about space-y-4${mobile ? " portfolio-company-about" : ""}`}>
+                        {mobile && (
+                            <div className="portfolio-company-context">
+                                <span className="portfolio-company-context-dot" aria-hidden="true" />
+                                <span>Currently building at <strong>{profile.employer}</strong></span>
+                                <a className="portfolio-company-context-arrow" href="https://kordinlabs.io/" target="_blank" rel="noopener noreferrer" aria-label="Visit Kordin Labs website">↗</a>
+                            </div>
+                        )}
                         <p className="dark:text-white text-gray-800 text-lg leading-relaxed">
                             I&apos;m an <span className="dark:text-white text-black font-semibold">{profile.role} at {profile.employer}</span> and an MSc Advanced Computer Science graduate from the University of Leicester (Distinction),
                             specializing in applied AI and Large Language Models.
@@ -66,18 +73,39 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                         Experience
                     </h2>
                     <div className="portfolio-content-stack">
-                        <PortfolioCard wallpaper={mobile}>
-                            <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1 mb-3">
-                                <div>
-                                    <div className="mb-1 flex items-center gap-2">
-                                        <h3 className="text-2xl font-bold dark:text-white text-gray-800">{profile.employer}</h3>
-                                        <ProfileLink href="https://uk.linkedin.com/company/kordinlabs" label="LinkedIn" description="View Kordin Labs on LinkedIn" />
+                        <PortfolioCard wallpaper={mobile} className={mobile ? "portfolio-company-feature" : undefined}>
+                            {mobile && (
+                                <>
+                                    <div className="portfolio-company-grid" aria-hidden="true" />
+                                    <div className="portfolio-company-feature-top">
+                                        <span>01 / CURRENTLY BUILDING</span>
                                     </div>
-                                    <p className="dark:text-white text-gray-900 text-lg">{profile.role}</p>
+                                </>
+                            )}
+                            <div className="portfolio-company-heading">
+                                <h3 className="text-2xl font-bold dark:text-white text-gray-800">{profile.employer}</h3>
+                                <div className="portfolio-company-links">
+                                    <a href="https://kordinlabs.io/" target="_blank" rel="noopener noreferrer" aria-label="Visit Kordin Labs website" title="Kordin Labs website" className="inline-flex shrink-0 rounded-lg border border-white/20 bg-white/5 p-1.5 transition-all hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"><ExternalLink className="h-4 w-4 text-white/70" aria-hidden="true" /></a>
+                                    <ProfileLink href="https://uk.linkedin.com/company/kordinlabs" label="LinkedIn" description="View Kordin Labs on LinkedIn" />
                                 </div>
-                                <span className="dark:text-white text-gray-800 text-sm whitespace-nowrap">{profile.roleStart} to present</span>
                             </div>
-                            <p className="dark:text-white text-gray-800 text-sm mb-4">Remote, UK</p>
+                            <div className="portfolio-company-details">
+                                <div className="portfolio-company-meta">
+                                    <p className="dark:text-white text-gray-900 text-lg">{profile.role}</p>
+                                    <p className="dark:text-white text-gray-800 text-sm">{profile.roleStart} to present</p>
+                                    <p className="dark:text-white text-gray-800 text-sm">Remote, UK</p>
+                                </div>
+                                {mobile && (
+                                    <div className="portfolio-company-logo-glass" aria-label="Kordin Labs brand mark" role="img">
+                                        <img src="/kordin-red-brand-mark.svg" alt="" loading="lazy" width={169} height={155} decoding="async" />
+                                    </div>
+                                )}
+                            </div>
+                            {mobile && (
+                                <div className="portfolio-company-feature-context">
+                                    <span>AI infrastructure</span><span>Multi-cloud</span><span>Product engineering</span>
+                                </div>
+                            )}
                             <ul className="space-y-2 mt-4">
                                 {currentWork.map((item) => (
                                     <li key={item} className="flex gap-2 dark:text-white text-gray-900 text-sm">
