@@ -119,11 +119,24 @@ export function DrawerRim() {
     let frame = 0
     let previousGeometry = ""
     let lastCheck = 0
+    let activeUntil = 0
+    const drawer = wrapper.closest<HTMLElement>(".portfolio-notification-drawer")
+
+    // A fixed drawer rim cannot move when its inner content scrolls. Only
+    // observe the drawer's own geometry/animations and actual viewport changes.
+    function wake(duration = 0) {
+      if (reduceTransparency.matches) return
+      activeUntil = Math.max(activeUntil, performance.now() + duration)
+      if (!frame) frame = requestAnimationFrame(render)
+    }
 
     function render(now: number) {
-      frame = requestAnimationFrame(render)
-      // Check geometry at most 30 times/second while the sheet moves.
-      if (now - lastCheck < 33) return
+      frame = 0
+      const moving = now < activeUntil
+      if (moving) frame = requestAnimationFrame(render)
+      // Keep the existing 30Hz sampling during drawer motion, but stop
+      // scheduling frames altogether when the stationary rim is settled.
+      if (moving && now - lastCheck < 33) return
       lastCheck = now
       const photo = document.querySelector<HTMLImageElement>("#portfolio-mobile-portrait img")
       if (!photo?.naturalWidth || !canvas || !wrapper || !context) return
@@ -213,15 +226,59 @@ export function DrawerRim() {
       context.restore()
     }
 
+    const wakeForMotion = () => wake(800)
+    const onMotion = (event: Event) => {
+      // Ignore bubbling animation events from cards and the footer.
+      if (event.target === drawer) wakeForMotion()
+    }
+    const onPortraitLoad = (event: Event) => {
+      if (event.target instanceof HTMLImageElement && event.target.closest("#portfolio-mobile-portrait")) {
+        previousGeometry = ""
+        wake()
+      }
+    }
+    const onViewportChange = () => {
+      previousGeometry = ""
+      wake()
+    }
+    const mutations = new MutationObserver(wakeForMotion)
+    if (drawer) {
+      mutations.observe(drawer, { attributes: true, attributeFilter: ["style", "class", "data-state", "data-pull-phase"] })
+      for (const event of ["animationstart", "animationend", "animationcancel", "transitionrun", "transitionend", "transitioncancel"]) {
+        drawer.addEventListener(event, onMotion)
+      }
+    }
+    const sizeObserver = new ResizeObserver(onViewportChange)
+    sizeObserver.observe(wrapper)
+    const portrait = document.getElementById("portfolio-mobile-portrait")
+    if (portrait) sizeObserver.observe(portrait)
+    window.addEventListener("resize", onViewportChange)
+    window.visualViewport?.addEventListener("resize", onViewportChange)
+    window.visualViewport?.addEventListener("scroll", onViewportChange)
+    document.addEventListener("load", onPortraitLoad, true)
+
     function updateTransparency() {
       cancelAnimationFrame(frame)
+      frame = 0
+      activeUntil = 0
       previousGeometry = ""
-      if (!reduceTransparency.matches) frame = requestAnimationFrame(render)
+      wakeForMotion()
     }
     updateTransparency()
     reduceTransparency.addEventListener("change", updateTransparency)
     return () => {
       cancelAnimationFrame(frame)
+      mutations.disconnect()
+      sizeObserver.disconnect()
+      if (drawer) {
+        for (const event of ["animationstart", "animationend", "animationcancel", "transitionrun", "transitionend", "transitioncancel"]) {
+          drawer.removeEventListener(event, onMotion)
+        }
+      }
+      window.removeEventListener("resize", onViewportChange)
+      window.visualViewport?.removeEventListener("resize", onViewportChange)
+      window.visualViewport?.removeEventListener("scroll", onViewportChange)
+      document.removeEventListener("load", onPortraitLoad, true)
       reduceTransparency.removeEventListener("change", updateTransparency)
     }
   }, [])

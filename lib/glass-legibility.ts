@@ -32,16 +32,23 @@ interface Surface {
   tint?: RGB
   dim?: number
   frost?: number
+  lastSample?: { field: Field; x0: number; x1: number; y0: number; y1: number; tinted: boolean; reduced: boolean }
 }
 
 interface Field {
   width: number
   height: number
   pixels: Uint8ClampedArray
+  luminances: Float64Array
+  bins: Uint8Array
 }
 
 const CELL = 8
 const BINS = 32
+// A single scratch buffer is safe: sampling is synchronous, then writes are batched.
+const counts = new Uint32Array(BINS)
+const sums = new Float64Array(BINS * 3)
+type PaintUpdate = () => void
 const surfaces = new Map<HTMLElement, Surface>()
 const fields = new Map<string, Field | null>()
 let observer: IntersectionObserver | null = null
@@ -98,7 +105,17 @@ function buildField(selector: string): Field | null {
   }
 
   try {
-    return { width, height, pixels: context.getImageData(0, 0, width, height).data }
+    const pixels = context.getImageData(0, 0, width, height).data
+    const luminances = new Float64Array(width * height)
+    const bins = new Uint8Array(width * height)
+    // Compute these once per backdrop, not for every card on every scroll frame.
+    for (let index = 0; index < luminances.length; index++) {
+      const i = index * 4
+      const l = luminance8(pixels[i], pixels[i + 1], pixels[i + 2])
+      luminances[index] = l
+      bins[index] = Math.min(BINS - 1, Math.floor(l * BINS))
+    }
+    return { width, height, pixels, luminances, bins }
   } catch {
     // A cross-origin backdrop cannot be read; those surfaces keep their static tint.
     return null
@@ -106,7 +123,8 @@ function buildField(selector: string): Field | null {
 }
 
 function field(selector: string) {
-  if (!fields.has(selector) || fields.get(selector) === null) fields.set(selector, buildField(selector))
+  // An unavailable/tainted source is retried on load, resize or explicit invalidation, never per frame.
+  if (!fields.has(selector)) fields.set(selector, buildField(selector))
   return fields.get(selector) ?? null
 }
 
@@ -129,7 +147,7 @@ function inkFor(element: HTMLElement, tint: RGB, kind: GlassKind) {
   return weakest
 }
 
-function evaluate(element: HTMLElement, surface: Surface, settings: ReturnType<typeof mode>) {
+function evaluate(element: HTMLElement, surface: Surface, settings: ReturnType<typeof mode>, updates: PaintUpdate[]) {
   if (element.closest("[data-glass-static]")) return
   const map = field(surface.backdrop)
   if (!map) return
@@ -149,26 +167,34 @@ function evaluate(element: HTMLElement, surface: Surface, settings: ReturnType<t
   const y1 = Math.min(map.height, Math.ceil((rect.bottom - inset) / CELL))
   if (x1 <= x0 || y1 <= y0) return
 
-  const counts = new Uint32Array(BINS)
-  const sums = new Float64Array(BINS * 3)
+  const last = surface.lastSample
+  if (last && last.field === map && last.x0 === x0 && last.x1 === x1 && last.y0 === y0 && last.y1 === y1 && last.tinted === settings.tinted && last.reduced === settings.reduced) return
+  surface.lastSample = { field: map, x0, x1, y0, y1, tinted: settings.tinted, reduced: settings.reduced }
+
+  counts.fill(0)
+  sums.fill(0)
+  const needsFrost = !!surface.onFrost && !settings.reduced
   let total = 0
   let sum = 0
   let sumSquares = 0
   for (let y = y0; y < y1; y++) {
     for (let x = x0; x < x1; x++) {
-      const i = (y * map.width + x) * 4
+      const index = y * map.width + x
+      const i = index * 4
       const r = map.pixels[i]
       const g = map.pixels[i + 1]
       const b = map.pixels[i + 2]
-      const l = luminance8(r, g, b)
-      const bin = Math.min(BINS - 1, Math.floor(l * BINS))
+      const bin = map.bins[index]
       counts[bin]++
       sums[bin * 3] += r
       sums[bin * 3 + 1] += g
       sums[bin * 3 + 2] += b
       total++
-      sum += l
-      sumSquares += l * l
+      if (needsFrost) {
+        const l = map.luminances[index]
+        sum += l
+        sumSquares += l * l
+      }
     }
   }
   if (!total) return
@@ -197,31 +223,38 @@ function evaluate(element: HTMLElement, surface: Surface, settings: ReturnType<t
   const dim = Math.round(dimFor(surface.ink, surface.tint, worst, target, floor, text ? 0.8 : 0.95) * 100) / 100
 
   const mean = sum / total
-  const detail = Math.sqrt(Math.max(0, sumSquares / total - mean * mean))
+  const detail = needsFrost ? Math.sqrt(Math.max(0, sumSquares / total - mean * mean)) : 0
   // Busy backdrops (lights, faces, edges) cost legibility even when bright pixels are rare,
   // so frost grows with the spread of luminance behind the text.
-  const frost = !reading || settings.reduced ? 0 : Math.round(Math.min(settings.tinted ? 18 : 12, (settings.tinted ? 8 : 4) + detail * 160))
+  const frost = !needsFrost ? 0 : Math.round(Math.min(settings.tinted ? 18 : 12, (settings.tinted ? 8 : 4) + detail * 160))
 
   if (dim !== surface.dim) {
     surface.dim = dim
-    element.style.setProperty("--glass-dim", String(dim))
+    updates.push(() => element.style.setProperty("--glass-dim", String(dim)))
   }
   // Frost feeds the lens's own blur, so steps of 3px with a little hysteresis keep it from churning.
   const stepped = Math.round(frost / 3) * 3
-  if (surface.frost === undefined || Math.abs(stepped - surface.frost) >= 3) {
+  if (surface.onFrost && (surface.frost === undefined || Math.abs(stepped - surface.frost) >= 3)) {
     surface.frost = stepped
-    element.style.setProperty("--glass-frost", `${stepped}px`)
-    surface.onFrost?.(stepped)
+    updates.push(() => {
+      element.style.setProperty("--glass-frost", `${stepped}px`)
+      surface.onFrost?.(stepped)
+    })
   }
 }
 
 function run() {
   frame = 0
   const settings = mode()
+  const updates: PaintUpdate[] = []
+  // Read every surface's geometry before mutating any CSS. Avoid forced layout
+  // between successive cards during the same native scroll frame.
   for (const [element, surface] of surfaces) {
-    if (surface.visible) evaluate(element, surface, settings)
+    if (surface.visible) evaluate(element, surface, settings, updates)
   }
-  document.documentElement.dataset.scrolled = window.scrollY > 24 ? "true" : "false"
+  const scrolled = window.scrollY > 24 ? "true" : "false"
+  for (const update of updates) update()
+  if (document.documentElement.dataset.scrolled !== scrolled) document.documentElement.dataset.scrolled = scrolled
   // Keep following surfaces while a drawer or modal animates into place.
   if (performance.now() < burstUntil) frame = requestAnimationFrame(run)
 }
@@ -237,6 +270,7 @@ function invalidate(rebuildFields: boolean) {
   for (const surface of surfaces.values()) {
     surface.ink = undefined
     surface.tint = undefined
+    surface.lastSample = undefined
   }
   schedule(700)
 }
@@ -263,7 +297,9 @@ function start() {
   window.addEventListener("load", () => invalidate(true))
   // Images and the desktop artwork arrive late; pick them up when they do.
   document.addEventListener("load", (event) => {
-    if (event.target instanceof HTMLImageElement) invalidate(true)
+    const img = event.target
+    if (!(img instanceof HTMLImageElement)) return
+    if (img.closest("#portfolio-mobile-portrait")) invalidate(true)
   }, { capture: true })
   for (const query of ["(prefers-contrast: more)", "(prefers-reduced-transparency: reduce)"]) {
     window.matchMedia(query).addEventListener("change", () => invalidate(false))

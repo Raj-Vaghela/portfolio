@@ -88,14 +88,15 @@ export const GlassOptics = memo(function GlassOptics({
   const lensOptions = isReadingSurface ? readingRim : isButton ? buttonRim : rim
   // Text-bearing panes get Apple's "regular" treatment (frosted lens); controls stay clear with a dimming layer.
   const holdsText = isReadingSurface || surface === "sheet" || surface === "window"
+  const adaptsFrost = holdsText && !isReadingSurface
   const layer = useRef<HTMLDivElement>(null)
   const [frost, setFrost] = useState(0)
 
   useEffect(() => {
     const host = layer.current?.parentElement
     if (!host || host.classList.contains("portfolio-glass-button--blue")) return
-    return adaptGlass(host, holdsText ? "reading" : "control", backdropSelector, holdsText ? setFrost : undefined)
-  }, [backdropSelector, holdsText])
+    return adaptGlass(host, holdsText ? "reading" : "control", backdropSelector, adaptsFrost ? setFrost : undefined)
+  }, [backdropSelector, holdsText, adaptsFrost])
 
   return (
     <div ref={layer} className="glass-optics" aria-hidden="true" data-portfolio-optics={surface}>
