@@ -102,10 +102,11 @@ export const GlassOptics = memo(function GlassOptics({
       <LiquidGlass
         material="clear"
         refraction="lens"
-        // One direct-image WebGL rendering path across Chromium, WebKit and Gecko.
-        // This avoids recapturing a DOM wrapper that contains the fixed portrait
-        // while native nested scrolling updates the lens position.
-        renderer={backdropSelector === "#portfolio-mobile-portrait img" ? "webgl" : "auto"}
+        // Use one rendering engine on WebGL-capable Chromium, WebKit and Gecko.
+        // Sources are direct pixels: a fixed portrait <img> on mobile, or the
+        // desktop canvas. No DOM-wrapper captures and no mode changes on scroll.
+        renderer="webgl"
+        webglScene="auto"
         lensOptions={lensOptions}
         radius={design.radius}
         displacementScale={design.displacement}
