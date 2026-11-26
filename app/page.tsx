@@ -2,20 +2,22 @@
 
 import Link from "next/link"
 import { ArrowDown, FileText, Github, Linkedin, Mail, Sparkles } from "lucide-react"
-import { useState, type ReactNode } from "react"
-import { ChatModal } from "@/components/chat-modal"
-import { ContactModal } from "@/components/contact-modal"
+import { useCallback, useEffect, useState, type ReactNode } from "react"
+import dynamic from "next/dynamic"
 import { GlassOptics } from "@/components/glass-optics"
 import { GradientBackground } from "@/components/gradient-background"
 import { MobileDrawer } from "@/components/mobile-drawer"
 import { PortfolioContent } from "@/components/portfolio-content"
 import { PortfolioWelcome } from "@/components/portfolio-welcome"
 import { ProfileImage } from "@/components/profile-image"
-import { ProjectsModal } from "@/components/projects-modal"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { GlassAppearanceToggle } from "@/components/glass-appearance-toggle"
 import { profile } from "@/lib/profile"
 import { wallpaperShade } from "@/lib/wallpaper"
+
+const ChatModal = dynamic(() => import("@/components/chat-modal").then((m) => m.ChatModal), { ssr: false })
+const ContactModal = dynamic(() => import("@/components/contact-modal").then((m) => m.ContactModal), { ssr: false })
+const ProjectsModal = dynamic(() => import("@/components/projects-modal").then((m) => m.ProjectsModal), { ssr: false })
 
 const github = "https://github.com/Raj-Vaghela"
 const linkedin = "https://linkedin.com/in/raj-vaghela"
@@ -33,11 +35,35 @@ export default function Page() {
   const [isContactOpen, setContactOpen] = useState(false)
   const [isProjectsOpen, setProjectsOpen] = useState(false)
   const [isChatOpen, setChatOpen] = useState(false)
+  const [desktop, setDesktop] = useState<boolean | null>(null)
+  const [mobilePortraitReady, setMobilePortraitReady] = useState(false)
+  const [desktopPortraitReady, setDesktopPortraitReady] = useState(false)
+  const [backdropReady, setBackdropReady] = useState(false)
+  const [loadTimeoutReached, setLoadTimeoutReached] = useState(false)
+  const markMobileReady = useCallback(() => setMobilePortraitReady(true), [])
+  const markDesktopReady = useCallback(() => setDesktopPortraitReady(true), [])
+  const markBackdropReady = useCallback(() => setBackdropReady(true), [])
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 64rem)")
+    const update = () => setDesktop(query.matches)
+    update()
+    query.addEventListener("change", update)
+    return () => query.removeEventListener("change", update)
+  }, [])
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => setLoadTimeoutReached(true), 2600)
+    return () => window.clearTimeout(timeout)
+  }, [])
+
+  const assetsReady = backdropReady && (desktop ? desktopPortraitReady : mobilePortraitReady)
+  const landingReady = loadTimeoutReached || (desktop !== null && assetsReady)
 
   return (
-    <main className="portfolio-home">
-      <GradientBackground desktopArtwork />
-      <PortfolioWelcome />
+    <main className="portfolio-home" data-landing-ready={landingReady ? "true" : "false"} aria-busy={!landingReady}>
+      <GradientBackground desktopArtwork onReady={markBackdropReady} />
+      <PortfolioWelcome ready={landingReady} />
 
       <div className="portfolio-desktop-shell hidden lg:block">
         <div className="portfolio-scroll-edge" aria-hidden="true" />
@@ -74,7 +100,7 @@ export default function Page() {
             </div>
 
             <div className="portfolio-portrait-frame">
-              <ProfileImage src={imageUrl} alt="Raj Vaghela" className="size-full" priority sizes="(min-width: 1280px) 460px, 38vw" />
+              <ProfileImage src={imageUrl} alt="Raj Vaghela" className="size-full" onReady={markDesktopReady} sizes="(min-width: 1280px) 460px, 38vw" />
             </div>
           </section>
 
@@ -86,7 +112,7 @@ export default function Page() {
 
       <div className="portfolio-wallpaper lg:hidden">
         <div id="portfolio-mobile-photo" className="absolute inset-0">
-          <ProfileImage id="portfolio-mobile-portrait" src={imageUrl} alt="" className="size-full" priority sizes="(max-width: 1023px) 100vw, 1px" />
+          <ProfileImage id="portfolio-mobile-portrait" src={imageUrl} alt="" className="size-full" priority onReady={markMobileReady} sizes="(max-width: 1023px) 100vw, 1px" />
           <div className="portfolio-wallpaper-shade" style={{ backgroundImage: wallpaperShade }} aria-hidden="true" />
         </div>
 
@@ -105,9 +131,9 @@ export default function Page() {
         <MobileDrawer onOpenChat={() => setChatOpen(true)} />
       </div>
 
-      <ContactModal isOpen={isContactOpen} onClose={() => setContactOpen(false)} />
-      <ProjectsModal isOpen={isProjectsOpen} onClose={() => setProjectsOpen(false)} />
-      <ChatModal isOpen={isChatOpen} onClose={() => setChatOpen(false)} />
+      {isContactOpen && <ContactModal isOpen onClose={() => setContactOpen(false)} />}
+      {isProjectsOpen && <ProjectsModal isOpen onClose={() => setProjectsOpen(false)} />}
+      {isChatOpen && <ChatModal isOpen onClose={() => setChatOpen(false)} />}
     </main>
   )
 }
