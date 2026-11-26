@@ -191,7 +191,9 @@ function evaluate(element: HTMLElement, surface: Surface, settings: ReturnType<t
   const target = settings.tinted ? 7 : 4.5
   // Floors keep clear glass at least as legible as the site's original fixed tint (about 0.75)
   // only where the backdrop asks for it: calm, dark areas may drop to 0.62 and look more liquid.
-  const floor = text ? 0 : settings.reduced ? 0.95 : reading ? (settings.tinted ? 0.8 : 0.62) : (settings.tinted ? 0.45 : 0.12)
+// Clear mode keeps a visible, refractive scene behind text. Dynamic contrast protection
+  // still increases tint where the sampled wallpaper requires it; Tinted keeps its stronger floor.
+  const floor = text ? 0 : settings.reduced ? 0.95 : reading ? (settings.tinted ? 0.8 : 0.32) : (settings.tinted ? 0.45 : 0.12)
   const dim = Math.round(dimFor(surface.ink, surface.tint, worst, target, floor, text ? 0.8 : 0.95) * 100) / 100
 
   const mean = sum / total
