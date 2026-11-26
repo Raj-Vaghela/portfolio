@@ -3,7 +3,9 @@
 import { memo, useEffect, useRef, useState } from "react"
 import type { CSSProperties } from "react"
 import { useTheme } from "next-themes"
-import LiquidGlass from "simple-liquid-glass"
+import dynamic from "next/dynamic"
+
+const LiquidGlass = dynamic(() => import("simple-liquid-glass"), { ssr: false })
 import { adaptGlass } from "@/lib/glass-legibility"
 
 const surfaces = {
@@ -105,7 +107,7 @@ export const GlassOptics = memo(function GlassOptics({
         radius={design.radius}
         displacementScale={design.displacement}
         aberrationIntensity={isReadingSurface ? 0 : isButton ? .015 : .22}
-        blur={holdsText ? frost : 0}
+        blur={holdsText ? Math.min(frost, 1.5) : 0}
         frost={0}
         iosBlurMode="off"
         maxScale={1}
