@@ -14,8 +14,8 @@ interface DrawerFinaleProps {
 /** Night-city closing scene: a live greeting on the wallpaper, then the routes on the drawer's own glass. */
 export function DrawerFinale({ onAskAI, onBackToTop }: DrawerFinaleProps) {
   const { time, hour } = useLeicesterTime()
-  const status = useLegibleText<HTMLParagraphElement>("#portfolio-mobile-portrait")
-  const headline = useLegibleText<HTMLHeadingElement>("#portfolio-mobile-portrait")
+  const status = useLegibleText<HTMLParagraphElement>("#portfolio-mobile-portrait img")
+  const headline = useLegibleText<HTMLHeadingElement>("#portfolio-mobile-portrait img")
 
   return (
     <footer className="finale-city" aria-label="Contact">
