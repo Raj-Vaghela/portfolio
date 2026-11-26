@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import dynamic from "next/dynamic"
 import { ArrowDown, FileText, Github, Linkedin, Mail, Sparkles } from "lucide-react"
 import { useState, type ReactNode } from "react"
 import { ChatModal } from "@/components/chat-modal"
@@ -16,6 +17,10 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { GlassAppearanceToggle } from "@/components/glass-appearance-toggle"
 import { profile } from "@/lib/profile"
 import { wallpaperShade } from "@/lib/wallpaper"
+
+const ChatModal = dynamic(() => import("@/components/chat-modal").then((m) => m.ChatModal), { ssr: false })
+const ContactModal = dynamic(() => import("@/components/contact-modal").then((m) => m.ContactModal), { ssr: false })
+const ProjectsModal = dynamic(() => import("@/components/projects-modal").then((m) => m.ProjectsModal), { ssr: false })
 
 const github = "https://github.com/Raj-Vaghela"
 const linkedin = "https://linkedin.com/in/raj-vaghela"
@@ -105,9 +110,9 @@ export default function Page() {
         <MobileDrawer onOpenChat={() => setChatOpen(true)} />
       </div>
 
-      <ContactModal isOpen={isContactOpen} onClose={() => setContactOpen(false)} />
-      <ProjectsModal isOpen={isProjectsOpen} onClose={() => setProjectsOpen(false)} />
-      <ChatModal isOpen={isChatOpen} onClose={() => setChatOpen(false)} />
+      {isContactOpen && <ContactModal isOpen onClose={() => setContactOpen(false)} />}
+      {isProjectsOpen && <ProjectsModal isOpen onClose={() => setProjectsOpen(false)} />}
+      {isChatOpen && <ChatModal isOpen onClose={() => setChatOpen(false)} />}
     </main>
   )
 }
