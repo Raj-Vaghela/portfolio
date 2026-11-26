@@ -29,6 +29,24 @@ export function MobileDrawer({ onOpenChat }: { onOpenChat: () => void }) {
   const projectsTrigger = useRef<HTMLButtonElement | null>(null)
   const projectsHeading = useRef<HTMLHeadingElement>(null)
   const savedScroll = useRef(0)
+  const scrollIdleTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // The optical renderer snapshots the wallpaper. During rapid native scrolling,
+  // use the compositor's stable surface, then resume refraction after settling.
+  useEffect(() => () => {
+    if (scrollIdleTimer.current) clearTimeout(scrollIdleTimer.current)
+  }, [])
+
+  const handleContentScroll = useCallback((element: HTMLDivElement) => {
+    element.dataset.scrolled = element.scrollTop > 12 ? "true" : "false"
+    element.dataset.scrollActive = "true"
+    if (scrollIdleTimer.current) clearTimeout(scrollIdleTimer.current)
+    scrollIdleTimer.current = setTimeout(() => {
+      element.dataset.scrollActive = "false"
+      document.dispatchEvent(new Event("portfolio-glass-scroll-settled"))
+      scrollIdleTimer.current = null
+    }, 130)
+  }, [])
   const attachDrawer = useCallback((element: HTMLDivElement | null) => {
     drawer.current = element
     element?.style.setProperty("--portfolio-pull-distance", `${pullDistance.current}px`)
@@ -214,7 +232,7 @@ export function MobileDrawer({ onOpenChat }: { onOpenChat: () => void }) {
             <Drawer.Description className="sr-only">Raj Vaghela’s work, projects, education and background.</Drawer.Description>
           </div>
 
-          <div ref={scroll} className="portfolio-notification-scroll" onScroll={(event) => { event.currentTarget.dataset.scrolled = event.currentTarget.scrollTop > 12 ? "true" : "false" }}>
+          <div ref={scroll} className="portfolio-notification-scroll" onScroll={(event) => handleContentScroll(event.currentTarget)}>
             {showProjects ? (
               <ProjectDetails wallpaper />
             ) : (
