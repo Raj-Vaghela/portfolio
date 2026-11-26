@@ -102,7 +102,12 @@ export const GlassOptics = memo(function GlassOptics({
       <LiquidGlass
         material="clear"
         refraction="lens"
-        renderer="auto"
+        // Android Chrome can apply SVG displacement in the browser's own
+        // backdrop compositor. Unlike a separate WebGL snapshot, it stays
+        // locked to native nested scrolling, with refraction active throughout.
+        // iOS uses the library's WebGL path since WebKit lacks SVG backdrop filters.
+        renderer={backdropSelector === "#portfolio-mobile-portrait" ? "svg" : "auto"}
+        mobileFallback={backdropSelector === "#portfolio-mobile-portrait" ? "svg" : undefined}
         lensOptions={lensOptions}
         radius={design.radius}
         displacementScale={design.displacement}
