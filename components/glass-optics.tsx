@@ -102,12 +102,12 @@ export const GlassOptics = memo(function GlassOptics({
       <LiquidGlass
         material="clear"
         refraction="lens"
-        // Source geometry is shared across engines: fixed portrait pixels on
-        // mobile, desktop canvas elsewhere. The library chooses native SVG
-        // compositing where supported and WebGL on WebKit/Gecko/mobile.
-        // Neither refraction nor its renderer changes during scrolling.
-        renderer="auto"
-        webglScene="auto"
+        // Android Chrome can apply SVG displacement in the browser's own
+        // backdrop compositor. Unlike a separate WebGL snapshot, it stays
+        // locked to native nested scrolling, with refraction active throughout.
+        // iOS uses the library's WebGL path since WebKit lacks SVG backdrop filters.
+        renderer={backdropSelector === "#portfolio-mobile-portrait" ? "svg" : "auto"}
+        mobileFallback={backdropSelector === "#portfolio-mobile-portrait" ? "svg" : undefined}
         lensOptions={lensOptions}
         radius={design.radius}
         displacementScale={design.displacement}
