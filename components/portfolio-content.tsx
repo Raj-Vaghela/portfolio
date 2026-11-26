@@ -97,9 +97,7 @@ export function PortfolioContent({ onOpenProjectsModal, mobile = false, projects
                                 </div>
                                 {mobile && (
                                     <div className="portfolio-company-logo-glass" aria-label="Kordin Labs brand mark" role="img">
-                                        <span className="portfolio-company-logo-halo" aria-hidden="true" />
                                         <img src="/kordin-red-brand-mark.svg" alt="" loading="lazy" width={169} height={155} decoding="async" />
-                                        <span className="portfolio-company-logo-caption" aria-hidden="true"><span />KORDIN / 01<span /></span>
                                     </div>
                                 )}
                             </div>
