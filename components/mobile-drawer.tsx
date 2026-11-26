@@ -200,15 +200,15 @@ export function MobileDrawer({ onOpenChat }: { onOpenChat: () => void }) {
                     })
                   }}
                 >
-                  <GlassOptics surface="photoButton" backdropSelector="#portfolio-mobile-portrait" />
+                  <GlassOptics surface="photoButton" backdropSelector="#portfolio-mobile-portrait img" />
                   <ArrowLeft size={19} aria-hidden="true" />
                 </button>
               )}
               {!showProjects && (
-                <GlassAppearanceToggle className="portfolio-drawer-glass" surface="photoButton" backdropSelector="#portfolio-mobile-portrait" />
+                <GlassAppearanceToggle className="portfolio-drawer-glass" surface="photoButton" backdropSelector="#portfolio-mobile-portrait img" />
               )}
               <Drawer.Close className="portfolio-drawer-close portfolio-glass-button" aria-label="Close portfolio">
-                <GlassOptics surface="photoButton" backdropSelector="#portfolio-mobile-portrait" />
+                <GlassOptics surface="photoButton" backdropSelector="#portfolio-mobile-portrait img" />
                 <X size={18} aria-hidden="true" />
               </Drawer.Close>
             </div>
