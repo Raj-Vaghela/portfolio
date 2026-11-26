@@ -253,14 +253,7 @@ function start() {
     schedule(700)
   })
 
-  document.addEventListener("scroll", (event) => {
-    const target = event.target
-    // Don't continually retint the reading cards against stale wallpaper snapshots
-    // while the drawer is moving rapidly. Re-evaluate once scrolling settles.
-    if (target instanceof HTMLElement && target.matches(".portfolio-notification-scroll")) return
-    schedule()
-  }, { capture: true, passive: true })
-  document.addEventListener("portfolio-glass-scroll-settled", () => schedule(200))
+  document.addEventListener("scroll", () => schedule(), { capture: true, passive: true })
   let resizeTimer = 0
   window.addEventListener("resize", () => {
     window.clearTimeout(resizeTimer)
