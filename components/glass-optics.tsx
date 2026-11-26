@@ -102,10 +102,11 @@ export const GlassOptics = memo(function GlassOptics({
       <LiquidGlass
         material="clear"
         refraction="lens"
-        // Use one rendering engine on WebGL-capable Chromium, WebKit and Gecko.
-        // Sources are direct pixels: a fixed portrait <img> on mobile, or the
-        // desktop canvas. No DOM-wrapper captures and no mode changes on scroll.
-        renderer="webgl"
+        // Source geometry is shared across engines: fixed portrait pixels on
+        // mobile, desktop canvas elsewhere. The library chooses native SVG
+        // compositing where supported and WebGL on WebKit/Gecko/mobile.
+        // Neither refraction nor its renderer changes during scrolling.
+        renderer="auto"
         webglScene="auto"
         lensOptions={lensOptions}
         radius={design.radius}
